@@ -1,0 +1,135 @@
+<OTA_AirLowFareSearchRS EchoToken="50987" TimeStamp="2020-11-09T19:21:04.152Z" Target="Test" Version="2.001" SequenceNmbr="1" PrimaryLangID="En-us" xmlns="http://www.opentravel.org/OTA/2003/05">
+   <Success/>
+   <PricedItineraries>
+      <PricedItinerary SequenceNumber="1">
+         <AirItinerary>
+            <OriginDestinationOptions>
+               <OriginDestinationOption>
+                  <FlightSegment FlightNumber="IR1012" ResBookDesigCode="V" DepartureDateTime="2020-11-15T22:00:00.000+03:30" ArrivalDateTime="2020-11-16T01:00:00.000+01:00" Duration="05:30:00" StopQuantity="0" RPH="13675">
+                     <DepartureAirport LocationCode="IKA"/>
+                     <ArrivalAirport LocationCode="AMS"/>
+                     <OperatingAirline Code="IR"/>
+                     <Equipment AirEquipType="A319"/>
+                     <BookingClassAvails>
+                        <BookingClassAvail ResBookDesigCode="V" ResBookDesigQuantity="1"/>
+                     </BookingClassAvails>
+                  </FlightSegment>
+               </OriginDestinationOption>
+               <OriginDestinationOption>
+                  <FlightSegment FlightNumber="IR6061" ResBookDesigCode="V" DepartureDateTime="2020-11-20T15:00:00.000+01:00" ArrivalDateTime="2020-11-21T00:25:00.000+03:30" Duration="06:55:00" StopQuantity="0" RPH="7295">
+                     <DepartureAirport LocationCode="AMS"/>
+                     <ArrivalAirport LocationCode="IKA"/>
+                     <OperatingAirline Code="IR"/>
+                     <Equipment AirEquipType="A321"/>
+                     <BookingClassAvails>
+                        <BookingClassAvail ResBookDesigCode="V" ResBookDesigQuantity="9"/>
+                     </BookingClassAvails>
+                  </FlightSegment>
+               </OriginDestinationOption>
+            </OriginDestinationOptions>
+         </AirItinerary>
+         <AirItineraryPricingInfo>
+            <ItinTotalFare>
+               <BaseFare CurrencyCode="IRR" DecimalPlaces="0" Amount="39278000"/>
+               <TotalFare CurrencyCode="IRR" DecimalPlaces="0" Amount="41787000"/>
+            </ItinTotalFare>
+            <PTC_FareBreakdowns>
+               <PTC_FareBreakdown>
+                  <PassengerTypeQuantity Code="ADT" Quantity="1"/>
+                  <FareBasisCodes>
+                     <FareBasisCode FlightSegmentRPH="7295" fareRPH="3380">VPTF21</FareBasisCode>
+                     <FareBasisCode FlightSegmentRPH="13675" fareRPH="3380">VPTF21</FareBasisCode>
+                  </FareBasisCodes>
+                  <PassengerFare>
+                     <BaseFare CurrencyCode="IRR" DecimalPlaces="0" Amount="35706000"/>
+                     <Taxes>
+                        <Tax TaxCode="IR" TaxName="Airport Tax" CurrencyCode="IRR" DecimalPlaces="0">350000</Tax>
+                        <Tax TaxCode="I6" TaxName="Passenger Safety Oversight Services Fees" CurrencyCode="IRR" DecimalPlaces="0">349000</Tax>
+                        <Tax TaxCode="Q" TaxName="YQ Surcharge" CurrencyCode="IRR" DecimalPlaces="0">422000</Tax>
+                        <Tax TaxCode="CJ" TaxName="SECURITY SERVICE CHARGE" CurrencyCode="IRR" DecimalPlaces="0">628000</Tax>
+                        <Tax TaxCode="RN" TaxName="PSGR SERVICE CHARGE - AMS" CurrencyCode="IRR" DecimalPlaces="0">760000</Tax>
+                     </Taxes>
+                     <TotalFare CurrencyCode="IRR" DecimalPlaces="0" Amount="38215000"/>
+                  </PassengerFare>
+               </PTC_FareBreakdown>
+               <PTC_FareBreakdown>
+                  <PassengerTypeQuantity Code="INF" Quantity="1"/>
+                  <FareBasisCodes>
+                     <FareBasisCode FlightSegmentRPH="7295" fareRPH="3380">VPTF21</FareBasisCode>
+                     <FareBasisCode FlightSegmentRPH="13675" fareRPH="3380">VPTF21</FareBasisCode>
+                  </FareBasisCodes>
+                  <PassengerFare>
+                     <BaseFare CurrencyCode="IRR" DecimalPlaces="0" Amount="3572000"/>
+                     <TotalFare CurrencyCode="IRR" DecimalPlaces="0" Amount="3572000"/>
+                  </PassengerFare>
+               </PTC_FareBreakdown>
+            </PTC_FareBreakdowns>
+         </AirItineraryPricingInfo>
+      </PricedItinerary>
+      <PricedItinerary SequenceNumber="2">
+         <AirItinerary>
+            <OriginDestinationOptions>
+               <OriginDestinationOption>
+                  <FlightSegment FlightNumber="IR6060" ResBookDesigCode="M" DepartureDateTime="2020-11-15T08:30:00.000+03:30" ArrivalDateTime="2020-11-15T11:00:00.000+01:00" Duration="05:00:00" StopQuantity="0" RPH="7039">
+                     <DepartureAirport LocationCode="IKA"/>
+                     <ArrivalAirport LocationCode="AMS"/>
+                     <OperatingAirline Code="IR"/>
+                     <Equipment AirEquipType="A330-200"/>
+                     <BookingClassAvails>
+                        <BookingClassAvail ResBookDesigCode="M" ResBookDesigQuantity="9"/>
+                     </BookingClassAvails>
+                  </FlightSegment>
+               </OriginDestinationOption>
+               <OriginDestinationOption>
+                  <FlightSegment FlightNumber="IR6061" ResBookDesigCode="V" DepartureDateTime="2020-11-20T15:00:00.000+01:00" ArrivalDateTime="2020-11-21T00:25:00.000+03:30" Duration="06:55:00" StopQuantity="0" RPH="7295">
+                     <DepartureAirport LocationCode="AMS"/>
+                     <ArrivalAirport LocationCode="IKA"/>
+                     <OperatingAirline Code="IR"/>
+                     <Equipment AirEquipType="A321"/>
+                     <BookingClassAvails>
+                        <BookingClassAvail ResBookDesigCode="V" ResBookDesigQuantity="9"/>
+                     </BookingClassAvails>
+                  </FlightSegment>
+               </OriginDestinationOption>
+            </OriginDestinationOptions>
+         </AirItinerary>
+         <AirItineraryPricingInfo>
+            <ItinTotalFare>
+               <BaseFare CurrencyCode="IRR" DecimalPlaces="0" Amount="32887000"/>
+               <TotalFare CurrencyCode="IRR" DecimalPlaces="0" Amount="35396000"/>
+            </ItinTotalFare>
+            <PTC_FareBreakdowns>
+               <PTC_FareBreakdown>
+                  <PassengerTypeQuantity Code="ADT" Quantity="1"/>
+                  <FareBasisCodes>
+                     <FareBasisCode FlightSegmentRPH="7039" fareRPH="3377">MPTF21</FareBasisCode>
+                     <FareBasisCode FlightSegmentRPH="7295" fareRPH="3380">VPTF21</FareBasisCode>
+                  </FareBasisCodes>
+                  <PassengerFare>
+                     <BaseFare CurrencyCode="IRR" DecimalPlaces="0" Amount="29896000"/>
+                     <Taxes>
+                        <Tax TaxCode="IR" TaxName="Airport Tax" CurrencyCode="IRR" DecimalPlaces="0">350000</Tax>
+                        <Tax TaxCode="I6" TaxName="Passenger Safety Oversight Services Fees" CurrencyCode="IRR" DecimalPlaces="0">349000</Tax>
+                        <Tax TaxCode="Q" TaxName="YQ Surcharge" CurrencyCode="IRR" DecimalPlaces="0">422000</Tax>
+                        <Tax TaxCode="CJ" TaxName="SECURITY SERVICE CHARGE" CurrencyCode="IRR" DecimalPlaces="0">628000</Tax>
+                        <Tax TaxCode="RN" TaxName="PSGR SERVICE CHARGE - AMS" CurrencyCode="IRR" DecimalPlaces="0">760000</Tax>
+                     </Taxes>
+                     <TotalFare CurrencyCode="IRR" DecimalPlaces="0" Amount="32405000"/>
+                  </PassengerFare>
+               </PTC_FareBreakdown>
+               <PTC_FareBreakdown>
+                  <PassengerTypeQuantity Code="INF" Quantity="1"/>
+                  <FareBasisCodes>
+                     <FareBasisCode FlightSegmentRPH="7039" fareRPH="3377">MPTF21</FareBasisCode>
+                     <FareBasisCode FlightSegmentRPH="7295" fareRPH="3380">VPTF21</FareBasisCode>
+                  </FareBasisCodes>
+                  <PassengerFare>
+                     <BaseFare CurrencyCode="IRR" DecimalPlaces="0" Amount="2991000"/>
+                     <TotalFare CurrencyCode="IRR" DecimalPlaces="0" Amount="2991000"/>
+                  </PassengerFare>
+               </PTC_FareBreakdown>
+            </PTC_FareBreakdowns>
+         </AirItineraryPricingInfo>
+      </PricedItinerary>
+   </PricedItineraries>
+</OTA_AirLowFareSearchRS>

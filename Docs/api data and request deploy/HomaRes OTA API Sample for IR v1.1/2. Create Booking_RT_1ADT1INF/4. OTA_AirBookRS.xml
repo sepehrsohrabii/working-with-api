@@ -1,0 +1,113 @@
+<OTA_AirBookRS EchoToken="50987" TimeStamp="2020-11-09T19:38:50.765Z" Target="Test" Version="2.001" SequenceNmbr="1" PrimaryLangID="En-us" xmlns="http://www.opentravel.org/OTA/2003/05">
+   <Success/>
+   <AirReservation CreatedDateTme="2020-11-09T19:38:50.765Z">
+      <AirItinerary DirectionInd="Return">
+         <OriginDestinationOptions>
+            <OriginDestinationOption>
+               <FlightSegment Status="39" FlightNumber="IR1012" FareBasisCode="VPTF21" ResBookDesigCode="V" DepartureDateTime="2020-11-15T22:00:00.000+03:30" ArrivalDateTime="2020-11-16T01:00:00.000+01:00" StopQuantity="0" RPH="365040">
+                  <DepartureAirport LocationCode="IKA" LocationName="Imam Khomeini Airport"/>
+                  <ArrivalAirport LocationCode="AMS" LocationName="Amsterdam Schiphol Airport"/>
+                  <OperatingAirline Code="IR"/>
+                  <Equipment AirEquipType="A319"/>
+               </FlightSegment>
+               <FlightSegment Status="39" FlightNumber="IR6061" FareBasisCode="VPTF21" ResBookDesigCode="V" DepartureDateTime="2020-11-20T15:00:00.000+01:00" ArrivalDateTime="2020-11-21T00:25:00.000+03:30" StopQuantity="0" RPH="365041">
+                  <DepartureAirport LocationCode="AMS" LocationName="Amsterdam Schiphol Airport"/>
+                  <ArrivalAirport LocationCode="IKA" LocationName="Imam Khomeini Airport"/>
+                  <OperatingAirline Code="IR"/>
+                  <Equipment AirEquipType="A321"/>
+               </FlightSegment>
+            </OriginDestinationOption>
+         </OriginDestinationOptions>
+      </AirItinerary>
+      <ArrangerInfo>
+         <CompanyInfo CompanyShortName="HOMARES OTA" Code="THRTA023"/>
+      </ArrangerInfo>
+      <PriceInfo>
+         <ItinTotalFare>
+            <TotalFare CurrencyCode="IRR" DecimalPlaces="0" Amount="41787000"/>
+         </ItinTotalFare>
+         <PTC_FareBreakdowns>
+            <PTC_FareBreakdown>
+               <PassengerTypeQuantity Code="INF" Quantity="1"/>
+               <FareBasisCodes>
+                  <FareBasisCode>VPTF21</FareBasisCode>
+               </FareBasisCodes>
+               <PassengerFare>
+                  <BaseFare CurrencyCode="IRR" DecimalPlaces="0" Amount="3572000"/>
+                  <Taxes/>
+                  <TotalFare CurrencyCode="IRR" DecimalPlaces="0" Amount="3572000"/>
+               </PassengerFare>
+               <FareInfo>
+                  <FareInfo FareBasisCode="VPTF21">
+                     <Fare BaseAmount="1786000"/>
+                  </FareInfo>
+               </FareInfo>
+            </PTC_FareBreakdown>
+            <PTC_FareBreakdown>
+               <PassengerTypeQuantity Code="ADT" Quantity="1"/>
+               <FareBasisCodes>
+                  <FareBasisCode>VPTF21</FareBasisCode>
+               </FareBasisCodes>
+               <PassengerFare>
+                  <BaseFare CurrencyCode="IRR" DecimalPlaces="0" Amount="35706000"/>
+                  <Taxes>
+                     <Tax TaxCode="Q" TaxName="YQ Surcharge" CurrencyCode="IRR" DecimalPlaces="0" Amount="422000"/>
+                     <Tax TaxCode="CJ" TaxName="SECURITY SERVICE CHARGE" CurrencyCode="IRR" DecimalPlaces="0" Amount="628000"/>
+                     <Tax TaxCode="IR" TaxName="Airport Tax" CurrencyCode="IRR" DecimalPlaces="0" Amount="350000"/>
+                     <Tax TaxCode="RN" TaxName="PSGR SERVICE CHARGE - AMS" CurrencyCode="IRR" DecimalPlaces="0" Amount="760000"/>
+                     <Tax TaxCode="I6" TaxName="Passenger Safety Oversight Services Fees" CurrencyCode="IRR" DecimalPlaces="0" Amount="349000"/>
+                  </Taxes>
+                  <TotalFare CurrencyCode="IRR" DecimalPlaces="0" Amount="38215000"/>
+               </PassengerFare>
+               <FareInfo>
+                  <FareInfo FareBasisCode="VPTF21">
+                     <Fare BaseAmount="17853000"/>
+                  </FareInfo>
+               </FareInfo>
+            </PTC_FareBreakdown>
+         </PTC_FareBreakdowns>
+      </PriceInfo>
+      <TravelerInfo>
+         <AirTraveler BirthDate="1974-04-16" PassengerTypeCode="ADT" AccompaniedByInfantInd="true" TravelerNationality="IR" Gender="M">
+            <PersonName>
+               <NamePrefix>Mr</NamePrefix>
+               <GivenName>SAEID</GivenName>
+               <Surname>NAZKASRAEI</Surname>
+            </PersonName>
+            <Document DocID="E1236753" DocType="2" DocIssueCountry="IR" DocHolderNationality="IR" ExpireDate="2024-05-19"/>
+            <TravelerRefNumber RPH="1"/>
+         </AirTraveler>
+         <AirTraveler BirthDate="2019-01-03" PassengerTypeCode="INF" AccompaniedByInfantInd="false" TravelerNationality="IR" Gender="F">
+            <PersonName>
+               <GivenName>FATEMEH</GivenName>
+               <Surname>NAZKASRAEI</Surname>
+            </PersonName>
+            <Document DocID="E5236234" DocType="2" DocIssueCountry="IR" DocHolderNationality="IR" ExpireDate="2024-04-16"/>
+            <TravelerRefNumber RPH="2" ParentRPH="1"/>
+         </AirTraveler>
+      </TravelerInfo>
+      <ContactPerson>
+         <PersonName>
+            <GivenName>SAEID</GivenName>
+            <Surname>NAZKASRAEI</Surname>
+         </PersonName>
+         <Telephone PhoneNumber="(98)2232343313"/>
+         <HomeTelephone PhoneNumber="(98)2132343313"/>
+         <Email>tbacon@tba.com</Email>
+      </ContactPerson>
+      <Fulfillment>
+         <PaymentDetails>
+            <PaymentDetail PaymentType="2">
+               <DirectBill DirectBill_ID="THRTA023">
+                  <CompanyName CompanyShortName="HOMARES OTA" Code="THRTA023" AgentType="TRVL_AGNT"/>
+               </DirectBill>
+               <PaymentAmount CurrencyCode="IRR" DecimalPlaces="0" Amount="41787000"/>
+            </PaymentDetail>
+         </PaymentDetails>
+      </Fulfillment>
+      <Ticketing TravelerRefNumber="1" TicketDocumentNbr="0960110043600"/>
+      <Ticketing TravelerRefNumber="2" TicketDocumentNbr="0960110043601"/>
+      <BookingReferenceID Status="39" Instance="0" ID="NKZ6ZS" ID_Context="BookingRef"/>
+      <Offer/>
+   </AirReservation>
+</OTA_AirBookRS>

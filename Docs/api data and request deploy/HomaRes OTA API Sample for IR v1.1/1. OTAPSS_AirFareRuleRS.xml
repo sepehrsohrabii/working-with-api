@@ -1,0 +1,25 @@
+<OTAPSS_AirFareRuleRS EchoToken="11231" TimeStamp="2020-11-09T20:08:22.623Z" Target="Test" Version="2.001" TransactionIdentifier="e26b2adf-01e3-41ba-842b-f8e120ea8494" SequenceNmbr="1" PrimaryLangID="En-us" xmlns="http://www.opentravel.org/OTA/2003/05">
+   <Success/>
+   <OriginDestinationOptions>
+      <OriginDestinationOption>
+         <FlightSegment FlightNumber="IR1042" ResBookDesigCode="K" DepartureDateTime="2020-11-15T22:00:00.000+03:30" ArrivalDateTime="2020-11-15T23:30:00.000+03:30" Duration="01:30:00" StopQuantity="0" RPH="14404">
+            <DepartureAirport LocationCode="THR"/>
+            <ArrivalAirport LocationCode="MHD"/>
+            <OperatingAirline Code="IR"/>
+            <Equipment AirEquipType="A319"/>
+            <BookingClassAvails>
+               <BookingClassAvail ResBookDesigCode="K" ResBookDesigQuantity="2"/>
+            </BookingClassAvails>
+         </FlightSegment>
+      </OriginDestinationOption>
+   </OriginDestinationOptions>
+   <FareRuleText>
+      <Description Formatted="true" TextFormat="HTML"><![CDATA[<table><tbody><tr><td>Baggage</td><td>For ADT/CHD free baggage allowance --> 20Kg. 
+For Infants free baggage allowance 10KG</td></tr><tr><td>Rebooking</td><td>Rebooking Permitted. 
+30% of applicable fare will be applied as the penalty until one day prior to the departure before 12 noon. 
+Any rebooking operation afterwards will be collecting 60% of the applicable fare as the penalty. </td></tr><tr><td>Cancellation/Refund</td><td>Cancellation permitted. 
+30% of applicable fare will be applied as the penalty until one day prior to the departure before 12 noon. 
+Any cancellation operation after afterwards will be collecting 60% of the applicable fare as the penalty. </td></tr></tbody></table>]]></Description>
+      <FlightRefNumberRPH>14404</FlightRefNumberRPH>
+   </FareRuleText>
+</OTAPSS_AirFareRuleRS>

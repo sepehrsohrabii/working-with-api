@@ -1,0 +1,50 @@
+[
+  {
+    "origin": "TEH",
+    "destination": "MSH",
+    "departureTime": "2022-02-10T21:30",
+    "capacity": 100,
+    "flight-number": "FLN01",
+    "airplane": "ASB-6201"
+  },
+  {
+    "origin": "TEH",
+    "destination": "MSH",
+    "departureTime": "2023-02-10T21:30",
+    "capacity": 2,
+    "flight-number": "FLN01",
+    "airplane": "ASB-6201"
+  },
+  {
+    "origin": "ESF",
+    "destination": "RST",
+    "departureTime": "1401-02-05T12:30",
+    "capacity": 250,
+    "flight-number": "FLN02",
+    "airplane": "ASB-6202"
+  },
+  {
+    "origin": "TEH",
+    "destination": "SRZ",
+    "departureTime": "1401-02-11T21:30",
+    "capacity": 150,
+    "flight-number": "FLN03",
+    "airplane": "ASB-6203"
+  },
+  {
+    "origin": "BDR",
+    "destination": "LHJ",
+    "departureTime": "1401-03-10T11:30",
+    "capacity": 300,
+    "flight-number": "FLN04",
+    "airplane": "ASB-6204"
+  },
+  {
+    "origin": "RST",
+    "destination": "TEH",
+    "departureTime": "1401-05-04T04:30",
+    "capacity": 112,
+    "flight-number": "FLN05",
+    "airplane": "ASB-6205"
+  }
+]

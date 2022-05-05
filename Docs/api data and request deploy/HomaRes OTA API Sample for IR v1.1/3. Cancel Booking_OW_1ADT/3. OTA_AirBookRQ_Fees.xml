@@ -1,0 +1,27 @@
+<OTA_AirBookModifyRQ xmlns="http://www.opentravel.org/OTA/2003/05"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.opentravel.org/OTA/2003/05 
+OTA_AirBookRQ.xsd" EchoToken="50987" TimeStamp="2017-03-14T10:44:10+05:30"
+Target="Test" Version="2.001" SequenceNmbr="1" PrimaryLangID="En-us">
+<POS>
+   <Source AirlineVendorID="IR" ISOCountry="IR" ISOCurrency="IRR">
+       <RequestorID Type="5" ID="THRTA023"/>
+   </Source>
+</POS>
+<AirBookModifyRQ ModificationType="1"></AirBookModifyRQ>
+<AirReservation>
+<AirItinerary DirectionInd="OneWay">
+    <OriginDestinationOptions>
+       <OriginDestinationOption>
+          <FlightSegment Status="39" FlightNumber="IR1042" FareBasisCode="M1410" ResBookDesigCode="M" DepartureDateTime="2020-11-15T22:00:00.000+03:30" ArrivalDateTime="2020-11-15T23:30:00.000+03:30" StopQuantity="0" RPH="338916">
+             <DepartureAirport LocationCode="THR" LocationName="Mehrabad Airport"/>
+             <ArrivalAirport LocationCode="MHD" LocationName="Mashad Airport"/>
+             <OperatingAirline Code="IR"/>
+             <Equipment AirEquipType="A319"/>
+          </FlightSegment>
+       </OriginDestinationOption>
+    </OriginDestinationOptions>
+   </AirItinerary>
+   <BookingReferenceID Status="39" Instance="0" ID="B4QK1A" ID_Context="BookingRef"/>
+</AirReservation>
+</OTA_AirBookModifyRQ>

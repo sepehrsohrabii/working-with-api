@@ -1,0 +1,23 @@
+<OTAPSS_AirFareRuleRQ xmlns="http://www.opentravel.org/OTA/2003/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opentravel.org/OTA/2003/05   OTAPSS_AirFareRuleRQ.xsd" EchoToken="11231" TimeStamp="2018-10-02T12:24:50.109+00:00" Target="Test" Version="2.001" SequenceNmbr="1" PrimaryLangID="En-us">
+    <POS>
+        <Source AirlineVendorID="IR" ISOCountry="IR" ISOCurrency="IRR">
+            <RequestorID Type="5" ID="THRTA023"/>
+        </Source>
+    </POS>
+   <OriginDestinationOptions>
+      <OriginDestinationOption>
+        <FlightSegment FlightNumber="IR1042" ResBookDesigCode="K" DepartureDateTime="2020-11-15T22:00:00.000+03:30" ArrivalDateTime="2020-11-15T23:30:00.000+03:30" Duration="01:30:00" StopQuantity="0" RPH="14404">
+           <DepartureAirport LocationCode="THR"/>
+           <ArrivalAirport LocationCode="MHD"/>
+           <OperatingAirline Code="IR"/>
+           <Equipment AirEquipType="A319"/>
+           <BookingClassAvails>
+              <BookingClassAvail ResBookDesigCode="K" ResBookDesigQuantity="2"/>
+           </BookingClassAvails>
+        </FlightSegment>
+      </OriginDestinationOption>
+   </OriginDestinationOptions>
+   <FareBasisCodes>
+      <FareBasisCode FlightSegmentRPH="14404" fareRPH="3304">K1410</FareBasisCode>
+   </FareBasisCodes>
+</OTAPSS_AirFareRuleRQ>

@@ -1,0 +1,82 @@
+<OTA_AirBookRQ xmlns="http://www.opentravel.org/OTA/2003/05"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.opentravel.org/OTA/2003/05 
+  OTA_AirBookRQ.xsd" EchoToken="50987" TimeStamp="2017-02-14T12:44:10+05:30"
+  Target="Test" Version="2.001" SequenceNmbr="1" PrimaryLangID="En-us">
+    <POS>
+        <Source AirlineVendorID="IR" ISOCountry="IR" ISOCurrency="IRR">
+            <RequestorID Type="5" ID="THRTA023"/>
+        </Source>
+    </POS>
+    <AirItinerary DirectionInd="Return">
+	<OriginDestinationOptions>
+              <OriginDestinationOption>
+                  <FlightSegment FlightNumber="IR1012" ResBookDesigCode="V" DepartureDateTime="2020-11-15T22:00:00.000+03:30" ArrivalDateTime="2020-11-16T01:00:00.000+01:00" Duration="05:30:00" StopQuantity="0" RPH="13675">
+                     <DepartureAirport LocationCode="IKA"/>
+                     <ArrivalAirport LocationCode="AMS"/>
+                     <OperatingAirline Code="IR"/>
+                     <Equipment AirEquipType="A319"/>
+                     <BookingClassAvails>
+                        <BookingClassAvail ResBookDesigCode="V" ResBookDesigQuantity="1"/>
+                     </BookingClassAvails>
+                  </FlightSegment>
+               </OriginDestinationOption>
+               <OriginDestinationOption>
+                  <FlightSegment FlightNumber="IR6061" ResBookDesigCode="V" DepartureDateTime="2020-11-20T15:00:00.000+01:00" ArrivalDateTime="2020-11-21T00:25:00.000+03:30" Duration="06:55:00" StopQuantity="0" RPH="7295">
+                     <DepartureAirport LocationCode="AMS"/>
+                     <ArrivalAirport LocationCode="IKA"/>
+                     <OperatingAirline Code="IR"/>
+                     <Equipment AirEquipType="A321"/>
+                     <BookingClassAvails>
+                        <BookingClassAvail ResBookDesigCode="V" ResBookDesigQuantity="9"/>
+                     </BookingClassAvails>
+                  </FlightSegment>
+               </OriginDestinationOption>
+                </OriginDestinationOptions>
+	</AirItinerary>
+	<PriceInfo>
+        <ItinTotalFare>
+             <BaseFare CurrencyCode="IRR" DecimalPlaces="0" Amount="39278000"/>
+             <TotalFare CurrencyCode="IRR" DecimalPlaces="0" Amount="41787000"/>
+        </ItinTotalFare>
+	</PriceInfo>
+	<TravelerInfo>
+		<AirTraveler BirthDate="1974-04-16" PassengerTypeCode="ADT" AccompaniedByInfantInd="true" Gender="M" TravelerNationality="IR">
+			<PersonName>
+				<NamePrefix>MR</NamePrefix>
+				<GivenName>SAEID</GivenName>
+				<Surname>NAZKASRAEI</Surname>
+			</PersonName>
+			<TravelerRefNumber RPH="1"/>
+			<Document DocID="E1236753" DocType="2" ExpireDate="2024-05-19" DocIssueCountry="IR" DocHolderNationality="IR"/>
+
+		</AirTraveler>
+		<AirTraveler BirthDate="2019-01-03" PassengerTypeCode="INF" AccompaniedByInfantInd="false" Gender="F" TravelerNationality="IR">
+			<PersonName>
+				<GivenName>FATEMEH</GivenName>
+				<Surname>NAZKASRAEI</Surname>
+			</PersonName>
+			<TravelerRefNumber RPH="2"/>
+			<Document DocID="E5236234" DocType="2" ExpireDate="2024-04-16" DocIssueCountry="IR" DocHolderNationality="IR"/>
+		</AirTraveler>		
+	</TravelerInfo>
+	<ContactPerson>
+            <PersonName>
+                <GivenName>SAEID</GivenName>
+                <Surname>NAZKASRAEI</Surname>
+            </PersonName>
+		  <Telephone PhoneNumber="(98)2232343313"/>
+		  <HomeTelephone PhoneNumber="(98)2132343313"/>
+        <Email>tbacon@tba.com</Email>
+    </ContactPerson>
+    <Fulfillment>
+        <PaymentDetails>
+            <PaymentDetail PaymentType="2">
+                <DirectBill DirectBill_ID="THRTA023">
+                    <CompanyName CompanyShortName="HOMARES OTA" Code="THRTA023"/>
+                </DirectBill>
+                <PaymentAmount CurrencyCode="IRR" DecimalPlaces="0" Amount="41787000"/>
+            </PaymentDetail>
+        </PaymentDetails>
+    </Fulfillment>
+</OTA_AirBookRQ>

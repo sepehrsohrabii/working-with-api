@@ -1,0 +1,80 @@
+<OTA_AirBookRS EchoToken="50987" TimeStamp="2020-11-08T07:51:11.657Z" Target="Test" Version="2.001" SequenceNmbr="1" PrimaryLangID="En-us" xmlns="http://www.opentravel.org/OTA/2003/05">
+   <Success/>
+   <AirReservation CreatedDateTme="2020-11-08T07:51:11.656Z">
+      <AirItinerary DirectionInd="OneWay">
+         <OriginDestinationOptions>
+            <OriginDestinationOption>
+               <FlightSegment Status="39" FlightNumber="IR1042" FareBasisCode="X1410" ResBookDesigCode="X" DepartureDateTime="2020-11-15T22:00:00.000+03:30" ArrivalDateTime="2020-11-15T23:30:00.000+03:30" StopQuantity="0" RPH="316134">
+                  <DepartureAirport LocationCode="THR" LocationName="Mehrabad Airport"/>
+                  <ArrivalAirport LocationCode="MHD" LocationName="Mashad Airport"/>
+                  <OperatingAirline Code="IR"/>
+                  <Equipment AirEquipType="A319"/>
+               </FlightSegment>
+            </OriginDestinationOption>
+         </OriginDestinationOptions>
+      </AirItinerary>
+      <ArrangerInfo>
+         <CompanyInfo CompanyShortName="HOMARES OTA" Code="THRTA023"/>
+      </ArrangerInfo>
+      <PriceInfo>
+         <ItinTotalFare>
+            <TotalFare CurrencyCode="IRR" DecimalPlaces="0" Amount="2730000"/>
+         </ItinTotalFare>
+         <PTC_FareBreakdowns>
+            <PTC_FareBreakdown>
+               <PassengerTypeQuantity Code="ADT" Quantity="1"/>
+               <FareBasisCodes>
+                  <FareBasisCode>X1410</FareBasisCode>
+               </FareBasisCodes>
+               <PassengerFare>
+                  <BaseFare CurrencyCode="IRR" DecimalPlaces="0" Amount="2500000"/>
+                  <Taxes>
+                     <Tax TaxCode="LP" TaxName="Airport Service Charge" CurrencyCode="IRR" DecimalPlaces="0" Amount="70000"/>
+                     <Tax TaxCode="I61" TaxName="Passenger Safety Oversight Services Fees" CurrencyCode="IRR" DecimalPlaces="0" Amount="10000"/>
+                     <Tax TaxCode="KU" TaxName="Municipality Tax" CurrencyCode="IRR" DecimalPlaces="0" Amount="150000"/>
+                  </Taxes>
+                  <TotalFare CurrencyCode="IRR" DecimalPlaces="0" Amount="2730000"/>
+               </PassengerFare>
+               <FareInfo>
+                  <FareInfo FareBasisCode="X1410">
+                     <Fare BaseAmount="2500000"/>
+                  </FareInfo>
+               </FareInfo>
+            </PTC_FareBreakdown>
+         </PTC_FareBreakdowns>
+      </PriceInfo>
+      <TravelerInfo>
+         <AirTraveler BirthDate="1974-04-16" PassengerTypeCode="ADT" AccompaniedByInfantInd="false" TravelerNationality="IR" Gender="M">
+            <PersonName>
+               <NamePrefix>Mr</NamePrefix>
+               <GivenName>SAEID</GivenName>
+               <Surname>NAZKASRAEI</Surname>
+            </PersonName>
+            <Document DocID="1121234545" DocType="5" DocHolderNationality="IR"/>
+            <TravelerRefNumber RPH="1"/>
+         </AirTraveler>
+      </TravelerInfo>
+      <ContactPerson>
+         <PersonName>
+            <GivenName>SAEID</GivenName>
+            <Surname>NAZKASRAEI</Surname>
+         </PersonName>
+         <Telephone PhoneNumber="(98)2232343212"/>
+         <HomeTelephone PhoneNumber="(98)2132343212"/>
+         <Email>tbacon@tba.com</Email>
+      </ContactPerson>
+      <Fulfillment>
+         <PaymentDetails>
+            <PaymentDetail PaymentType="2">
+               <DirectBill DirectBill_ID="THRTA023">
+                  <CompanyName CompanyShortName="HOMARES OTA" Code="THRTA023" AgentType="TRVL_AGNT"/>
+               </DirectBill>
+               <PaymentAmount CurrencyCode="IRR" DecimalPlaces="0" Amount="2730000"/>
+            </PaymentDetail>
+         </PaymentDetails>
+      </Fulfillment>
+      <Ticketing TravelerRefNumber="1" TicketDocumentNbr="0960110040346"/>
+      <BookingReferenceID Status="39" Instance="0" ID="Y37MJ4" ID_Context="BookingRef"/>
+      <Offer/>
+   </AirReservation>
+</OTA_AirBookRS>
