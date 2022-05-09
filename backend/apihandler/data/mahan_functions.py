@@ -8,7 +8,7 @@ def source_table():
     Response_Schema = []
     Resource = []
 
-    with open('table source.txt') as file:
+    with open('/backend/data/data/table source.txt') as file:
         for row in file:
             row = row.strip()
             op = row[:row.index(',')]
@@ -32,8 +32,8 @@ def write_on_xml(selected_operation_number):
     print('you select %s' % selected_operation)
     selected_Request_Schema = Request_Schema[selected_operation_number - 1]
 
-    path = './HomaRes OTA API Sample for IR v1.1/1. {}.xml'.format(selected_Request_Schema[:-4])
-    newpath = './HomaRes OTA API Sample for IR v1.1/1. {}_edited.xml'.format(selected_Request_Schema[:-4])
+    path = '/home/sepehr/Desktop/working-with-api/backend/apihandler/data/HomaRes OTA API Sample for IR v1.1/1. {}.xml'.format(selected_Request_Schema[:-4])
+    newpath = '/home/sepehr/Desktop/working-with-api/backend/apihandler/data/HomaRes OTA API Sample for IR v1.1/1. {}_edited.xml'.format(selected_Request_Schema[:-4])
     import xml.etree.ElementTree as ET
     tree = ET.parse(path)
     root = tree.getroot()
@@ -42,20 +42,30 @@ def write_on_xml(selected_operation_number):
     root.attrib['Target'] = 'Test'  # Test or Production
     root.attrib['TimeStamp'] = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S')
     root.attrib['EchoToken'] = '0001'
-    if selected_operation_number==1:
+    if selected_operation_number == 1:
         root[1].text = 'Hi sepehr'
-    elif selected_operation_number==2:
-        root[1][0].text = '2022-05-15'
+    elif selected_operation_number == 2:
+        context = views.context
+
+        print(context)
+        #root[1][0].text = '2022-05-15'
+        root[1][0].text = context['departureTime']
+        root[1][1].attrib['LocationCode'] = context['departureTime']
+        root[1][2].attrib['LocationCode'] = 'MSH'
+        root[2][0].attrib['Cabin'] = ''
+        root[3][0][0].attrib['Quantity'] = '1'
+        root[3][0][1].attrib['Quantity'] = '0'
+        root[3][0][2].attrib['Quantity'] = '0'
 
 
 
-    elif selected_operation_number==3:
+    elif selected_operation_number == 3:
         root[1][0].text = '2022-05-10'
 
 
-    elif selected_operation_number==4:
+    elif selected_operation_number == 4:
         # print(Request_Schema[2])
-        search_path = './HomaRes OTA API Sample for IR v1.1/1. {}_edited.xml'.format(Response_Schema[1][:-4])
+        search_path = '/home/sepehr/Desktop/working-with-api/backend/apihandler/data/HomaRes OTA API Sample for IR v1.1/1. {}_edited.xml'.format(Response_Schema[1][:-4])
         import xml.etree.ElementTree as ET
         search_tree = ET.parse(search_path)
         search_root = search_tree.getroot()
