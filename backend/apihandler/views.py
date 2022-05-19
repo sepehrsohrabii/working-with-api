@@ -30,6 +30,7 @@ def index(request):
     data_list = []
     # when user clicks on the submit button of form
     if request.method == 'POST':
+        
         data_list = []
         data_handle(selected_operation_number)
         for data1 in flight_list:  # turn in JSON data
@@ -48,7 +49,7 @@ def index(request):
                 'PTC_FBs': data1['PTC_FBs']
             })  # add result to results
         flight_list.clear()
-
+        
     # send data to template
     context = {
         'data_list': data_list,  # for results
@@ -62,15 +63,112 @@ def index(request):
 
     return render(request, './Home.html', context)
 
-def buypage(request):
-    selected_operation_number = 4
+def buypage(request, FlightNumber):
+    Operation, Request_Schema, Response_Schema, Resource = source_table()
+    flight_list_booking = []
+    selected_operation_number = 2
+    selected_Response_Schema = Response_Schema[selected_operation_number - 1]
+    respath = '/home/sepehr/Desktop/working-with-api/backend/apihandler/data/HomaRes OTA API Sample for IR v1.1/1. {}_edited.xml'.format(selected_Response_Schema[:-4])
+    import xml.etree.ElementTree as ET
+    tree = ET.parse(respath)
+    root = tree.getroot()
+    for PricedItinerary in root[1]:
+        FlightSegment = PricedItinerary[0][0][0][0]
+        FlightNumberSRS = FlightSegment.attrib['FlightNumber']
+        if FlightNumberSRS in FlightNumber:
+            SequenceNumber = PricedItinerary.attrib['SequenceNumber']
+            ResBookDesigCode = FlightSegment.attrib['ResBookDesigCode']
+            DepartureDateTime = FlightSegment.attrib['DepartureDateTime'].split('T')
+            departureDate = DepartureDateTime[0]
+            departureTime = DepartureDateTime[1]
+            ArrivalDateTime = FlightSegment.attrib['ArrivalDateTime'].split('T')
+            ArrivalDate = ArrivalDateTime[0]
+            ArrivalTime = ArrivalDateTime[1]
+            Duration = FlightSegment.attrib['Duration']
+            StopQuantity = FlightSegment.attrib['StopQuantity']
+            RPH = FlightSegment.attrib['RPH']
+            origin = FlightSegment[0].attrib['LocationCode']
+            destination = FlightSegment[1].attrib['LocationCode']
+            OperatingAirline = FlightSegment[2].attrib['Code']
+            AirEquipType = FlightSegment[3].attrib['AirEquipType']
+            ResBookDesigQuantity = FlightSegment[4][0].attrib['ResBookDesigQuantity']
+            BaseFare_CurrencyCode = PricedItinerary[1][0][0].attrib['CurrencyCode']
+            BaseFare_DecimalPlaces = PricedItinerary[1][0][0].attrib['DecimalPlaces']
+            BaseFare_Amount = PricedItinerary[1][0][0].attrib['Amount']
+            TotalFare_CurrencyCode = PricedItinerary[1][0][1].attrib['CurrencyCode']
+            TotalFare_DecimalPlaces = PricedItinerary[1][0][1].attrib['DecimalPlaces']
+            TotalFare_Amount = PricedItinerary[1][0][1].attrib['Amount']
+            PTC_FareBreakdowns = PricedItinerary[1][1]
+            PTC_FBs.clear()
+            for PTC_FareBreakdown in PTC_FareBreakdowns:
+                PassengerTypeQuantity_Code = PTC_FareBreakdown[0].attrib['Code']
+                PassengerTypeQuantity_Quantity = PTC_FareBreakdown[0].attrib['Quantity']
+                FareBasisCode = PTC_FareBreakdown[1][0].text
+                FareBasisCode_FlightSegmentRPH = PTC_FareBreakdown[1][0].attrib['FlightSegmentRPH']
+                FareBasisCode_fareRPH = PTC_FareBreakdown[1][0].attrib['fareRPH']
+                PassengerFare_BaseFare_CurrencyCode = PTC_FareBreakdown[2][0].attrib['CurrencyCode']
+                PassengerFare_BaseFare_DecimalPlaces = PTC_FareBreakdown[2][0].attrib['DecimalPlaces']
+                PassengerFare_BaseFare_Amount = PTC_FareBreakdown[2][0].attrib['Amount']
+                PassengerFare_Taxes = PTC_FareBreakdown[2][1]
+                Taxes.clear()
+                for Tax in PassengerFare_Taxes:
+                    TaxText = Tax.text
+                    TaxCode = Tax.attrib['TaxCode']
+                    TaxName = Tax.attrib['TaxName']
+                    Tax_CurrencyCode = Tax.attrib['CurrencyCode']
+                    Tax_DecimalPlaces = Tax.attrib['DecimalPlaces']
+                    Taxes.append({
+                        'TaxText': TaxText,
+                        'TaxCode': TaxCode,
+                        'TaxName': TaxName,
+                        'Tax_CurrencyCode': Tax_CurrencyCode,
+                        'Tax_DecimalPlaces': Tax_DecimalPlaces,
+                    })
+                PTC_FBs.append({
+                    'PassengerTypeQuantity_Code': PassengerTypeQuantity_Code,
+                    'PassengerTypeQuantity_Quantity': PassengerTypeQuantity_Quantity,
+                    'FareBasisCode': FareBasisCode,
+                    'FareBasisCode_FlightSegmentRPH': FareBasisCode_FlightSegmentRPH,
+                    'FareBasisCode_fareRPH': FareBasisCode_fareRPH,
+                    'PassengerFare_BaseFare_CurrencyCode': PassengerFare_BaseFare_CurrencyCode,
+                    'PassengerFare_BaseFare_DecimalPlaces': PassengerFare_BaseFare_DecimalPlaces,
+                    'PassengerFare_BaseFare_Amount': PassengerFare_BaseFare_Amount,
+                    'Taxes': Taxes,
+                })
+
+            flight_list_booking.append({
+                'SequenceNumber': SequenceNumber,
+                'FlightNumber': FlightNumber,
+                'ResBookDesigCode': ResBookDesigCode,
+                'departureDate': departureDate,
+                'departureTime': departureTime,
+                'ArrivalDate': ArrivalDate,
+                'ArrivalTime': ArrivalTime,
+                'Duration': Duration,
+                'StopQuantity': StopQuantity,
+                'RPH': RPH,
+                'origin': origin,
+                'destination': destination,
+                'OperatingAirline': OperatingAirline,
+                'AirEquipType': AirEquipType,
+                'ResBookDesigQuantity': ResBookDesigQuantity,
+                'BaseFare_CurrencyCode': BaseFare_CurrencyCode,
+                'BaseFare_DecimalPlaces': BaseFare_DecimalPlaces,
+                'BaseFare_Amount': BaseFare_Amount,
+                'TotalFare_CurrencyCode': TotalFare_CurrencyCode,
+                'TotalFare_DecimalPlaces': TotalFare_DecimalPlaces,
+                'TotalFare_Amount': TotalFare_Amount,
+                'PTC_FBs': PTC_FBs,
+            })
+
+
+    print(FlightNumber)
     if request.method == 'POST':
-        global selected_FN
-        selected_FN = request.POST.get('selected_FN')
-        data_handle(selected_operation_number)
+        selected_operation_number = 4
+        #data_handle(selected_operation_number)
 
     buy_context = {
-
+        'flight_list_booking': flight_list_booking,
     }
     return render(request, './buypage.html', buy_context)
 
@@ -99,7 +197,7 @@ def write_on_xml(selected_operation_number):
     Agent_id = 'MOW07603'
     Operation, Request_Schema, Response_Schema, Resource = source_table()
     selected_operation = Operation[selected_operation_number - 1]
-    print('you select %s' % selected_operation)
+    #print('you select %s' % selected_operation)
     selected_Request_Schema = Request_Schema[selected_operation_number - 1]
 
     path = '/home/sepehr/Desktop/working-with-api/backend/apihandler/data/HomaRes OTA API Sample for IR v1.1/1. {}.xml'.format(
@@ -163,6 +261,7 @@ def write_on_xml(selected_operation_number):
         import xml.etree.ElementTree as ET
         search_tree = ET.parse(search_path)
         search_root = search_tree.getroot()
+        
         for el in search_tree.iter():
             for key in el.attrib.keys():
                 if key == 'FlightNumber':
@@ -208,6 +307,9 @@ def write_on_xml(selected_operation_number):
         root[2][0][1].attrib['CurrencyCode'] = search_root[1][0][1][0][1].attrib['CurrencyCode']
         root[5][0][0][1].attrib['Amount'] = search_root[1][0][1][0][1].attrib['Amount']
         root[5][0][0][1].attrib['CurrencyCode'] = search_root[1][0][1][0][1].attrib['CurrencyCode']
+
+
+
     elif selected_operation_number == 5:
         root[1].attrib['ID'] = 'VPTF21'
 

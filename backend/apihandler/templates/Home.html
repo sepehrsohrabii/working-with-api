@@ -71,9 +71,9 @@
 <div class="container mt-5">
     {% if data_list %}
         <h3>Results: </h3>
-        {% for data in data_list%}
-            <form method="POST">
-                <input value="{{data.FlightNumber}}" name="selected_FN" hidden>
+        {% for data in data_list %}
+            <form method="POST" action="{% url 'buypage' FlightNumber=data.FlightNumber %}">
+              {% csrf_token %}
                 <div class="alert alert-success d-flex justify-content-between align-items-center" role="alert">
                     <p class="m-0 p-0"><b>Origin: </b> {{data.origin}},</p>
                     <p class="m-0 p-0"><b> Destination: </b> {{data.destination}},</p>
@@ -130,8 +130,9 @@
 
                       </div>
                       <div class="modal-footer">
+                          <div name="selected_FN" id="selected_FN" >{{data.FlightNumber}}</div>
                           <a type="submit" class="btn btn-primary" href="">Reserve</a>
-                          <a type="submit" class="btn btn-primary" href="/api/buypage">Buy</a>
+                          <button type="submit" class="btn btn-primary">Buy</button>
                       </div>
                     </div>
                   </div>

@@ -1,4 +1,4 @@
-<ns0:OTA_AirBookRQ xmlns:ns0="http://www.opentravel.org/OTA/2003/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opentravel.org/OTA/2003/05    OTA_AirBookRQ.xsd" EchoToken="0001" TimeStamp="2022-05-16T18:23:30" Target="Test" Version="2.001" SequenceNmbr="1" PrimaryLangID="En-us">
+<ns0:OTA_AirBookRQ xmlns:ns0="http://www.opentravel.org/OTA/2003/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opentravel.org/OTA/2003/05    OTA_AirBookRQ.xsd" EchoToken="0001" TimeStamp="2022-05-19T17:39:40" Target="Test" Version="2.001" SequenceNmbr="1" PrimaryLangID="En-us">
     <ns0:POS>
         <ns0:Source AirlineVendorID="IR" ISOCountry="IR" ISOCurrency="RUB">
             <ns0:RequestorID Type="5" ID="MOW07603" />
@@ -7,7 +7,7 @@
     <ns0:AirItinerary DirectionInd="OneWay">
 	<ns0:OriginDestinationOptions>
                     <ns0:OriginDestinationOption>
-                        <ns0:FlightSegment FlightNumber="IR468" ResBookDesigCode="X" DepartureDateTime="2022-05-17T19:05:00.000+04:30" ArrivalDateTime="2022-05-17T20:35:00.000+03:30" Duration="02:30:00" StopQuantity="0" RPH="43883" AirEquipType="A320">
+                        <ns0:FlightSegment FlightNumber="IR468" ResBookDesigCode="X" DepartureDateTime="2022-05-20T19:05:00.000+04:30" ArrivalDateTime="2022-05-20T20:35:00.000+03:30" Duration="02:30:00" StopQuantity="0" RPH="43826" AirEquipType="Fokker 100">
                             <ns0:DepartureAirport LocationCode="THR" />
                             <ns0:ArrivalAirport LocationCode="MHD" />
                             <ns0:OperatingAirline Code="IR" />
@@ -21,8 +21,8 @@
 	</ns0:AirItinerary>
 	<ns0:PriceInfo>
         <ns0:ItinTotalFare>
-             <ns0:BaseFare CurrencyCode="RUB" DecimalPlaces="0" Amount="510" />
-             <ns0:TotalFare CurrencyCode="RUB" DecimalPlaces="0" Amount="632" />
+             <ns0:BaseFare CurrencyCode="RUB" DecimalPlaces="0" Amount="2115" />
+             <ns0:TotalFare CurrencyCode="RUB" DecimalPlaces="0" Amount="2276" />
         </ns0:ItinTotalFare>
 	</ns0:PriceInfo>
 	<ns0:TravelerInfo>
@@ -51,7 +51,7 @@
                 <ns0:DirectBill DirectBill_ID="THRTA023">
                     <ns0:CompanyName CompanyShortName="HOMARES OTA" Code="THRTA023" />
                 </ns0:DirectBill>
-                <ns0:PaymentAmount CurrencyCode="RUB" DecimalPlaces="0" Amount="632" />
+                <ns0:PaymentAmount CurrencyCode="RUB" DecimalPlaces="0" Amount="2276" />
             </ns0:PaymentDetail>
         </ns0:PaymentDetails>
     </ns0:Fulfillment>
