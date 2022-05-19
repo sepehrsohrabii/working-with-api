@@ -12,6 +12,14 @@ Taxes = []
 
 def index(request):
     # data = json_load  # load JSON
+    selected_operation_number = 2
+    global origin
+    global destination
+    global departureTime
+    global ADTNumber
+    global CHDNumber
+    global INFNumber
+    global Cabin
     origin = request.POST.get("origin")  # get flight origin from template input
     destination = request.POST.get("destination")  # get flight destination from template input
     departureTime = request.POST.get("departureTime")  # get flight departureTime from template input
@@ -23,9 +31,8 @@ def index(request):
     # when user clicks on the submit button of form
     if request.method == 'POST':
         data_list = []
-        data_handle(origin, destination, departureTime, ADTNumber, CHDNumber, INFNumber, Cabin)
+        data_handle(selected_operation_number)
         for data1 in flight_list:  # turn in JSON data
-            print(data1)
             data_list.append({
                 'origin': data1['origin'],
                 'destination': data1['destination'],
@@ -55,6 +62,17 @@ def index(request):
 
     return render(request, './Home.html', context)
 
+def buypage(request):
+    selected_operation_number = 4
+    if request.method == 'POST':
+        global selected_FN
+        selected_FN = request.POST.get('selected_FN')
+        data_handle(selected_operation_number)
+
+    buy_context = {
+
+    }
+    return render(request, './buypage.html', buy_context)
 
 def source_table():
     Operation = []
@@ -77,7 +95,7 @@ def source_table():
     return Operation, Request_Schema, Response_Schema, Resource
 
 
-def write_on_xml(selected_operation_number, origin, destination, departureTime, ADTNumber, CHDNumber, INFNumber, Cabin):
+def write_on_xml(selected_operation_number):
     Agent_id = 'MOW07603'
     Operation, Request_Schema, Response_Schema, Resource = source_table()
     selected_operation = Operation[selected_operation_number - 1]
@@ -141,45 +159,44 @@ def write_on_xml(selected_operation_number, origin, destination, departureTime, 
 
     elif selected_operation_number == 4:
         # print(Request_Schema[2])
-        search_path = '/home/sepehr/Desktop/working-with-api/backend/apihandler/data/HomaRes OTA API Sample for IR v1.1/1. {}_edited.xml'.format(
-            Response_Schema[1][:-4])
+        search_path = '/home/sepehr/Desktop/working-with-api/backend/apihandler/data/HomaRes OTA API Sample for IR v1.1/1. {}_edited.xml'.format(Response_Schema[1][:-4])
         import xml.etree.ElementTree as ET
         search_tree = ET.parse(search_path)
         search_root = search_tree.getroot()
         for el in search_tree.iter():
             for key in el.attrib.keys():
                 if key == 'FlightNumber':
-                    # print(el.attrib[key])
+                    print(el.attrib[key])
                     root[1][0][0][0].attrib['FlightNumber'] = el.attrib[key]
                 if key == 'DepartureDateTime':
-                    # print(el.attrib[key])
+                    print(el.attrib[key])
                     root[1][0][0][0].attrib['DepartureDateTime'] = el.attrib[key]
                 if key == 'ArrivalDateTime':
-                    # print(el.attrib[key])
+                    print(el.attrib[key])
                     root[1][0][0][0].attrib['ArrivalDateTime'] = el.attrib[key]
                 if key == 'Duration':
-                    # print(el.attrib[key])
+                    print(el.attrib[key])
                     root[1][0][0][0].attrib['Duration'] = el.attrib[key]
                 if key == 'StopQuantity':
-                    # print(el.attrib[key])
+                    print(el.attrib[key])
                     root[1][0][0][0].attrib['StopQuantity'] = el.attrib[key]
                 if key == 'RPH':
-                    # print(el.attrib[key])
+                    print(el.attrib[key])
                     root[1][0][0][0].attrib['RPH'] = el.attrib[key]
                 if key == 'AirEquipType':
-                    # print(el.attrib[key])
+                    print(el.attrib[key])
                     root[1][0][0][0].attrib['AirEquipType'] = el.attrib[key]
                 if key == 'RPH':
-                    # print(el.attrib[key])
+                    print(el.attrib[key])
                     root[1][0][0][0].attrib['RPH'] = el.attrib[key]
                 if key == 'RPH':
-                    # print(el.attrib[key])
+                    print(el.attrib[key])
                     root[1][0][0][0].attrib['RPH'] = el.attrib[key]
                 if key == 'RPH':
-                    # print(el.attrib[key])
+                    print(el.attrib[key])
                     root[1][0][0][0].attrib['RPH'] = el.attrib[key]
                 if key == 'RPH':
-                    # print(el.attrib[key])
+                    print(el.attrib[key])
                     root[1][0][0][0].attrib['RPH'] = el.attrib[key]
 
         # print(search_root[1][0][1][0][0].attrib['Amount'])
@@ -201,6 +218,7 @@ def write_on_xml(selected_operation_number, origin, destination, departureTime, 
 
 
 def read_from_xml(selected_operation_number, respath):
+    Operation, Request_Schema, Response_Schema, Resource = source_table()
 
     import xml.etree.ElementTree as ET
     tree = ET.parse(respath)
@@ -306,8 +324,7 @@ def read_from_xml(selected_operation_number, respath):
 
     elif selected_operation_number == 4:
         # print(Request_Schema[2])
-        # search_path = '/home/sepehr/Desktop/working-with-api/backend/apihandler/data/HomaRes OTA API Sample for IR v1.1/1. {}_edited.xml'.format(Response_Schema[1][:-4])
-        search_path = ''
+        search_path = '/home/sepehr/Desktop/working-with-api/backend/apihandler/data/HomaRes OTA API Sample for IR v1.1/1. {}_edited.xml'.format(Response_Schema[1][:-4])
         import xml.etree.ElementTree as ET
         search_tree = ET.parse(search_path)
         search_root = search_tree.getroot()
@@ -360,15 +377,15 @@ def read_from_xml(selected_operation_number, respath):
         root[1].attrib['ID'] = 'VPTF21'
 
 
-def data_handle(origin, destination, departureTime, ADTNumber, CHDNumber, INFNumber, Cabin):
+def data_handle(selected_operation_number):
     Agent_id = 'MOW07603'
 
     Operation, Request_Schema, Response_Schema, Resource = source_table()
 
     for index, oper in enumerate(Operation, 1):
         print(str(index) + '-' + oper)
-    # selected_operation_number = int(input('Select related operation number:'))
-    selected_operation_number = 2
+    #selected_operation_number = int(input('Select related operation number:'))
+    #selected_operation_number = 2
     selected_Response_Schema = Response_Schema[selected_operation_number - 1]
     selected_Resource = Resource[selected_operation_number - 1]
 
@@ -379,7 +396,7 @@ def data_handle(origin, destination, departureTime, ADTNumber, CHDNumber, INFNum
 
     url = endpoint + selected_Resource
 
-    xmlfile = write_on_xml(selected_operation_number, origin, destination, departureTime, ADTNumber, CHDNumber, INFNumber, Cabin)
+    xmlfile = write_on_xml(selected_operation_number)
 
     response = requests.post(url=url, data=xmlfile, headers=headers)
     respath = '/home/sepehr/Desktop/working-with-api/backend/apihandler/data/HomaRes OTA API Sample for IR v1.1/1. {}_edited.xml'.format(selected_Response_Schema[:-4])
