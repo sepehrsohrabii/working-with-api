@@ -80,12 +80,65 @@
     <div>
         <form method="POST">
             {% csrf_token %}
-            <input name="book" id="book" value="true" hidden />
-            {% for flight in flight_list_booking %}
-                {% for passenger in data.PTC_FBs %}
-                    <h5>{{passenger.PassengerTypeQuantity_Code}}</h5>
+            {% for data in flight_list_booking %}
+                {% for passengerCode in data.PTC_FBs %}
+                    {% for passengerQuantity in passengerCode.PassengerTypeQuantity_Range %}
+                        <div class="container">
+                            <h1>{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}</h1>
+                            <div class="row">
+                                <div class="col">
+                                    <label for="NamePrefix" class="form-label">NamePrefix</label>
+                                    <select id="NamePrefix{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" class="form-select" name="NamePrefix{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}">
+                                        <option value="" disabled selected>Select NamePrefix</option>
+                                        <option>Mr</option>
+                                        <option>Mrs</option>
+                                        <option>Ms</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col"><input type="name" class="form-control" id="GivenName{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" name="GivenName{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" placeholder="First Name"/></div>
+                                <div class="col"><input type="name" class="form-control" id="SureName{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" name="SureName{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" placeholder="Last Name"/></div>
+                                <div class="col"><input type="date" class="form-control" id="BirthDate{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" name="BirthDate{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" placeholder="Birth Date"/></div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <label for="Gender" class="form-label">Gender</label>
+                                    <select id="Gender{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" class="form-select" name="Gender{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}">
+                                        <option value="" disabled selected>Select Gender</option>
+                                        <option>M</option>
+                                        <option>F</option>
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <label for="TravelerNationality" class="form-label">Nationality</label>
+                                    <select id="TravelerNationality{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" class="form-select" name="TravelerNationality{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}">
+                                        <option value="" disabled selected>Select Nationality</option>
+                                        <option>IR</option>
+                                    </select>
+                                </div>
+                                <div class="col"><input type="text" class="form-control" id="DocID{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" name="DocID{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" placeholder="DocID"/></div>
+                            </div>
+                        </div>
+                    {% endfor %}
                 {% endfor %}
             {% endfor %}
+
+            <div class="container">
+                <div class="row">
+                    <h4>Contact info</h4>
+                </div>
+                <div class="row">
+                    <div class="col"><input type="name" class="form-control" id="ContactGivenName" name="ContactGivenName" placeholder="First Name"/></div>
+                    <div class="col"><input type="name" class="form-control" id="ContactSureName" name="ContactSureName" placeholder="Last Name"/></div>
+                    <div class="col"><input type="email" class="form-control" id="Email" name="Email" placeholder="Email" /></div>
+                </div>
+                <div class="row">
+                    <div class="col"><input type="texg" class="form-control" id="Telephone" name="Telephone" placeholder="Mobile number"/></div>
+                    <div class="col"><input type="text" class="form-control" id="HomeTelephone" name="HomeTelephone" placeholder="Home number"/></div>
+                </div>
+            </div>
+            <button type="submit">submit</button>
         </form>
     </div>
     

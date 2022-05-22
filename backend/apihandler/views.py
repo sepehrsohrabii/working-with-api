@@ -66,6 +66,8 @@ def buypage(request, FlightNumber):
     Operation, Request_Schema, Response_Schema, Resource = source_table()
     global flight_list_booking
     flight_list_booking = []
+    global passengers
+    passengers = []
     selected_operation_number = 2
     selected_Response_Schema = Response_Schema[selected_operation_number - 1]
     respath = '/home/sepehr/Desktop/working-with-api/backend/apihandler/data/HomaRes OTA API Sample for IR v1.1/1. {}_edited.xml'.format(selected_Response_Schema[:-4])
@@ -127,6 +129,7 @@ def buypage(request, FlightNumber):
                 PTC_FBs.append({
                     'PassengerTypeQuantity_Code': PassengerTypeQuantity_Code,
                     'PassengerTypeQuantity_Quantity': PassengerTypeQuantity_Quantity,
+                    'PassengerTypeQuantity_Range': range(1, int(PassengerTypeQuantity_Quantity)+1),
                     'FareBasisCode': FareBasisCode,
                     'FareBasisCode_FlightSegmentRPH': FareBasisCode_FlightSegmentRPH,
                     'FareBasisCode_fareRPH': FareBasisCode_fareRPH,
@@ -161,9 +164,93 @@ def buypage(request, FlightNumber):
                 'PTC_FBs': PTC_FBs,
             })
 
+    for item in range(1, int(ADTNumber)+1):
+        NamePrefix_str = "NamePrefix" + str(item) + "ADT"
+        NamePrefix = request.POST.get(NamePrefix_str)
+        GivenName_str = "GivenName" + str(item) + "ADT"
+        GivenName = request.POST.get(GivenName_str)
+        SureName_str = "SureName" + str(item) + "ADT"
+        SureName = request.POST.get(SureName_str)
+        BirthDate_str = "BirthDate" + str(item) + "ADT"
+        BirthDate = request.POST.get(BirthDate_str)
+        Gender_str = "Gender" + str(item) + "ADT"
+        Gender = request.POST.get(Gender_str)
+        TravelerNationality_str = "TravelerNationality" + str(item) + "ADT"
+        TravelerNationality = request.POST.get(TravelerNationality_str)
+        DocID_str = "DocID" + str(item) + "ADT"
+        DocID = request.POST.get(DocID_str)
+        passengers.append({
+            'NamePrefix': NamePrefix,
+            'GivenName': GivenName,
+            'SureName': SureName,
+            'BirthDate': BirthDate,
+            'Gender': Gender,
+            'TravelerNationality': TravelerNationality,
+            'DocID': DocID
+        })
+    for item in range(1, int(CHDNumber)+1):
+        NamePrefix_str = "NamePrefix" + str(item) + "CHD"
+        NamePrefix = request.POST.get(NamePrefix_str)
+        GivenName_str = "GivenName" + str(item) + "CHD"
+        GivenName = request.POST.get(GivenName_str)
+        SureName_str = "SureName" + str(item) + "CHD"
+        SureName = request.POST.get(SureName_str)
+        BirthDate_str = "BirthDate" + str(item) + "CHD"
+        BirthDate = request.POST.get(BirthDate_str)
+        Gender_str = "Gender" + str(item) + "CHD"
+        Gender = request.POST.get(Gender_str)
+        TravelerNationality_str = "TravelerNationality" + str(item) + "CHD"
+        TravelerNationality = request.POST.get(TravelerNationality_str)
+        DocID_str = "DocID" + str(item) + "CHD"
+        DocID = request.POST.get(DocID_str)
+        passengers.append({
+            'NamePrefix': NamePrefix,
+            'GivenName': GivenName,
+            'SureName': SureName,
+            'BirthDate': BirthDate,
+            'Gender': Gender,
+            'TravelerNationality': TravelerNationality,
+            'DocID': DocID
+        })
+    for item in range(1, int(INFNumber)+1):
+        NamePrefix_str = "NamePrefix" + str(item) + "INF"
+        NamePrefix = request.POST.get(NamePrefix_str)
+        GivenName_str = "GivenName" + str(item) + "INF"
+        GivenName = request.POST.get(GivenName_str)
+        SureName_str = "SureName" + str(item) + "INF"
+        SureName = request.POST.get(SureName_str)
+        BirthDate_str = "BirthDate" + str(item) + "INF"
+        BirthDate = request.POST.get(BirthDate_str)
+        Gender_str = "Gender" + str(item) + "INF"
+        Gender = request.POST.get(Gender_str)
+        TravelerNationality_str = "TravelerNationality" + str(item) + "INF"
+        TravelerNationality = request.POST.get(TravelerNationality_str)
+        DocID_str = "DocID" + str(item) + "INF"
+        DocID = request.POST.get(DocID_str)
+        passengers.append({
+            'NamePrefix': NamePrefix,
+            'GivenName': GivenName,
+            'SureName': SureName,
+            'BirthDate': BirthDate,
+            'Gender': Gender,
+            'TravelerNationality': TravelerNationality,
+            'DocID': DocID
+        })
+        
+    global ContactGivenName
+    global ContactSureName
+    global Email
+    global Telephone
+    global HomeTelephone
+    ContactGivenName = request.POST.get('ContactGivenName')
+    ContactSureName = request.POST.get('ContactSureName')
+    Email = request.POST.get('Email')
+    Telephone = request.POST.get('Telephone')
+    HomeTelephone = request.POST.get('HomeTelephone')
+
     if request.method == 'POST':
         selected_operation_number = 4
-        data_handle(selected_operation_number)
+        #data_handle(selected_operation_number)
 
     buy_context = {
         'flight_list_booking': flight_list_booking,
