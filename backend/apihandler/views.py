@@ -30,7 +30,6 @@ def index(request):
     data_list = []
     # when user clicks on the submit button of form
     if request.method == 'POST':
-        
         data_list = []
         data_handle(selected_operation_number)
         for data1 in flight_list:  # turn in JSON data
@@ -49,7 +48,7 @@ def index(request):
                 'PTC_FBs': data1['PTC_FBs']
             })  # add result to results
         flight_list.clear()
-        
+       
     # send data to template
     context = {
         'data_list': data_list,  # for results
@@ -65,6 +64,7 @@ def index(request):
 
 def buypage(request, FlightNumber):
     Operation, Request_Schema, Response_Schema, Resource = source_table()
+    global flight_list_booking
     flight_list_booking = []
     selected_operation_number = 2
     selected_Response_Schema = Response_Schema[selected_operation_number - 1]
@@ -161,11 +161,9 @@ def buypage(request, FlightNumber):
                 'PTC_FBs': PTC_FBs,
             })
 
-
-    print(FlightNumber)
     if request.method == 'POST':
         selected_operation_number = 4
-        #data_handle(selected_operation_number)
+        data_handle(selected_operation_number)
 
     buy_context = {
         'flight_list_booking': flight_list_booking,
@@ -256,58 +254,64 @@ def write_on_xml(selected_operation_number):
 
 
     elif selected_operation_number == 4:
-        # print(Request_Schema[2])
-        search_path = '/home/sepehr/Desktop/working-with-api/backend/apihandler/data/HomaRes OTA API Sample for IR v1.1/1. {}_edited.xml'.format(Response_Schema[1][:-4])
-        import xml.etree.ElementTree as ET
-        search_tree = ET.parse(search_path)
-        search_root = search_tree.getroot()
-        
-        for el in search_tree.iter():
-            for key in el.attrib.keys():
-                if key == 'FlightNumber':
-                    print(el.attrib[key])
-                    root[1][0][0][0].attrib['FlightNumber'] = el.attrib[key]
-                if key == 'DepartureDateTime':
-                    print(el.attrib[key])
-                    root[1][0][0][0].attrib['DepartureDateTime'] = el.attrib[key]
-                if key == 'ArrivalDateTime':
-                    print(el.attrib[key])
-                    root[1][0][0][0].attrib['ArrivalDateTime'] = el.attrib[key]
-                if key == 'Duration':
-                    print(el.attrib[key])
-                    root[1][0][0][0].attrib['Duration'] = el.attrib[key]
-                if key == 'StopQuantity':
-                    print(el.attrib[key])
-                    root[1][0][0][0].attrib['StopQuantity'] = el.attrib[key]
-                if key == 'RPH':
-                    print(el.attrib[key])
-                    root[1][0][0][0].attrib['RPH'] = el.attrib[key]
-                if key == 'AirEquipType':
-                    print(el.attrib[key])
-                    root[1][0][0][0].attrib['AirEquipType'] = el.attrib[key]
-                if key == 'RPH':
-                    print(el.attrib[key])
-                    root[1][0][0][0].attrib['RPH'] = el.attrib[key]
-                if key == 'RPH':
-                    print(el.attrib[key])
-                    root[1][0][0][0].attrib['RPH'] = el.attrib[key]
-                if key == 'RPH':
-                    print(el.attrib[key])
-                    root[1][0][0][0].attrib['RPH'] = el.attrib[key]
-                if key == 'RPH':
-                    print(el.attrib[key])
-                    root[1][0][0][0].attrib['RPH'] = el.attrib[key]
+        root[1].attrib['DirectionInd'] = "OneWay"
+        root[1][0][0][0].attrib['FlightNumber'] = flight_list_booking[0]['FlightNumber']
+        root[1][0][0][0].attrib['ResBookDesigCode'] = "X"
+        root[1][0][0][0].attrib['DepartureDateTime'] = flight_list_booking[0]['departureDate']+'T'+flight_list_booking[0]['departureTime']
+        root[1][0][0][0].attrib['ArrivalDateTime'] = flight_list_booking[0]['ArrivalDate']+'T'+flight_list_booking[0]['ArrivalTime']
+        root[1][0][0][0].attrib['Duration'] = flight_list_booking[0]['Duration']
+        root[1][0][0][0].attrib['StopQuantity'] = flight_list_booking[0]['StopQuantity']
+        root[1][0][0][0].attrib['RPH'] = flight_list_booking[0]['RPH']
+        root[1][0][0][0][0].attrib['LocationCode'] = flight_list_booking[0]['origin']
+        root[1][0][0][0][1].attrib['LocationCode'] = flight_list_booking[0]['destination']
+        root[1][0][0][0][2].attrib['Code'] = flight_list_booking[0]['OperatingAirline']
+        root[1][0][0][0][3].attrib['AirEquipType'] = flight_list_booking[0]['AirEquipType']
+        root[1][0][0][0][4][0].attrib['ResBookDesigCode'] = "X"
+        root[1][0][0][0][4][0].attrib['ResBookDesigQuantity'] = flight_list_booking[0]['ResBookDesigQuantity']
 
-        # print(search_root[1][0][1][0][0].attrib['Amount'])
-        # print(search_root[1][0][1][0][1].attrib['Amount'])
+        root[2][0][0].attrib['CurrencyCode'] = flight_list_booking[0]['BaseFare_CurrencyCode']
+        root[2][0][0].attrib['DecimalPlaces'] = flight_list_booking[0]['BaseFare_DecimalPlaces']
+        root[2][0][0].attrib['Amount'] = flight_list_booking[0]['BaseFare_Amount']
+        root[2][0][1].attrib['CurrencyCode'] = flight_list_booking[0]['TotalFare_CurrencyCode']
+        root[2][0][1].attrib['DecimalPlaces'] = flight_list_booking[0]['TotalFare_DecimalPlaces']
+        root[2][0][1].attrib['Amount'] = flight_list_booking[0]['TotalFare_Amount']
+        i = 0
+        for PTC_FB in flight_list_booking[0]['PTC_FBs']:
+            root[3][i].attrib['BirthDate'] = "1974-04-16"
+            root[3][i].attrib['PassengerTypeCode'] = "ADT"
+            root[3][i].attrib['AccompaniedByInfantInd'] = "false"
+            root[3][i].attrib['Gender'] = "M"
+            root[3][i].attrib['TravelerNationality'] = "IR"
 
-        root[2][0][0].attrib['Amount'] = search_root[1][0][1][0][0].attrib['Amount']
-        root[2][0][1].attrib['Amount'] = search_root[1][0][1][0][1].attrib['Amount']
-        root[2][0][0].attrib['CurrencyCode'] = search_root[1][0][1][0][0].attrib['CurrencyCode']
-        root[2][0][1].attrib['CurrencyCode'] = search_root[1][0][1][0][1].attrib['CurrencyCode']
-        root[5][0][0][1].attrib['Amount'] = search_root[1][0][1][0][1].attrib['Amount']
-        root[5][0][0][1].attrib['CurrencyCode'] = search_root[1][0][1][0][1].attrib['CurrencyCode']
+            root[3][i][0][0].text = "MR"
+            root[3][i][0][1].text = "SAEID"
+            root[3][i][0][2].text = "NAZKASRAEI"
 
+            root[3][i][1].attrib['RPH'] = "1"
+
+            root[3][i][2].attrib['DocID'] = "1121234545"
+            root[3][i][2].attrib['DocType'] = "5"
+            root[3][i][2].attrib['DocIssueCountry'] = "IR"
+
+            i = i + 1
+
+        root[4][0][0].text = "SEPEHR"
+        root[4][0][1].text = "SOHRABI"
+
+        root[4][1].attrib['PhoneNumber'] = "(98)2232343212"
+        root[4][2].attrib['PhoneNumber'] = "(98)2132343212"
+
+        root[4][3].text = "tbacon@tba.com"
+
+        root[5][0][0].attrib['PaymentType'] = "2"
+        root[5][0][0][0].attrib['DirectBill_ID'] = "THRTA023"
+        root[5][0][0][0][0].attrib['CompanyShortName'] = "HOMARES OTA"
+        root[5][0][0][0][0].attrib['Code'] = "THRTA023"
+        root[5][0][0][1].attrib['CurrencyCode'] = flight_list_booking[0]['TotalFare_CurrencyCode']
+        root[5][0][0][1].attrib['DecimalPlaces'] = flight_list_booking[0]['TotalFare_DecimalPlaces']
+        root[5][0][0][1].attrib['Amount'] = flight_list_booking[0]['TotalFare_Amount']
+
+            
 
 
     elif selected_operation_number == 5:
@@ -425,56 +429,8 @@ def read_from_xml(selected_operation_number, respath):
 
 
     elif selected_operation_number == 4:
-        # print(Request_Schema[2])
-        search_path = '/home/sepehr/Desktop/working-with-api/backend/apihandler/data/HomaRes OTA API Sample for IR v1.1/1. {}_edited.xml'.format(Response_Schema[1][:-4])
-        import xml.etree.ElementTree as ET
-        search_tree = ET.parse(search_path)
-        search_root = search_tree.getroot()
-        for el in search_tree.iter():
-            for key in el.attrib.keys():
-                if key == 'FlightNumber':
-                    # print(el.attrib[key])
-                    root[1][0][0][0].attrib['FlightNumber'] = el.attrib[key]
-                if key == 'DepartureDateTime':
-                    # print(el.attrib[key])
-                    root[1][0][0][0].attrib['DepartureDateTime'] = el.attrib[key]
-                if key == 'ArrivalDateTime':
-                    # print(el.attrib[key])
-                    root[1][0][0][0].attrib['ArrivalDateTime'] = el.attrib[key]
-                if key == 'Duration':
-                    # print(el.attrib[key])
-                    root[1][0][0][0].attrib['Duration'] = el.attrib[key]
-                if key == 'StopQuantity':
-                    # print(el.attrib[key])
-                    root[1][0][0][0].attrib['StopQuantity'] = el.attrib[key]
-                if key == 'RPH':
-                    # print(el.attrib[key])
-                    root[1][0][0][0].attrib['RPH'] = el.attrib[key]
-                if key == 'AirEquipType':
-                    # print(el.attrib[key])
-                    root[1][0][0][0].attrib['AirEquipType'] = el.attrib[key]
-                if key == 'RPH':
-                    # print(el.attrib[key])
-                    root[1][0][0][0].attrib['RPH'] = el.attrib[key]
-                if key == 'RPH':
-                    # print(el.attrib[key])
-                    root[1][0][0][0].attrib['RPH'] = el.attrib[key]
-                if key == 'RPH':
-                    # print(el.attrib[key])
-                    root[1][0][0][0].attrib['RPH'] = el.attrib[key]
-                if key == 'RPH':
-                    # print(el.attrib[key])
-                    root[1][0][0][0].attrib['RPH'] = el.attrib[key]
+        return
 
-        # print(search_root[1][0][1][0][0].attrib['Amount'])
-        # print(search_root[1][0][1][0][1].attrib['Amount'])
-
-        root[2][0][0].attrib['Amount'] = search_root[1][0][1][0][0].attrib['Amount']
-        root[2][0][1].attrib['Amount'] = search_root[1][0][1][0][1].attrib['Amount']
-        root[2][0][0].attrib['CurrencyCode'] = search_root[1][0][1][0][0].attrib['CurrencyCode']
-        root[2][0][1].attrib['CurrencyCode'] = search_root[1][0][1][0][1].attrib['CurrencyCode']
-        root[5][0][0][1].attrib['Amount'] = search_root[1][0][1][0][1].attrib['Amount']
-        root[5][0][0][1].attrib['CurrencyCode'] = search_root[1][0][1][0][1].attrib['CurrencyCode']
     elif selected_operation_number == 5:
         root[1].attrib['ID'] = 'VPTF21'
 
