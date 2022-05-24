@@ -3,12 +3,15 @@ import requests
 from pathlib import Path
 import re
 from datetime import datetime
+import xml.etree.ElementTree as ET
 
 
 context = {}
 flight_list = []
 PTC_FBs = []
 Taxes = []
+passengers = []
+Response = []
 
 def index(request):
     # data = json_load  # load JSON
@@ -66,12 +69,10 @@ def buypage(request, FlightNumber):
     Operation, Request_Schema, Response_Schema, Resource = source_table()
     global flight_list_booking
     flight_list_booking = []
-    global passengers
-    passengers = []
+    
     selected_operation_number = 2
     selected_Response_Schema = Response_Schema[selected_operation_number - 1]
     respath = '/home/sepehr/Desktop/working-with-api/backend/apihandler/data/HomaRes OTA API Sample for IR v1.1/1. {}_edited.xml'.format(selected_Response_Schema[:-4])
-    import xml.etree.ElementTree as ET
     tree = ET.parse(respath)
     root = tree.getroot()
     for PricedItinerary in root[1]:
@@ -82,11 +83,13 @@ def buypage(request, FlightNumber):
             ResBookDesigCode = FlightSegment.attrib['ResBookDesigCode']
             DepartureDateTime = FlightSegment.attrib['DepartureDateTime'].split('T')
             departureDate = DepartureDateTime[0]
-            departureTime = DepartureDateTime[1]
+            departureTime = DepartureDateTime[1].replace("+04", "+03")
             ArrivalDateTime = FlightSegment.attrib['ArrivalDateTime'].split('T')
             ArrivalDate = ArrivalDateTime[0]
             ArrivalTime = ArrivalDateTime[1]
-            Duration = FlightSegment.attrib['Duration']
+            Duration = FlightSegment.attrib['Duration'].split(":")
+            Duration[0] = int(Duration[0])-1
+            Duration = '0' + str(Duration[0]) + ':' + Duration[1] + ':' + Duration[2]
             StopQuantity = FlightSegment.attrib['StopQuantity']
             RPH = FlightSegment.attrib['RPH']
             origin = FlightSegment[0].attrib['LocationCode']
@@ -163,94 +166,48 @@ def buypage(request, FlightNumber):
                 'TotalFare_Amount': TotalFare_Amount,
                 'PTC_FBs': PTC_FBs,
             })
+    
+    submit = request.POST.get('submit')
+    if submit:
+        for passenger in flight_list_booking[0]['PTC_FBs']:
+            for passenger_Quantity in range(1, int(passenger['PassengerTypeQuantity_Quantity'])+1):
+                NamePrefix_str = str("NamePrefix" + str(passenger_Quantity) + str(passenger['PassengerTypeQuantity_Code']))
+                NamePrefix = request.POST.get(NamePrefix_str)
+                GivenName_str = str("GivenName" + str(passenger_Quantity) + str(passenger['PassengerTypeQuantity_Code']))
+                GivenName = request.POST.get(GivenName_str)
+                SureName_str = str("SureName" + str(passenger_Quantity) + str(passenger['PassengerTypeQuantity_Code']))
+                SureName = request.POST.get(SureName_str)
+                BirthDate_str = str("BirthDate" + str(passenger_Quantity) + str(passenger['PassengerTypeQuantity_Code']))
+                BirthDate = request.POST.get(BirthDate_str)
+                Gender_str = str("Gender" + str(passenger_Quantity) + str(passenger['PassengerTypeQuantity_Code']))
+                Gender = request.POST.get(Gender_str)
+                TravelerNationality_str = str("TravelerNationality" + str(passenger_Quantity) + str(passenger['PassengerTypeQuantity_Code']))
+                TravelerNationality = request.POST.get(TravelerNationality_str)
+                DocID_str = str("DocID" + str(passenger_Quantity) + str(passenger['PassengerTypeQuantity_Code']))
+                DocID = request.POST.get(DocID_str)
+                passengers.append({
+                    'NamePrefix': NamePrefix,
+                    'GivenName': GivenName,
+                    'SureName': SureName,
+                    'BirthDate': BirthDate,
+                    'Gender': Gender,
+                    'TravelerNationality': TravelerNationality,
+                    'DocID': DocID,
+                    'TypeCode': str(passenger['PassengerTypeQuantity_Code']),
+                })
 
-    for item in range(1, int(ADTNumber)+1):
-        NamePrefix_str = "NamePrefix" + str(item) + "ADT"
-        NamePrefix = request.POST.get(NamePrefix_str)
-        GivenName_str = "GivenName" + str(item) + "ADT"
-        GivenName = request.POST.get(GivenName_str)
-        SureName_str = "SureName" + str(item) + "ADT"
-        SureName = request.POST.get(SureName_str)
-        BirthDate_str = "BirthDate" + str(item) + "ADT"
-        BirthDate = request.POST.get(BirthDate_str)
-        Gender_str = "Gender" + str(item) + "ADT"
-        Gender = request.POST.get(Gender_str)
-        TravelerNationality_str = "TravelerNationality" + str(item) + "ADT"
-        TravelerNationality = request.POST.get(TravelerNationality_str)
-        DocID_str = "DocID" + str(item) + "ADT"
-        DocID = request.POST.get(DocID_str)
-        passengers.append({
-            'NamePrefix': NamePrefix,
-            'GivenName': GivenName,
-            'SureName': SureName,
-            'BirthDate': BirthDate,
-            'Gender': Gender,
-            'TravelerNationality': TravelerNationality,
-            'DocID': DocID
-        })
-    for item in range(1, int(CHDNumber)+1):
-        NamePrefix_str = "NamePrefix" + str(item) + "CHD"
-        NamePrefix = request.POST.get(NamePrefix_str)
-        GivenName_str = "GivenName" + str(item) + "CHD"
-        GivenName = request.POST.get(GivenName_str)
-        SureName_str = "SureName" + str(item) + "CHD"
-        SureName = request.POST.get(SureName_str)
-        BirthDate_str = "BirthDate" + str(item) + "CHD"
-        BirthDate = request.POST.get(BirthDate_str)
-        Gender_str = "Gender" + str(item) + "CHD"
-        Gender = request.POST.get(Gender_str)
-        TravelerNationality_str = "TravelerNationality" + str(item) + "CHD"
-        TravelerNationality = request.POST.get(TravelerNationality_str)
-        DocID_str = "DocID" + str(item) + "CHD"
-        DocID = request.POST.get(DocID_str)
-        passengers.append({
-            'NamePrefix': NamePrefix,
-            'GivenName': GivenName,
-            'SureName': SureName,
-            'BirthDate': BirthDate,
-            'Gender': Gender,
-            'TravelerNationality': TravelerNationality,
-            'DocID': DocID
-        })
-    for item in range(1, int(INFNumber)+1):
-        NamePrefix_str = "NamePrefix" + str(item) + "INF"
-        NamePrefix = request.POST.get(NamePrefix_str)
-        GivenName_str = "GivenName" + str(item) + "INF"
-        GivenName = request.POST.get(GivenName_str)
-        SureName_str = "SureName" + str(item) + "INF"
-        SureName = request.POST.get(SureName_str)
-        BirthDate_str = "BirthDate" + str(item) + "INF"
-        BirthDate = request.POST.get(BirthDate_str)
-        Gender_str = "Gender" + str(item) + "INF"
-        Gender = request.POST.get(Gender_str)
-        TravelerNationality_str = "TravelerNationality" + str(item) + "INF"
-        TravelerNationality = request.POST.get(TravelerNationality_str)
-        DocID_str = "DocID" + str(item) + "INF"
-        DocID = request.POST.get(DocID_str)
-        passengers.append({
-            'NamePrefix': NamePrefix,
-            'GivenName': GivenName,
-            'SureName': SureName,
-            'BirthDate': BirthDate,
-            'Gender': Gender,
-            'TravelerNationality': TravelerNationality,
-            'DocID': DocID
-        })
-        
-    global ContactGivenName
-    global ContactSureName
-    global Email
-    global Telephone
-    global HomeTelephone
-    ContactGivenName = request.POST.get('ContactGivenName')
-    ContactSureName = request.POST.get('ContactSureName')
-    Email = request.POST.get('Email')
-    Telephone = request.POST.get('Telephone')
-    HomeTelephone = request.POST.get('HomeTelephone')
-
-    if request.method == 'POST':
+        global ContactGivenName
+        global ContactSureName
+        global Email
+        global Telephone
+        global HomeTelephone
+        ContactGivenName = request.POST.get('ContactGivenName')
+        ContactSureName = request.POST.get('ContactSureName')
+        Email = request.POST.get('Email')
+        Telephone = request.POST.get('Telephone')
+        HomeTelephone = request.POST.get('HomeTelephone')
         selected_operation_number = 4
-        #data_handle(selected_operation_number)
+        data_handle(selected_operation_number)
 
     buy_context = {
         'flight_list_booking': flight_list_booking,
@@ -284,16 +241,14 @@ def write_on_xml(selected_operation_number):
     selected_operation = Operation[selected_operation_number - 1]
     #print('you select %s' % selected_operation)
     selected_Request_Schema = Request_Schema[selected_operation_number - 1]
-
     path = '/home/sepehr/Desktop/working-with-api/backend/apihandler/data/HomaRes OTA API Sample for IR v1.1/1. {}.xml'.format(
         selected_Request_Schema[:-4])
     newpath = '/home/sepehr/Desktop/working-with-api/backend/apihandler/data/HomaRes OTA API Sample for IR v1.1/1. {}_edited.xml'.format(
         selected_Request_Schema[:-4])
-    import xml.etree.ElementTree as ET
     tree = ET.parse(path)
     root = tree.getroot()
     root[0][0][0].attrib['ID'] = Agent_id
-    root[0][0].attrib['ISOCurrency'] = 'RUB'
+    root[0][0].attrib['ISOCurrency'] = "RUB"
     root.attrib['Target'] = 'Test'  # Test or Production
     root.attrib['TimeStamp'] = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S')
     root.attrib['EchoToken'] = '0001'
@@ -343,7 +298,7 @@ def write_on_xml(selected_operation_number):
     elif selected_operation_number == 4:
         root[1].attrib['DirectionInd'] = "OneWay"
         root[1][0][0][0].attrib['FlightNumber'] = flight_list_booking[0]['FlightNumber']
-        root[1][0][0][0].attrib['ResBookDesigCode'] = "X"
+        root[1][0][0][0].attrib['ResBookDesigCode'] = flight_list_booking[0]['ResBookDesigCode']
         root[1][0][0][0].attrib['DepartureDateTime'] = flight_list_booking[0]['departureDate']+'T'+flight_list_booking[0]['departureTime']
         root[1][0][0][0].attrib['ArrivalDateTime'] = flight_list_booking[0]['ArrivalDate']+'T'+flight_list_booking[0]['ArrivalTime']
         root[1][0][0][0].attrib['Duration'] = flight_list_booking[0]['Duration']
@@ -353,43 +308,38 @@ def write_on_xml(selected_operation_number):
         root[1][0][0][0][1].attrib['LocationCode'] = flight_list_booking[0]['destination']
         root[1][0][0][0][2].attrib['Code'] = flight_list_booking[0]['OperatingAirline']
         root[1][0][0][0][3].attrib['AirEquipType'] = flight_list_booking[0]['AirEquipType']
-        root[1][0][0][0][4][0].attrib['ResBookDesigCode'] = "X"
+        root[1][0][0][0][4][0].attrib['ResBookDesigCode'] = flight_list_booking[0]['ResBookDesigCode']
         root[1][0][0][0][4][0].attrib['ResBookDesigQuantity'] = flight_list_booking[0]['ResBookDesigQuantity']
-
         root[2][0][0].attrib['CurrencyCode'] = flight_list_booking[0]['BaseFare_CurrencyCode']
         root[2][0][0].attrib['DecimalPlaces'] = flight_list_booking[0]['BaseFare_DecimalPlaces']
         root[2][0][0].attrib['Amount'] = flight_list_booking[0]['BaseFare_Amount']
         root[2][0][1].attrib['CurrencyCode'] = flight_list_booking[0]['TotalFare_CurrencyCode']
         root[2][0][1].attrib['DecimalPlaces'] = flight_list_booking[0]['TotalFare_DecimalPlaces']
         root[2][0][1].attrib['Amount'] = flight_list_booking[0]['TotalFare_Amount']
+        
         i = 0
-        for PTC_FB in flight_list_booking[0]['PTC_FBs']:
-            root[3][i].attrib['BirthDate'] = "1974-04-16"
-            root[3][i].attrib['PassengerTypeCode'] = "ADT"
+        for passenger in passengers:
+            if i >= 1:
+                root[3].append(root[3][0])
+            root[3][i].attrib['BirthDate'] = passenger['BirthDate']
+            root[3][i].attrib['PassengerTypeCode'] = passenger['TypeCode']
             root[3][i].attrib['AccompaniedByInfantInd'] = "false"
-            root[3][i].attrib['Gender'] = "M"
-            root[3][i].attrib['TravelerNationality'] = "IR"
-
-            root[3][i][0][0].text = "MR"
-            root[3][i][0][1].text = "SAEID"
-            root[3][i][0][2].text = "NAZKASRAEI"
-
+            root[3][i].attrib['Gender'] = passenger['Gender']
+            root[3][i].attrib['TravelerNationality'] = passenger['TravelerNationality']
+            root[3][i][0][0].text = passenger['NamePrefix']
+            root[3][i][0][1].text = passenger['GivenName']
+            root[3][i][0][2].text = passenger['SureName']
             root[3][i][1].attrib['RPH'] = "1"
-
-            root[3][i][2].attrib['DocID'] = "1121234545"
+            root[3][i][2].attrib['DocID'] = passenger['DocID']
             root[3][i][2].attrib['DocType'] = "5"
             root[3][i][2].attrib['DocIssueCountry'] = "IR"
-
             i = i + 1
 
-        root[4][0][0].text = "SEPEHR"
-        root[4][0][1].text = "SOHRABI"
-
-        root[4][1].attrib['PhoneNumber'] = "(98)2232343212"
-        root[4][2].attrib['PhoneNumber'] = "(98)2132343212"
-
-        root[4][3].text = "tbacon@tba.com"
-
+        root[4][0][0].text = ContactGivenName
+        root[4][0][1].text = ContactSureName
+        root[4][1].attrib['PhoneNumber'] = Telephone
+        root[4][2].attrib['PhoneNumber'] = HomeTelephone
+        root[4][3].text = Email
         root[5][0][0].attrib['PaymentType'] = "2"
         root[5][0][0][0].attrib['DirectBill_ID'] = "THRTA023"
         root[5][0][0][0][0].attrib['CompanyShortName'] = "HOMARES OTA"
@@ -397,8 +347,6 @@ def write_on_xml(selected_operation_number):
         root[5][0][0][1].attrib['CurrencyCode'] = flight_list_booking[0]['TotalFare_CurrencyCode']
         root[5][0][0][1].attrib['DecimalPlaces'] = flight_list_booking[0]['TotalFare_DecimalPlaces']
         root[5][0][0][1].attrib['Amount'] = flight_list_booking[0]['TotalFare_Amount']
-
-            
 
 
     elif selected_operation_number == 5:
@@ -412,13 +360,15 @@ def write_on_xml(selected_operation_number):
 
 def read_from_xml(selected_operation_number, respath):
     Operation, Request_Schema, Response_Schema, Resource = source_table()
-
-    import xml.etree.ElementTree as ET
     tree = ET.parse(respath)
     root = tree.getroot()
 
     if selected_operation_number == 1:
-        root[1].text = 'Hi sepehr'
+        Response.append({
+            'EchoData': root[0].text,
+            'PingRS': root[0].tag
+            })
+
 
     elif selected_operation_number == 2:
         if 'Success' in root[0].tag:
@@ -429,11 +379,13 @@ def read_from_xml(selected_operation_number, respath):
                 ResBookDesigCode = FlightSegment.attrib['ResBookDesigCode']
                 DepartureDateTime = FlightSegment.attrib['DepartureDateTime'].split('T')
                 departureDate = DepartureDateTime[0]
-                departureTime = DepartureDateTime[1]
+                departureTime = DepartureDateTime[1].replace("+04", "+03")
                 ArrivalDateTime = FlightSegment.attrib['ArrivalDateTime'].split('T')
                 ArrivalDate = ArrivalDateTime[0]
                 ArrivalTime = ArrivalDateTime[1]
-                Duration = FlightSegment.attrib['Duration']
+                Duration = FlightSegment.attrib['Duration'].split(":")
+                Duration[0] = int(Duration[0])-1
+                Duration = '0' + str(Duration[0]) + ':' + Duration[1] + ':' + Duration[2]
                 StopQuantity = FlightSegment.attrib['StopQuantity']
                 RPH = FlightSegment.attrib['RPH']
                 origin = FlightSegment[0].attrib['LocationCode']
@@ -509,6 +461,10 @@ def read_from_xml(selected_operation_number, respath):
                     'TotalFare_Amount': TotalFare_Amount,
                     'PTC_FBs': PTC_FBs,
                 })
+        Response.append({
+            'flight_list': flight_list,
+            'AirLowFareSearchRS': root[0].tag
+        })
 
 
     elif selected_operation_number == 3:
