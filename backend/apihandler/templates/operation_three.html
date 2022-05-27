@@ -1,0 +1,35 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block title %}Operation Three{% endblock %}
+{% block main %}
+  <div class="container">
+    <div class="row mt-5">
+      <div class="col">
+        API Status: {{Status}}</br>
+        FlightNumber: {{FlightNumber}}</br>
+        ResBookDesigCode: {{ResBookDesigCode}}</br>
+        DepartureDateTime: {{DepartureDateTime}}</br>
+        ArrivalDateTime: {{ArrivalDateTime}}</br>
+        Duration: {{Duration}}</br>
+        StopQuantity: {{StopQuantity}}</br>
+        RPH: {{RPH}}</br>
+        DepartureAirport: {{DepartureAirport}}</br>
+        ArrivalAirport: {{ArrivalAirport}}</br>
+        OperatingAirline: {{OperatingAirline}}</br>
+        AirEquipType: {{AirEquipType}}</br>
+        ResBookDesigCode: {{ResBookDesigCode}}</br>
+        ResBookDesigQuantity: {{ResBookDesigQuantity}}</br>
+        FareRuleText: {{FareRuleText}}</br>
+        FlightRefNumberRPH: {{FlightRefNumberRPH}}</br>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col mt-5 pt-5">
+        <form method="POST" action="{% url 'operation_four' FlightNumber=FlightNumber %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-outline-danger">Go To Operation Four</button>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

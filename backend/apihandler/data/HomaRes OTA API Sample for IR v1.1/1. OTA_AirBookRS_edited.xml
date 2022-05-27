@@ -1,1 +1,1 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?><OTA_AirBookRS xmlns="http://www.opentravel.org/OTA/2003/05"><Errors><Error ShortText="Invalid first name" Code="285"/></Errors></OTA_AirBookRS>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><OTA_AirBookRS xmlns="http://www.opentravel.org/OTA/2003/05"><Errors><Error ShortText="Payment - Agent Information Mismatch" Code="163"/></Errors></OTA_AirBookRS>
