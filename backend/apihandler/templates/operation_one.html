@@ -1,0 +1,37 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block title %}Operation One{% endblock %}
+{% block main %}
+    <div class="container">
+        <form class="row g-3 mt-5" method="POST">
+            {% csrf_token %}
+            <div class="col-auto">
+              <label for="pingRQ_label" class="visually-hidden">Input request text for pingRQ:</label>
+              <input type="text" readonly class="form-control-plaintext" id="pingRQ_label" name="pingRQ_label" value="Input request text for pingRQ:">
+            </div>
+            <div class="col-auto">
+              <label for="pingRQ" class="visually-hidden">Input request text for pingRQ:</label>
+              <input type="text" class="form-control" id="pingRQ" name="pingRQ" placeholder="Example...">
+            </div>
+            <div class="col-auto">
+              <button type="submit" class="btn btn-primary mb-3">Submit</button>
+            </div>
+        </form>
+        
+        <div class="row">
+            <div class="col mt-5 pt-5">
+                <h1>{{operation_one_RS.PingRS}}</h1>
+                <p>{{operation_one_RS.EchoData}}</p>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col mt-5 pt-5">
+                <a type="button" class="btn btn-outline-danger" href="{% url 'operation_two' %}">Go to operation two</a>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+{% endblock %}

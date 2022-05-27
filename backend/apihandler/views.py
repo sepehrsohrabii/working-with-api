@@ -4,16 +4,28 @@ from pathlib import Path
 import re
 from datetime import datetime
 import xml.etree.ElementTree as ET
-
+from copy import deepcopy
 
 context = {}
 flight_list = []
 PTC_FBs = []
 Taxes = []
 passengers = []
-Response = []
+operation_one_RS = []
 
-def index(request):
+def operation_one(request):
+    global pingRQ
+    pingRQ = request.POST.get("pingRQ")
+    selected_operation_number = 1
+    operation_one_RS.clear()
+    data_handle(selected_operation_number)
+    operation_one_data = {
+        'operation_one': selected_operation_number,
+        'operation_one_RS': operation_one_RS[0]
+    }
+    return render(request, './operation_one.html', operation_one_data)
+
+def operation_two(request):
     # data = json_load  # load JSON
     selected_operation_number = 2
     global origin
@@ -33,6 +45,7 @@ def index(request):
     data_list = []
     # when user clicks on the submit button of form
     if request.method == 'POST':
+        
         data_list = []
         data_handle(selected_operation_number)
         for data1 in flight_list:  # turn in JSON data
@@ -53,7 +66,7 @@ def index(request):
         flight_list.clear()
        
     # send data to template
-    context = {
+    operation_two_data = {
         'data_list': data_list,  # for results
         'ADTNumber': ADTNumber,  # for number of Adults which is in popup
         'CHDNumber': CHDNumber,  # for number of Children which is in popup
@@ -63,18 +76,18 @@ def index(request):
         'departureTime': departureTime,
     }
 
-    return render(request, './Home.html', context)
+    return render(request, './operation_two.html', operation_two_data)
 
 def buypage(request, FlightNumber):
     Operation, Request_Schema, Response_Schema, Resource = source_table()
     global flight_list_booking
     flight_list_booking = []
-    
     selected_operation_number = 2
     selected_Response_Schema = Response_Schema[selected_operation_number - 1]
     respath = '/home/sepehr/Desktop/working-with-api/backend/apihandler/data/HomaRes OTA API Sample for IR v1.1/1. {}_edited.xml'.format(selected_Response_Schema[:-4])
     tree = ET.parse(respath)
     root = tree.getroot()
+    flight_list_booking.clear()
     for PricedItinerary in root[1]:
         FlightSegment = PricedItinerary[0][0][0][0]
         FlightNumberSRS = FlightSegment.attrib['FlightNumber']
@@ -169,6 +182,7 @@ def buypage(request, FlightNumber):
     
     submit = request.POST.get('submit')
     if submit:
+        selected_operation_number = 4
         for passenger in flight_list_booking[0]['PTC_FBs']:
             for passenger_Quantity in range(1, int(passenger['PassengerTypeQuantity_Quantity'])+1):
                 NamePrefix_str = str("NamePrefix" + str(passenger_Quantity) + str(passenger['PassengerTypeQuantity_Code']))
@@ -195,7 +209,7 @@ def buypage(request, FlightNumber):
                     'DocID': DocID,
                     'TypeCode': str(passenger['PassengerTypeQuantity_Code']),
                 })
-
+        
         global ContactGivenName
         global ContactSureName
         global Email
@@ -206,12 +220,13 @@ def buypage(request, FlightNumber):
         Email = request.POST.get('Email')
         Telephone = request.POST.get('Telephone')
         HomeTelephone = request.POST.get('HomeTelephone')
-        selected_operation_number = 4
+        
         data_handle(selected_operation_number)
-
+        
     buy_context = {
         'flight_list_booking': flight_list_booking,
     }
+    
     return render(request, './buypage.html', buy_context)
 
 def source_table():
@@ -246,14 +261,20 @@ def write_on_xml(selected_operation_number):
     newpath = '/home/sepehr/Desktop/working-with-api/backend/apihandler/data/HomaRes OTA API Sample for IR v1.1/1. {}_edited.xml'.format(
         selected_Request_Schema[:-4])
     tree = ET.parse(path)
+    print(newpath)
     root = tree.getroot()
     root[0][0][0].attrib['ID'] = Agent_id
     root[0][0].attrib['ISOCurrency'] = "RUB"
     root.attrib['Target'] = 'Test'  # Test or Production
     root.attrib['TimeStamp'] = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S')
     root.attrib['EchoToken'] = '0001'
+
     if selected_operation_number == 1:
-        root[1].text = 'Hi sepehr'
+        if pingRQ != '':
+            root[1].text = pingRQ
+        else:
+            root[1].text = ''
+
     elif selected_operation_number == 2:
         if departureTime != '':
             root[1][0].text = departureTime
@@ -318,9 +339,14 @@ def write_on_xml(selected_operation_number):
         root[2][0][1].attrib['Amount'] = flight_list_booking[0]['TotalFare_Amount']
         
         i = 0
+        print(passengers)
         for passenger in passengers:
-            if i >= 1:
-                root[3].append(root[3][0])
+            if i > 0:
+                memberi_1 = root[3][i-1]
+                memberi = deepcopy(memberi_1)
+                root[3].append(memberi)
+
+
             root[3][i].attrib['BirthDate'] = passenger['BirthDate']
             root[3][i].attrib['PassengerTypeCode'] = passenger['TypeCode']
             root[3][i].attrib['AccompaniedByInfantInd'] = "false"
@@ -333,6 +359,7 @@ def write_on_xml(selected_operation_number):
             root[3][i][2].attrib['DocID'] = passenger['DocID']
             root[3][i][2].attrib['DocType'] = "5"
             root[3][i][2].attrib['DocIssueCountry'] = "IR"
+            print(root[3][i][0][1].text)
             i = i + 1
 
         root[4][0][0].text = ContactGivenName
@@ -364,9 +391,13 @@ def read_from_xml(selected_operation_number, respath):
     root = tree.getroot()
 
     if selected_operation_number == 1:
-        Response.append({
+        if 'Success' in root[1].tag:
+            root_1_tag = 'Success'
+        else:
+            root_1_tag = ''
+        operation_one_RS.append({
             'EchoData': root[0].text,
-            'PingRS': root[0].tag
+            'PingRS': root_1_tag
             })
 
 
@@ -461,10 +492,7 @@ def read_from_xml(selected_operation_number, respath):
                     'TotalFare_Amount': TotalFare_Amount,
                     'PTC_FBs': PTC_FBs,
                 })
-        Response.append({
-            'flight_list': flight_list,
-            'AirLowFareSearchRS': root[0].tag
-        })
+        
 
 
     elif selected_operation_number == 3:
@@ -472,7 +500,7 @@ def read_from_xml(selected_operation_number, respath):
 
 
     elif selected_operation_number == 4:
-        return
+        passengers.clear()
 
     elif selected_operation_number == 5:
         root[1].attrib['ID'] = 'VPTF21'

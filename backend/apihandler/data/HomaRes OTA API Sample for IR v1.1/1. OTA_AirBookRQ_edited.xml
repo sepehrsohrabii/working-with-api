@@ -1,4 +1,4 @@
-<ns0:OTA_AirBookRQ xmlns:ns0="http://www.opentravel.org/OTA/2003/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opentravel.org/OTA/2003/05    OTA_AirBookRQ.xsd" EchoToken="0001" TimeStamp="2022-05-23T17:53:42" Target="Test" Version="2.001" SequenceNmbr="1" PrimaryLangID="En-us">
+<ns0:OTA_AirBookRQ xmlns:ns0="http://www.opentravel.org/OTA/2003/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opentravel.org/OTA/2003/05    OTA_AirBookRQ.xsd" EchoToken="0001" TimeStamp="2022-05-27T08:28:53" Target="Test" Version="2.001" SequenceNmbr="1" PrimaryLangID="En-us">
     <ns0:POS>
         <ns0:Source AirlineVendorID="IR" ISOCountry="IR" ISOCurrency="RUB">
             <ns0:RequestorID Type="5" ID="MOW07603" />
@@ -7,13 +7,13 @@
     <ns0:AirItinerary DirectionInd="OneWay">
 	            <ns0:OriginDestinationOptions>
                     <ns0:OriginDestinationOption>
-                        <ns0:FlightSegment FlightNumber="IR468" ResBookDesigCode="S" DepartureDateTime="2022-05-26T19:05:00.000+03:30" ArrivalDateTime="2022-05-26T20:35:00.000+03:30" Duration="01:30:00" StopQuantity="0" RPH="43916">
+                        <ns0:FlightSegment FlightNumber="IR468" ResBookDesigCode="N" DepartureDateTime="2022-06-23T19:05:00.000+03:30" ArrivalDateTime="2022-06-23T20:35:00.000+03:30" Duration="01:30:00" StopQuantity="0" RPH="43941">
                             <ns0:DepartureAirport LocationCode="THR" />
                             <ns0:ArrivalAirport LocationCode="MHD" />
                             <ns0:OperatingAirline Code="IR" />
                             <ns0:Equipment AirEquipType="A320" />
                             <ns0:BookingClassAvails>
-                                <ns0:BookingClassAvail ResBookDesigCode="S" ResBookDesigQuantity="3" />
+                                <ns0:BookingClassAvail ResBookDesigCode="N" ResBookDesigQuantity="3" />
                             </ns0:BookingClassAvails>
                         </ns0:FlightSegment>
                     </ns0:OriginDestinationOption>
@@ -21,39 +21,39 @@
 	</ns0:AirItinerary>
 	<ns0:PriceInfo>
         <ns0:ItinTotalFare>
-             <ns0:BaseFare CurrencyCode="RUB" DecimalPlaces="0" Amount="6995" />
-             <ns0:TotalFare CurrencyCode="RUB" DecimalPlaces="0" Amount="7540" />
+             <ns0:BaseFare CurrencyCode="RUB" DecimalPlaces="0" Amount="4500" />
+             <ns0:TotalFare CurrencyCode="RUB" DecimalPlaces="0" Amount="4896" />
         </ns0:ItinTotalFare>
 	</ns0:PriceInfo>
 	<ns0:TravelerInfo>
-		<ns0:AirTraveler BirthDate="2022-05-04" PassengerTypeCode="ADT" AccompaniedByInfantInd="false" Gender="M" TravelerNationality="IR">
+		<ns0:AirTraveler BirthDate="2022-05-01" PassengerTypeCode="ADT" AccompaniedByInfantInd="false" Gender="M" TravelerNationality="IR">
 			<ns0:PersonName>
 				<ns0:NamePrefix>Mr</ns0:NamePrefix>
-				<ns0:GivenName>sepehr4</ns0:GivenName>
-				<ns0:Surname>sohrabi4</ns0:Surname>
+				<ns0:GivenName>sepehr1</ns0:GivenName>
+				<ns0:Surname>sohrabi1</ns0:Surname>
 			</ns0:PersonName>
 			<ns0:TravelerRefNumber RPH="1" />
-			<ns0:Document DocID="4444444444" DocType="5" DocIssueCountry="IR" />
+			<ns0:Document DocID="11111111111" DocType="5" DocIssueCountry="IR" />
 		</ns0:AirTraveler>
-	<ns0:AirTraveler BirthDate="2022-05-04" PassengerTypeCode="ADT" AccompaniedByInfantInd="false" Gender="M" TravelerNationality="IR">
+	<ns0:AirTraveler BirthDate="2022-05-02" PassengerTypeCode="ADT" AccompaniedByInfantInd="false" Gender="M" TravelerNationality="IR">
 			<ns0:PersonName>
 				<ns0:NamePrefix>Mr</ns0:NamePrefix>
-				<ns0:GivenName>sepehr4</ns0:GivenName>
-				<ns0:Surname>sohrabi4</ns0:Surname>
+				<ns0:GivenName>sepehr2</ns0:GivenName>
+				<ns0:Surname>sohrabi2</ns0:Surname>
 			</ns0:PersonName>
 			<ns0:TravelerRefNumber RPH="1" />
-			<ns0:Document DocID="4444444444" DocType="5" DocIssueCountry="IR" />
+			<ns0:Document DocID="22222222222" DocType="5" DocIssueCountry="IR" />
 		</ns0:AirTraveler>
-	<ns0:AirTraveler BirthDate="2022-05-04" PassengerTypeCode="ADT" AccompaniedByInfantInd="false" Gender="M" TravelerNationality="IR">
+	<ns0:AirTraveler BirthDate="2022-05-03" PassengerTypeCode="CHD" AccompaniedByInfantInd="false" Gender="M" TravelerNationality="IR">
 			<ns0:PersonName>
 				<ns0:NamePrefix>Mr</ns0:NamePrefix>
-				<ns0:GivenName>sepehr4</ns0:GivenName>
-				<ns0:Surname>sohrabi4</ns0:Surname>
+				<ns0:GivenName>sepehr3</ns0:GivenName>
+				<ns0:Surname>sohrabi3</ns0:Surname>
 			</ns0:PersonName>
 			<ns0:TravelerRefNumber RPH="1" />
-			<ns0:Document DocID="4444444444" DocType="5" DocIssueCountry="IR" />
+			<ns0:Document DocID="3333333333" DocType="5" DocIssueCountry="IR" />
 		</ns0:AirTraveler>
-	<ns0:AirTraveler BirthDate="2022-05-04" PassengerTypeCode="ADT" AccompaniedByInfantInd="false" Gender="M" TravelerNationality="IR">
+	<ns0:AirTraveler BirthDate="2022-05-04" PassengerTypeCode="INF" AccompaniedByInfantInd="false" Gender="M" TravelerNationality="IR">
 			<ns0:PersonName>
 				<ns0:NamePrefix>Mr</ns0:NamePrefix>
 				<ns0:GivenName>sepehr4</ns0:GivenName>
@@ -78,7 +78,7 @@
                 <ns0:DirectBill DirectBill_ID="THRTA023">
                     <ns0:CompanyName CompanyShortName="HOMARES OTA" Code="THRTA023" />
                 </ns0:DirectBill>
-                <ns0:PaymentAmount CurrencyCode="RUB" DecimalPlaces="0" Amount="7540" />
+                <ns0:PaymentAmount CurrencyCode="RUB" DecimalPlaces="0" Amount="4896" />
             </ns0:PaymentDetail>
         </ns0:PaymentDetails>
     </ns0:Fulfillment>
