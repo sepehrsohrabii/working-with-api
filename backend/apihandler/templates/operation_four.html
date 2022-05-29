@@ -81,7 +81,7 @@
                             <div class="row">
                                 <div class="col-4">
                                     <label for="NamePrefix" class="form-label">Name Prefix</label>
-                                    <select id="NamePrefix{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" class="form-select" name="NamePrefix{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}">
+                                    <select id="NamePrefix{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" class="form-select" name="NamePrefix{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" required>
                                         <option value="" disabled selected>Select NamePrefix</option>
                                         <option>Mr</option>
                                         <option>Mrs</option>
@@ -90,21 +90,21 @@
                                 </div>
                                 <div class="col-4">
                                     <label for="GivenName{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" class="form-label">First Name</label>
-                                    <input type="name" class="form-control" id="GivenName{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" name="GivenName{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" placeholder="First Name"/>
+                                    <input type="name" class="form-control" id="GivenName{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" name="GivenName{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" placeholder="First Name" required/>
                                 </div>
                                 <div class="col-4">
                                     <label for="SureName{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" class="form-label">Sure Name</label>
-                                    <input type="name" class="form-control" id="SureName{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" name="SureName{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" placeholder="Last Name"/>
+                                    <input type="name" class="form-control" id="SureName{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" name="SureName{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" placeholder="Last Name" required/>
                                 </div>
                             </div>
                             <div class="row mt-3">
                                 <div class="col">
                                     <label for="BirthDate{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" class="form-label">Birth Date</label>
-                                    <input type="date" class="form-control" id="BirthDate{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" name="BirthDate{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" placeholder="Birth Date"/>
+                                    <input type="date" class="form-control" id="BirthDate{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" name="BirthDate{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" placeholder="Birth Date" required/>
                                 </div>
                                 <div class="col">
                                     <label for="Gender" class="form-label">Gender</label>
-                                    <select id="Gender{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" class="form-select" name="Gender{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}">
+                                    <select id="Gender{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" class="form-select" name="Gender{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" required>
                                         <option value="" disabled selected>Select Gender</option>
                                         <option>M</option>
                                         <option>F</option>
@@ -112,14 +112,14 @@
                                 </div>
                                 <div class="col">
                                     <label for="TravelerNationality" class="form-label">Nationality</label>
-                                    <select id="TravelerNationality{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" class="form-select" name="TravelerNationality{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}">
+                                    <select id="TravelerNationality{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" class="form-select" name="TravelerNationality{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" required>
                                         <option value="" disabled selected>Select Nationality</option>
                                         <option>IR</option>
                                     </select>
                                 </div>
                                 <div class="col">
                                     <label for="DocID{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" class="form-label">Doc ID</label>
-                                    <input type="text" class="form-control" id="DocID{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" name="DocID{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" placeholder="DocID"/>
+                                    <input type="text" class="form-control" id="DocID{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" name="DocID{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" placeholder="DocID" required/>
                                 </div>
                             </div>
                             
@@ -135,23 +135,23 @@
                 <div class="row">
                     <div class="col">
                         <label for="ContactGivenName" class="form-label">First Name</label>
-                        <input type="name" class="form-control" id="ContactGivenName" name="ContactGivenName" placeholder="First Name"/>
+                        <input type="name" class="form-control" id="ContactGivenName" name="ContactGivenName" placeholder="First Name" required/>
                     </div>
                     <div class="col">
                         <label for="ContactSureName" class="form-label">Sure Name</label>
-                        <input type="name" class="form-control" id="ContactSureName" name="ContactSureName" placeholder="Last Name"/>
+                        <input type="name" class="form-control" id="ContactSureName" name="ContactSureName" placeholder="Last Name" required/>
                     </div>
                     <div class="col">
                         <label for="Email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="Email" name="Email" placeholder="Email" />
+                        <input type="email" class="form-control" id="Email" name="Email" placeholder="Email" required/>
                     </div>
                     <div class="col">
                         <label for="Telephone" class="Telephone">Mobile Number</label>
-                        <input type="text" class="form-control" id="Telephone" name="Telephone" placeholder="Mobile Number"/>
+                        <input type="text" class="form-control" id="Telephone" name="Telephone" placeholder="Mobile Number" required/>
                     </div>
                     <div class="col">
                         <label for="HomeTelephone" class="form-label">Home Number</label>
-                        <input type="text" class="form-control" id="HomeTelephone" name="HomeTelephone" placeholder="Home Number"/>
+                        <input type="text" class="form-control" id="HomeTelephone" name="HomeTelephone" placeholder="Home Number" required/>
                     </div>
                 </div>
                 <div class="row">
