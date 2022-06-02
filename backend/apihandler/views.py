@@ -33,6 +33,7 @@ def operation_two(request):
     global origin
     global destination
     global departureTime
+    global return_date
     global ADTNumber
     global CHDNumber
     global INFNumber
@@ -45,6 +46,9 @@ def operation_two(request):
     CHDNumber = request.POST.get("CHDNumber") or '0'  # get number of people from template input
     INFNumber = request.POST.get("INFNumber") or '0'  # get number of people from template input
     Cabin = request.POST.get("Cabin") or 'Economy'  # get number of people from template input
+
+    return_date = request.POST.get("Return_departureTime") or 'None'
+
     data_list = []
     # when user clicks on the submit button of form
     if request.method == 'POST':
@@ -386,13 +390,29 @@ def write_on_xml(selected_operation_number):
         root[1].text = pingRQ
 
     elif selected_operation_number == 2:
-        root[1][0].text = departureTime
-        root[1][1].attrib['LocationCode'] = origin
-        root[1][2].attrib['LocationCode'] = destination
-        root[3][0][0].attrib['Quantity'] = ADTNumber
-        root[3][0][1].attrib['Quantity'] = CHDNumber
-        root[3][0][2].attrib['Quantity'] = INFNumber
-        root[2][0].attrib['Cabin'] = Cabin
+        if return_date == 'None':
+            root[1][0].text = departureTime
+            root[1][1].attrib['LocationCode'] = origin
+            root[1][2].attrib['LocationCode'] = destination
+            root[2][0].attrib['Cabin'] = Cabin
+            root[3][0][0].attrib['Quantity'] = ADTNumber
+            root[3][0][1].attrib['Quantity'] = CHDNumber
+            root[3][0][2].attrib['Quantity'] = INFNumber
+
+        if return_date != 'None':
+            date = root[1]
+            returndate = deepcopy(date)
+            root.insert(2, returndate)
+            root[1][0].text = departureTime
+            root[1][1].attrib['LocationCode'] = origin
+            root[1][2].attrib['LocationCode'] = destination
+            root[2][0].text = return_date
+            root[2][1].attrib['LocationCode'] = destination
+            root[2][2].attrib['LocationCode'] = origin
+            root[3][0].attrib['Cabin'] = Cabin
+            root[4][0][0].attrib['Quantity'] = ADTNumber
+            root[4][0][1].attrib['Quantity'] = CHDNumber
+            root[4][0][2].attrib['Quantity'] = INFNumber
 
     elif selected_operation_number == 3:
         root[1][0][0].attrib['FlightNumber'] = flight_list_booking[0]['FlightNumber']

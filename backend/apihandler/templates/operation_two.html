@@ -5,6 +5,12 @@
 
   <form class="container 100vh" method="POST">
       {% csrf_token %}
+      <div class="row g-3 mt-3">
+          <div class="col">
+              <button class="btn btn-outline-danger active" type="button" id="OW">One Way</button>
+              <button class="btn btn-outline-danger" type="button" id="RT">Return</button>
+          </div>
+      </div>
       <div class="row g-3 mt-5">
         <div class="col">
           <label for="inputOrigin" class="form-label">Origin</label>
@@ -30,17 +36,22 @@
         </div>
       </div>
       <div class="row g-3 mt-3">
-        <div class="col-3">
+        <div class="col-6">
           <label for="Date" class="form-label">Date</label>
           <input type="date" class="form-control" id="Date" value="{{departureTime}}" name="departureTime">
-        </div>
-        <div class="col-3">
+
+          <label for="Return_Date" class="form-label" id="Return_departureTimeLable" style="display: none;">Return Date</label>
+          <input type="date" class="form-control" id="Return_Date" name="Return_departureTime" style="display: none;">
+
           <label for="Cabin" class="form-label">Cabin</label>
           <select id="Cabin" class="form-select" name="Cabin">
             <option value="None" disabled selected>Select your Cabin</option>
             <option>Economy</option>
             <option>Business</option>
           </select>
+        </div>
+        <div class="col-3">
+
         </div>
         <div class="col-2">
           <label for="ADTNumber" class="form-label">Number of Adults(Over 12 years)</label>
@@ -142,5 +153,18 @@
       {% endif %}
 
   </div>
-
+    {% block script %}
+        $("#OW").click(function() {
+            $("#Return_departureTimeLable").hide();
+            $("#Return_Date").hide();
+            $("#OW").addClass('active');
+            $("#RT").removeClass('active');
+        });
+        $("#RT").click(function() {
+            $("#Return_departureTimeLable").show();
+            $("#Return_Date").show();
+            $("#RT").addClass('active');
+            $("#OW").removeClass('active');
+        });
+    {% endblock %}
 {% endblock %}
