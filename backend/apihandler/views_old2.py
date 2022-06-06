@@ -1,5 +1,3 @@
-from typing import Dict, List, Any
-
 from django.shortcuts import render
 import requests
 from pathlib import Path
@@ -14,8 +12,7 @@ PTC_FBs = []
 Taxes = []
 passengers = []
 operation_one_RS = []
-selected_flight = []
-Error = []
+
 
 def operation_one(request):
     global pingRQ
@@ -71,23 +68,219 @@ def operation_two(request):
 
 
 def operation_three(request, FlightNumber):
-    for Flight in flight_list:
-        if Flight['FlightNumber'] in FlightNumber:
-            selected_flight.append(Flight)
-    flight_list.clear()
+    Operation, Request_Schema, Response_Schema, Resource = source_table()
+    global flight_list_booking
+    flight_list_booking = []
+    selected_operation_number = 2
+    selected_Response_Schema = Response_Schema[selected_operation_number - 1]
+    respath = '/home/sepehr/Desktop/working-with-api/backend/apihandler/data/HomaRes OTA API Sample for IR v1.1/1. {}_edited.xml'.format(
+        selected_Response_Schema[:-4])
+    tree = ET.parse(respath)
+    root = tree.getroot()
+    flight_list_booking.clear()
+    for PricedItinerary in root[1]:
+        FlightSegment = PricedItinerary[0][0][0][0]
+        FlightNumberSRS = FlightSegment.attrib['FlightNumber']
+        if FlightNumberSRS in FlightNumber:
+            SequenceNumber = PricedItinerary.attrib['SequenceNumber']
+            ResBookDesigCode = FlightSegment.attrib['ResBookDesigCode']
+            DepartureDateTime = FlightSegment.attrib['DepartureDateTime'].split('T')
+            departureDate = DepartureDateTime[0]
+            departureTime = DepartureDateTime[1].replace("+04", "+03")
+            ArrivalDateTime = FlightSegment.attrib['ArrivalDateTime'].split('T')
+            ArrivalDate = ArrivalDateTime[0]
+            ArrivalTime = ArrivalDateTime[1]
+            Duration = FlightSegment.attrib['Duration'].split(":")
+            Duration[0] = int(Duration[0]) - 1
+            Duration = '0' + str(Duration[0]) + ':' + Duration[1] + ':' + Duration[2]
+            StopQuantity = FlightSegment.attrib['StopQuantity']
+            RPH = FlightSegment.attrib['RPH']
+            origin = FlightSegment[0].attrib['LocationCode']
+            destination = FlightSegment[1].attrib['LocationCode']
+            OperatingAirline = FlightSegment[2].attrib['Code']
+            AirEquipType = FlightSegment[3].attrib['AirEquipType']
+            ResBookDesigQuantity = FlightSegment[4][0].attrib['ResBookDesigQuantity']
+            BaseFare_CurrencyCode = PricedItinerary[1][0][0].attrib['CurrencyCode']
+            BaseFare_DecimalPlaces = PricedItinerary[1][0][0].attrib['DecimalPlaces']
+            BaseFare_Amount = PricedItinerary[1][0][0].attrib['Amount']
+            TotalFare_CurrencyCode = PricedItinerary[1][0][1].attrib['CurrencyCode']
+            TotalFare_DecimalPlaces = PricedItinerary[1][0][1].attrib['DecimalPlaces']
+            TotalFare_Amount = PricedItinerary[1][0][1].attrib['Amount']
+            PTC_FareBreakdowns = PricedItinerary[1][1]
+            PTC_FBs.clear()
+            for PTC_FareBreakdown in PTC_FareBreakdowns:
+                PassengerTypeQuantity_Code = PTC_FareBreakdown[0].attrib['Code']
+                PassengerTypeQuantity_Quantity = PTC_FareBreakdown[0].attrib['Quantity']
+                FareBasisCode = PTC_FareBreakdown[1][0].text
+                FareBasisCode_FlightSegmentRPH = PTC_FareBreakdown[1][0].attrib['FlightSegmentRPH']
+                FareBasisCode_fareRPH = PTC_FareBreakdown[1][0].attrib['fareRPH']
+                PassengerFare_BaseFare_CurrencyCode = PTC_FareBreakdown[2][0].attrib['CurrencyCode']
+                PassengerFare_BaseFare_DecimalPlaces = PTC_FareBreakdown[2][0].attrib['DecimalPlaces']
+                PassengerFare_BaseFare_Amount = PTC_FareBreakdown[2][0].attrib['Amount']
+                PassengerFare_Taxes = PTC_FareBreakdown[2][1]
+                Taxes.clear()
+                for Tax in PassengerFare_Taxes:
+                    TaxText = Tax.text
+                    TaxCode = Tax.attrib['TaxCode']
+                    TaxName = Tax.attrib['TaxName']
+                    Tax_CurrencyCode = Tax.attrib['CurrencyCode']
+                    Tax_DecimalPlaces = Tax.attrib['DecimalPlaces']
+                    Taxes.append({
+                        'TaxText': TaxText,
+                        'TaxCode': TaxCode,
+                        'TaxName': TaxName,
+                        'Tax_CurrencyCode': Tax_CurrencyCode,
+                        'Tax_DecimalPlaces': Tax_DecimalPlaces,
+                    })
+                PTC_FBs.append({
+                    'PassengerTypeQuantity_Code': PassengerTypeQuantity_Code,
+                    'PassengerTypeQuantity_Quantity': PassengerTypeQuantity_Quantity,
+                    'PassengerTypeQuantity_Range': range(1, int(PassengerTypeQuantity_Quantity) + 1),
+                    'FareBasisCode': FareBasisCode,
+                    'FareBasisCode_FlightSegmentRPH': FareBasisCode_FlightSegmentRPH,
+                    'FareBasisCode_fareRPH': FareBasisCode_fareRPH,
+                    'PassengerFare_BaseFare_CurrencyCode': PassengerFare_BaseFare_CurrencyCode,
+                    'PassengerFare_BaseFare_DecimalPlaces': PassengerFare_BaseFare_DecimalPlaces,
+                    'PassengerFare_BaseFare_Amount': PassengerFare_BaseFare_Amount,
+                    'Taxes': Taxes,
+                })
+
+            flight_list_booking.append({
+                'SequenceNumber': SequenceNumber,
+                'FlightNumber': FlightNumber,
+                'ResBookDesigCode': ResBookDesigCode,
+                'departureDate': departureDate,
+                'departureTime': departureTime,
+                'ArrivalDate': ArrivalDate,
+                'ArrivalTime': ArrivalTime,
+                'Duration': Duration,
+                'StopQuantity': StopQuantity,
+                'RPH': RPH,
+                'origin': origin,
+                'destination': destination,
+                'OperatingAirline': OperatingAirline,
+                'AirEquipType': AirEquipType,
+                'ResBookDesigQuantity': ResBookDesigQuantity,
+                'BaseFare_CurrencyCode': BaseFare_CurrencyCode,
+                'BaseFare_DecimalPlaces': BaseFare_DecimalPlaces,
+                'BaseFare_Amount': BaseFare_Amount,
+                'TotalFare_CurrencyCode': TotalFare_CurrencyCode,
+                'TotalFare_DecimalPlaces': TotalFare_DecimalPlaces,
+                'TotalFare_Amount': TotalFare_Amount,
+                'PTC_FBs': PTC_FBs,
+            })
     selected_operation_number = 3
     data_handle(selected_operation_number)
-    if selected_flight[0]['return_date']:
-        selected_operation_number = 3
-        data_handle(selected_operation_number)
     return render(request, './operation_three.html', operation_three_RS)
 
 
-def operation_four(request):
+def operation_four(request, FlightNumber):
+    Operation, Request_Schema, Response_Schema, Resource = source_table()
+    global flight_list_booking
+    flight_list_booking = []
+    selected_operation_number = 2
+    selected_Response_Schema = Response_Schema[selected_operation_number - 1]
+    respath = '/home/sepehr/Desktop/working-with-api/backend/apihandler/data/HomaRes OTA API Sample for IR v1.1/1. {}_edited.xml'.format(
+        selected_Response_Schema[:-4])
+    tree = ET.parse(respath)
+    root = tree.getroot()
+    flight_list_booking.clear()
+    for PricedItinerary in root[1]:
+        FlightSegment = PricedItinerary[0][0][0][0]
+        FlightNumberSRS = FlightSegment.attrib['FlightNumber']
+        if FlightNumberSRS in FlightNumber:
+            SequenceNumber = PricedItinerary.attrib['SequenceNumber']
+            ResBookDesigCode = FlightSegment.attrib['ResBookDesigCode']
+            DepartureDateTime = FlightSegment.attrib['DepartureDateTime'].split('T')
+            departureDate = DepartureDateTime[0]
+            departureTime = DepartureDateTime[1].replace("+04", "+03")
+            ArrivalDateTime = FlightSegment.attrib['ArrivalDateTime'].split('T')
+            ArrivalDate = ArrivalDateTime[0]
+            ArrivalTime = ArrivalDateTime[1]
+            Duration = FlightSegment.attrib['Duration'].split(":")
+            Duration[0] = int(Duration[0]) - 1
+            Duration = '0' + str(Duration[0]) + ':' + Duration[1] + ':' + Duration[2]
+            StopQuantity = FlightSegment.attrib['StopQuantity']
+            RPH = FlightSegment.attrib['RPH']
+            origin = FlightSegment[0].attrib['LocationCode']
+            destination = FlightSegment[1].attrib['LocationCode']
+            OperatingAirline = FlightSegment[2].attrib['Code']
+            AirEquipType = FlightSegment[3].attrib['AirEquipType']
+            ResBookDesigQuantity = FlightSegment[4][0].attrib['ResBookDesigQuantity']
+            BaseFare_CurrencyCode = PricedItinerary[1][0][0].attrib['CurrencyCode']
+            BaseFare_DecimalPlaces = PricedItinerary[1][0][0].attrib['DecimalPlaces']
+            BaseFare_Amount = PricedItinerary[1][0][0].attrib['Amount']
+            TotalFare_CurrencyCode = PricedItinerary[1][0][1].attrib['CurrencyCode']
+            TotalFare_DecimalPlaces = PricedItinerary[1][0][1].attrib['DecimalPlaces']
+            TotalFare_Amount = PricedItinerary[1][0][1].attrib['Amount']
+            PTC_FareBreakdowns = PricedItinerary[1][1]
+            PTC_FBs.clear()
+            for PTC_FareBreakdown in PTC_FareBreakdowns:
+                PassengerTypeQuantity_Code = PTC_FareBreakdown[0].attrib['Code']
+                PassengerTypeQuantity_Quantity = PTC_FareBreakdown[0].attrib['Quantity']
+                FareBasisCode = PTC_FareBreakdown[1][0].text
+                FareBasisCode_FlightSegmentRPH = PTC_FareBreakdown[1][0].attrib['FlightSegmentRPH']
+                FareBasisCode_fareRPH = PTC_FareBreakdown[1][0].attrib['fareRPH']
+                PassengerFare_BaseFare_CurrencyCode = PTC_FareBreakdown[2][0].attrib['CurrencyCode']
+                PassengerFare_BaseFare_DecimalPlaces = PTC_FareBreakdown[2][0].attrib['DecimalPlaces']
+                PassengerFare_BaseFare_Amount = PTC_FareBreakdown[2][0].attrib['Amount']
+                PassengerFare_Taxes = PTC_FareBreakdown[2][1]
+                Taxes.clear()
+                for Tax in PassengerFare_Taxes:
+                    TaxText = Tax.text
+                    TaxCode = Tax.attrib['TaxCode']
+                    TaxName = Tax.attrib['TaxName']
+                    Tax_CurrencyCode = Tax.attrib['CurrencyCode']
+                    Tax_DecimalPlaces = Tax.attrib['DecimalPlaces']
+                    Taxes.append({
+                        'TaxText': TaxText,
+                        'TaxCode': TaxCode,
+                        'TaxName': TaxName,
+                        'Tax_CurrencyCode': Tax_CurrencyCode,
+                        'Tax_DecimalPlaces': Tax_DecimalPlaces,
+                    })
+                PTC_FBs.append({
+                    'PassengerTypeQuantity_Code': PassengerTypeQuantity_Code,
+                    'PassengerTypeQuantity_Quantity': PassengerTypeQuantity_Quantity,
+                    'PassengerTypeQuantity_Range': range(1, int(PassengerTypeQuantity_Quantity) + 1),
+                    'FareBasisCode': FareBasisCode,
+                    'FareBasisCode_FlightSegmentRPH': FareBasisCode_FlightSegmentRPH,
+                    'FareBasisCode_fareRPH': FareBasisCode_fareRPH,
+                    'PassengerFare_BaseFare_CurrencyCode': PassengerFare_BaseFare_CurrencyCode,
+                    'PassengerFare_BaseFare_DecimalPlaces': PassengerFare_BaseFare_DecimalPlaces,
+                    'PassengerFare_BaseFare_Amount': PassengerFare_BaseFare_Amount,
+                    'Taxes': Taxes,
+                })
+
+            flight_list_booking.append({
+                'SequenceNumber': SequenceNumber,
+                'FlightNumber': FlightNumber,
+                'ResBookDesigCode': ResBookDesigCode,
+                'departureDate': departureDate,
+                'departureTime': departureTime,
+                'ArrivalDate': ArrivalDate,
+                'ArrivalTime': ArrivalTime,
+                'Duration': Duration,
+                'StopQuantity': StopQuantity,
+                'RPH': RPH,
+                'origin': origin,
+                'destination': destination,
+                'OperatingAirline': OperatingAirline,
+                'AirEquipType': AirEquipType,
+                'ResBookDesigQuantity': ResBookDesigQuantity,
+                'BaseFare_CurrencyCode': BaseFare_CurrencyCode,
+                'BaseFare_DecimalPlaces': BaseFare_DecimalPlaces,
+                'BaseFare_Amount': BaseFare_Amount,
+                'TotalFare_CurrencyCode': TotalFare_CurrencyCode,
+                'TotalFare_DecimalPlaces': TotalFare_DecimalPlaces,
+                'TotalFare_Amount': TotalFare_Amount,
+                'PTC_FBs': PTC_FBs,
+            })
+
     submit = request.POST.get('submit')
     if submit:
         selected_operation_number = 4
-        for passenger in selected_flight[0]['PTC_FBs']:
+        for passenger in flight_list_booking[0]['PTC_FBs']:
             for passenger_Quantity in range(1, int(passenger['PassengerTypeQuantity_Quantity']) + 1):
                 NamePrefix_str = str(
                     "NamePrefix" + str(passenger_Quantity) + str(passenger['PassengerTypeQuantity_Code']))
@@ -131,7 +324,10 @@ def operation_four(request):
 
         data_handle(selected_operation_number)
 
-    return render(request, './operation_four.html', {'selected_flight': selected_flight, 'Error': Error})
+    operation_four_data = {
+        'flight_list_booking': flight_list_booking,
+    }
+    return render(request, './operation_four.html', operation_four_data)
 
 
 def source_table():
@@ -202,99 +398,64 @@ def write_on_xml(selected_operation_number):
             root[4][0][2].attrib['Quantity'] = INFNumber
 
     elif selected_operation_number == 3:
-        root[1][0][0].attrib['FlightNumber'] = selected_flight[0]['FlightNumber']
-        root[1][0][0].attrib['ResBookDesigCode'] = selected_flight[0]['ResBookDesigCode']
-        root[1][0][0].attrib['DepartureDateTime'] = selected_flight[0]['departureDate'] + 'T' + \
-                                                    selected_flight[0]['departureTime']
-        root[1][0][0].attrib['ArrivalDateTime'] = selected_flight[0]['ArrivalDate'] + 'T' + selected_flight[0][
+        root[1][0][0].attrib['FlightNumber'] = flight_list_booking[0]['FlightNumber']
+        root[1][0][0].attrib['ResBookDesigCode'] = flight_list_booking[0]['ResBookDesigCode']
+        root[1][0][0].attrib['DepartureDateTime'] = flight_list_booking[0]['departureDate'] + 'T' + \
+                                                    flight_list_booking[0]['departureTime']
+        root[1][0][0].attrib['ArrivalDateTime'] = flight_list_booking[0]['ArrivalDate'] + 'T' + flight_list_booking[0][
             'ArrivalTime']
-        root[1][0][0].attrib['Duration'] = selected_flight[0]['Duration']
-        root[1][0][0].attrib['StopQuantity'] = selected_flight[0]['StopQuantity']
-        root[1][0][0].attrib['RPH'] = selected_flight[0]['RPH']
-        root[1][0][0][0].attrib['LocationCode'] = selected_flight[0]['origin']
-        root[1][0][0][1].attrib['LocationCode'] = selected_flight[0]['destination']
-        root[1][0][0][2].attrib['Code'] = selected_flight[0]['OperatingAirline']
-        root[1][0][0][3].attrib['AirEquipType'] = selected_flight[0]['AirEquipType']
-        root[1][0][0][4][0].attrib['ResBookDesigCode'] = selected_flight[0]['ResBookDesigCode']
-        root[1][0][0][4][0].attrib['ResBookDesigQuantity'] = selected_flight[0]['ResBookDesigQuantity']
+        root[1][0][0].attrib['Duration'] = flight_list_booking[0]['Duration']
+        root[1][0][0].attrib['StopQuantity'] = flight_list_booking[0]['StopQuantity']
+        root[1][0][0].attrib['RPH'] = flight_list_booking[0]['RPH']
+        root[1][0][0][0].attrib['LocationCode'] = flight_list_booking[0]['origin']
+        root[1][0][0][1].attrib['LocationCode'] = flight_list_booking[0]['destination']
+        root[1][0][0][2].attrib['Code'] = flight_list_booking[0]['OperatingAirline']
+        root[1][0][0][3].attrib['AirEquipType'] = flight_list_booking[0]['AirEquipType']
+        root[1][0][0][4][0].attrib['ResBookDesigCode'] = flight_list_booking[0]['ResBookDesigCode']
+        root[1][0][0][4][0].attrib['ResBookDesigQuantity'] = flight_list_booking[0]['ResBookDesigQuantity']
         n = 0
-        for PTC_FB in selected_flight[0]['PTC_FBs']:
+        for PTC_FB in PTC_FBs:
             if n > 0:
-                root[2].append(deepcopy(root[2][n - 1]))
+                membern_1 = root[2][n - 1]
+                membern = deepcopy(membern_1)
+                root[2].append(membern)
 
             root[2][n].text = PTC_FB['FareBasisCode']
             root[2][n].attrib['FlightSegmentRPH'] = PTC_FB['FareBasisCode_FlightSegmentRPH']
             root[2][n].attrib['fareRPH'] = PTC_FB['FareBasisCode_fareRPH']
             n = n + 1
-        '''
-        if selected_flight[0]['return_date']:
-            root[1].append(deepcopy(root[1][0]))
-            root[1][1][0].attrib['FlightNumber'] = selected_flight[0]['Return_FlightNumber']
-            root[1][1][0].attrib['ResBookDesigCode'] = selected_flight[0]['Return_ResBookDesigCode']
-            root[1][1][0].attrib['DepartureDateTime'] = selected_flight[0]['Return_departureDate'] + 'T' + \
-                                                        selected_flight[0]['Return_departureTime']
-            root[1][1][0].attrib['ArrivalDateTime'] = selected_flight[0]['Return_ArrivalDate'] + 'T' + \
-                                                      selected_flight[0][
-                                                          'Return_ArrivalTime']
-            root[1][1][0].attrib['Duration'] = selected_flight[0]['Return_Duration']
-            root[1][1][0].attrib['StopQuantity'] = selected_flight[0]['Return_StopQuantity']
-            root[1][1][0].attrib['RPH'] = selected_flight[0]['Return_RPH']
-            root[1][1][0][0].attrib['LocationCode'] = selected_flight[0]['Return_origin']
-            root[1][1][0][1].attrib['LocationCode'] = selected_flight[0]['Return_destination']
-            root[1][1][0][2].attrib['Code'] = selected_flight[0]['Return_OperatingAirline']
-            root[1][1][0][3].attrib['AirEquipType'] = selected_flight[0]['Return_AirEquipType']
-            root[1][1][0][4][0].attrib['ResBookDesigCode'] = selected_flight[0]['Return_ResBookDesigCode']
-            root[1][1][0][4][0].attrib['ResBookDesigQuantity'] = selected_flight[0]['Return_ResBookDesigQuantity']
-        '''
 
     elif selected_operation_number == 4:
         root[1].attrib['DirectionInd'] = "OneWay"
-        root[1][0][0][0].attrib['FlightNumber'] = selected_flight[0]['FlightNumber']
-        root[1][0][0][0].attrib['ResBookDesigCode'] = selected_flight[0]['ResBookDesigCode']
-        root[1][0][0][0].attrib['DepartureDateTime'] = selected_flight[0]['departureDate'] + 'T' + \
-                                                       selected_flight[0]['departureTime']
-        root[1][0][0][0].attrib['ArrivalDateTime'] = selected_flight[0]['ArrivalDate'] + 'T' + \
-                                                     selected_flight[0]['ArrivalTime']
-        root[1][0][0][0].attrib['Duration'] = selected_flight[0]['Duration']
-        root[1][0][0][0].attrib['StopQuantity'] = selected_flight[0]['StopQuantity']
-        root[1][0][0][0].attrib['RPH'] = selected_flight[0]['RPH']
-        root[1][0][0][0][0].attrib['LocationCode'] = selected_flight[0]['origin']
-        root[1][0][0][0][1].attrib['LocationCode'] = selected_flight[0]['destination']
-        root[1][0][0][0][2].attrib['Code'] = selected_flight[0]['OperatingAirline']
-        root[1][0][0][0][3].attrib['AirEquipType'] = selected_flight[0]['AirEquipType']
-        root[1][0][0][0][4][0].attrib['ResBookDesigCode'] = selected_flight[0]['ResBookDesigCode']
-        root[1][0][0][0][4][0].attrib['ResBookDesigQuantity'] = selected_flight[0]['ResBookDesigQuantity']
-
-        if selected_flight[0]['return_date']:
-            root[1].attrib['DirectionInd'] = "Return"
-            root[1][0].append(deepcopy(root[1][0][0]))
-            root[1][0][1][0].attrib['FlightNumber'] = selected_flight[0]['Return_FlightNumber']
-            root[1][0][1][0].attrib['ResBookDesigCode'] = selected_flight[0]['Return_ResBookDesigCode']
-            root[1][0][1][0].attrib['DepartureDateTime'] = selected_flight[0]['Return_departureDate'] + 'T' + \
-                                                           selected_flight[0]['Return_departureTime']
-            root[1][0][1][0].attrib['ArrivalDateTime'] = selected_flight[0]['Return_ArrivalDate'] + 'T' + \
-                                                         selected_flight[0]['Return_ArrivalTime']
-            root[1][0][1][0].attrib['Duration'] = selected_flight[0]['Return_Duration']
-            root[1][0][1][0].attrib['StopQuantity'] = selected_flight[0]['Return_StopQuantity']
-            root[1][0][1][0].attrib['RPH'] = selected_flight[0]['Return_RPH']
-            root[1][0][1][0][0].attrib['LocationCode'] = selected_flight[0]['Return_origin']
-            root[1][0][1][0][1].attrib['LocationCode'] = selected_flight[0]['Return_destination']
-            root[1][0][1][0][2].attrib['Code'] = selected_flight[0]['Return_OperatingAirline']
-            root[1][0][1][0][3].attrib['AirEquipType'] = selected_flight[0]['Return_AirEquipType']
-            root[1][0][1][0][4][0].attrib['ResBookDesigCode'] = selected_flight[0]['Return_ResBookDesigCode']
-            root[1][0][1][0][4][0].attrib['ResBookDesigQuantity'] = selected_flight[0]['Return_ResBookDesigQuantity']
-
-        root[2][0][0].attrib['CurrencyCode'] = selected_flight[0]['BaseFare_CurrencyCode']
-        root[2][0][0].attrib['DecimalPlaces'] = selected_flight[0]['BaseFare_DecimalPlaces']
-        root[2][0][0].attrib['Amount'] = selected_flight[0]['BaseFare_Amount']
-        root[2][0][1].attrib['CurrencyCode'] = selected_flight[0]['TotalFare_CurrencyCode']
-        root[2][0][1].attrib['DecimalPlaces'] = selected_flight[0]['TotalFare_DecimalPlaces']
-        root[2][0][1].attrib['Amount'] = selected_flight[0]['TotalFare_Amount']
+        root[1][0][0][0].attrib['FlightNumber'] = flight_list_booking[0]['FlightNumber']
+        root[1][0][0][0].attrib['ResBookDesigCode'] = flight_list_booking[0]['ResBookDesigCode']
+        root[1][0][0][0].attrib['DepartureDateTime'] = flight_list_booking[0]['departureDate'] + 'T' + \
+                                                       flight_list_booking[0]['departureTime']
+        root[1][0][0][0].attrib['ArrivalDateTime'] = flight_list_booking[0]['ArrivalDate'] + 'T' + \
+                                                     flight_list_booking[0]['ArrivalTime']
+        root[1][0][0][0].attrib['Duration'] = flight_list_booking[0]['Duration']
+        root[1][0][0][0].attrib['StopQuantity'] = flight_list_booking[0]['StopQuantity']
+        root[1][0][0][0].attrib['RPH'] = flight_list_booking[0]['RPH']
+        root[1][0][0][0][0].attrib['LocationCode'] = flight_list_booking[0]['origin']
+        root[1][0][0][0][1].attrib['LocationCode'] = flight_list_booking[0]['destination']
+        root[1][0][0][0][2].attrib['Code'] = flight_list_booking[0]['OperatingAirline']
+        root[1][0][0][0][3].attrib['AirEquipType'] = flight_list_booking[0]['AirEquipType']
+        root[1][0][0][0][4][0].attrib['ResBookDesigCode'] = flight_list_booking[0]['ResBookDesigCode']
+        root[1][0][0][0][4][0].attrib['ResBookDesigQuantity'] = flight_list_booking[0]['ResBookDesigQuantity']
+        root[2][0][0].attrib['CurrencyCode'] = flight_list_booking[0]['BaseFare_CurrencyCode']
+        root[2][0][0].attrib['DecimalPlaces'] = flight_list_booking[0]['BaseFare_DecimalPlaces']
+        root[2][0][0].attrib['Amount'] = flight_list_booking[0]['BaseFare_Amount']
+        root[2][0][1].attrib['CurrencyCode'] = flight_list_booking[0]['TotalFare_CurrencyCode']
+        root[2][0][1].attrib['DecimalPlaces'] = flight_list_booking[0]['TotalFare_DecimalPlaces']
+        root[2][0][1].attrib['Amount'] = flight_list_booking[0]['TotalFare_Amount']
 
         i = 0
+
         for passenger in passengers:
             if i > 0:
-                root[3].append(deepcopy(root[3][i - 1]))
+                memberi_1 = root[3][i - 1]
+                memberi = deepcopy(memberi_1)
+                root[3].append(memberi)
             root[3][i].attrib['BirthDate'] = passenger['BirthDate']
             root[3][i].attrib['PassengerTypeCode'] = passenger['TypeCode']
             root[3][i].attrib['AccompaniedByInfantInd'] = "false"
@@ -307,8 +468,7 @@ def write_on_xml(selected_operation_number):
             root[3][i][2].attrib['DocID'] = passenger['DocID']
             root[3][i][2].attrib['DocType'] = "5"
             root[3][i][2].attrib['DocIssueCountry'] = "IR"
-            root[3][i][2].attrib['ExpireDate'] = "2024-05-19"
-            root[3][i][2].attrib['DocHolderNationality'] = "IR"
+
             i = i + 1
 
         root[4][0][0].text = ContactGivenName
@@ -320,9 +480,9 @@ def write_on_xml(selected_operation_number):
         root[5][0][0][0].attrib['DirectBill_ID'] = "THRTA023"
         root[5][0][0][0][0].attrib['CompanyShortName'] = "HOMARES OTA"
         root[5][0][0][0][0].attrib['Code'] = "THRTA023"
-        root[5][0][0][1].attrib['CurrencyCode'] = selected_flight[0]['TotalFare_CurrencyCode']
-        root[5][0][0][1].attrib['DecimalPlaces'] = selected_flight[0]['TotalFare_DecimalPlaces']
-        root[5][0][0][1].attrib['Amount'] = selected_flight[0]['TotalFare_Amount']
+        root[5][0][0][1].attrib['CurrencyCode'] = flight_list_booking[0]['TotalFare_CurrencyCode']
+        root[5][0][0][1].attrib['DecimalPlaces'] = flight_list_booking[0]['TotalFare_DecimalPlaces']
+        root[5][0][0][1].attrib['Amount'] = flight_list_booking[0]['TotalFare_Amount']
 
     elif selected_operation_number == 5:
         root[1].attrib['ID'] = 'VPTF21'
@@ -383,8 +543,7 @@ def read_from_xml(selected_operation_number, respath):
                     Return_ArrivalTime = Return_ArrivalDateTime[1]
                     Return_Duration = Return_FlightSegment.attrib['Duration'].split(":")
                     Return_Duration[0] = int(Return_Duration[0]) - 1
-                    Return_Duration = '0' + str(Return_Duration[0]) + ':' + Return_Duration[1] + ':' + Return_Duration[
-                        2]
+                    Return_Duration = '0' + str(Return_Duration[0]) + ':' + Return_Duration[1] + ':' + Return_Duration[2]
                     Return_StopQuantity = Return_FlightSegment.attrib['StopQuantity']
                     Return_RPH = Return_FlightSegment.attrib['RPH']
                     Return_origin = Return_FlightSegment[0].attrib['LocationCode']
@@ -428,7 +587,6 @@ def read_from_xml(selected_operation_number, respath):
                     PTC_FBs.append({
                         'PassengerTypeQuantity_Code': PassengerTypeQuantity_Code,
                         'PassengerTypeQuantity_Quantity': PassengerTypeQuantity_Quantity,
-                        'PassengerTypeQuantity_Range': range(1, int(PassengerTypeQuantity_Quantity) + 1),
                         'FareBasisCode': FareBasisCode,
                         'FareBasisCode_FlightSegmentRPH': FareBasisCode_FlightSegmentRPH,
                         'FareBasisCode_fareRPH': FareBasisCode_fareRPH,
@@ -536,13 +694,6 @@ def read_from_xml(selected_operation_number, respath):
 
     elif selected_operation_number == 4:
         passengers.clear()
-        Error.clear()
-        ErrorText = root[0][0].attrib['ShortText'] or 'None'
-        ErrorCode = root[0][0].attrib['Code'] or 'None'
-        Error.append({
-            'ErrorText': ErrorText,
-            'ErrorCode': ErrorCode
-        })
 
     elif selected_operation_number == 5:
         root[1].attrib['ID'] = 'VPTF21'
@@ -553,7 +704,8 @@ def data_handle(selected_operation_number):
     Operation, Request_Schema, Response_Schema, Resource = source_table()
     for index, oper in enumerate(Operation, 1):
         print(str(index) + '-' + oper)
-
+    # selected_operation_number = int(input('Select related operation number:'))
+    # selected_operation_number = 2
     selected_Response_Schema = Response_Schema[selected_operation_number - 1]
     selected_Resource = Resource[selected_operation_number - 1]
 

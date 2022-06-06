@@ -4,7 +4,7 @@
 {% block main %}
     
     <div class="container mt-5">
-        {% for data in flight_list_booking %}
+        {% for data in selected_flight %}
             <div class="alert alert-success d-flex justify-content-between align-items-center" role="alert">
                 <p class="m-0 p-0"><b>Origin: </b> {{data.origin}},</p>
                 <p class="m-0 p-0"><b> Destination: </b> {{data.destination}},</p>
@@ -73,14 +73,14 @@
     <div class="container">
         <form class="row g-3 mt-5" method="POST">
             {% csrf_token %}
-            {% for data in flight_list_booking %}
+            {% for data in selected_flight %}
                 {% for passengerCode in data.PTC_FBs %}
                     {% for passengerQuantity in passengerCode.PassengerTypeQuantity_Range %}
                         <div class="container mb-5 border border-2 p-5 border-primary">
                             <h3>{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}</h3>
                             <div class="row">
                                 <div class="col-4">
-                                    <label for="NamePrefix" class="form-label">Name Prefix</label>
+                                    <label for="NamePrefix{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" class="form-label">Name Prefix</label>
                                     <select id="NamePrefix{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" class="form-select" name="NamePrefix{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" required>
                                         <option value="" disabled selected>Select NamePrefix</option>
                                         <option>Mr</option>
@@ -103,7 +103,7 @@
                                     <input type="date" class="form-control" id="BirthDate{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" name="BirthDate{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" placeholder="Birth Date" required/>
                                 </div>
                                 <div class="col">
-                                    <label for="Gender" class="form-label">Gender</label>
+                                    <label for="Gender{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" class="form-label">Gender</label>
                                     <select id="Gender{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" class="form-select" name="Gender{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" required>
                                         <option value="" disabled selected>Select Gender</option>
                                         <option>M</option>
@@ -111,7 +111,7 @@
                                     </select>
                                 </div>
                                 <div class="col">
-                                    <label for="TravelerNationality" class="form-label">Nationality</label>
+                                    <label for="TravelerNationality{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" class="form-label">Nationality</label>
                                     <select id="TravelerNationality{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" class="form-select" name="TravelerNationality{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" required>
                                         <option value="" disabled selected>Select Nationality</option>
                                         <option>IR</option>
@@ -122,7 +122,6 @@
                                     <input type="text" class="form-control" id="DocID{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" name="DocID{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" placeholder="DocID" required/>
                                 </div>
                             </div>
-                            
                         </div>
                     {% endfor %}
                 {% endfor %}
@@ -160,5 +159,13 @@
             <button type="submit" class="btn btn-success mb-5" value="Submit" name="submit">Submit</button>
         </form>
     </div>
-    
+    {% for Error in Error %}
+        {% if 'None' not in Error.ErrorText %}
+            <div class="container px-0">
+                <div class="alert alert-danger d-flex justify-content-between align-items-center" role="alert">
+                    <p>{{Error.ErrorText}} // Code: {{Error.ErrorCode}}</p>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
 {% endblock %}

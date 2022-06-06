@@ -75,9 +75,9 @@
       </div>
   </form>
   <div class="container mt-5">
-      {% if data_list %}
+      {% if flight_list %}
           <h3>Results: </h3>
-          {% for data in data_list %}
+          {% for data in flight_list %}
               <form method="POST" action="{% url 'operation_three' FlightNumber=data.FlightNumber %}">
                 {% csrf_token %}
                   <div class="alert alert-success d-flex justify-content-between align-items-center" role="alert">
@@ -85,8 +85,12 @@
                       <p class="m-0 p-0"><b> Destination: </b> {{data.destination}},</p>
                       <p class="m-0 p-0"><b> Departure Date: </b> {{data.departureDate}},</p>
                       <p class="m-0 p-0"><b> Departure Time: </b> {{data.departureTime}},</p>
-                      <p class="m-0 p-0"><b> Arrival Date: </b> {{data.ArrivalDate}},</p>
-                      <p class="m-0 p-0"><b> Arrival Time: </b> {{data.ArrivalTime}},</p>
+                      {% if data.return_date %}
+                          <p class="m-0 p-0"><b> Return Date: </b> {{data.Return_departureDate}},</p>
+                          <p class="m-0 p-0"><b> Return Time: </b> {{data.Return_departureTime}},</p>
+                          <p class="m-0 p-0"><b> Return Flight Number: </b> {{data.Return_FlightNumber}},</p>
+                          <p class="m-0 p-0"><b> Return Air Equip Type: </b> {{data.Return_AirEquipType}},</p>
+                      {% endif %}
                       <p class="m-0 p-0"><b> Duration: </b> {{data.Duration}},</p>
                       <p class="m-0 p-0"><b> Flight Number: </b> {{data.FlightNumber}},</p>
                       <p class="m-0 p-0"><b> Air Equip Type: </b> {{data.AirEquipType}},</p>
@@ -109,6 +113,16 @@
                               <div class="col">
                                   <p>Arrival Date: {{data.ArrivalDate}}</p>
                                   <p>Arrival Time: {{data.ArrivalTime}}</p>
+                              </div>
+                            </div>
+                            <div class="row my-3">
+                              <div class="col">
+                                  <p>Return Date: {{data.departureDate}}</p>
+                                  <p>Return Time: {{data.departureTime}}</p>
+                              </div>
+                              <div class="col">
+                                  <p>Return Flight Number: {{data.Return_FlightNumber}},</p>
+                                  <p>Return Air Equip Type: {{data.Return_AirEquipType}}</p>
                               </div>
                             </div>
                             <div class="row my-3">
@@ -153,7 +167,9 @@
       {% endif %}
 
   </div>
-    {% block script %}
+
+{% endblock %}
+{% block script %}
         $("#OW").click(function() {
             $("#Return_departureTimeLable").hide();
             $("#Return_Date").hide();
@@ -166,5 +182,4 @@
             $("#RT").addClass('active');
             $("#OW").removeClass('active');
         });
-    {% endblock %}
 {% endblock %}

@@ -26,7 +26,7 @@ FareRuleText: {{FareRuleText}}
     </div>
     <div class="row">
       <div class="col mt-5 pt-5">
-        <form method="POST" action="{% url 'operation_four' FlightNumber=FlightNumber %}">
+        <form method="POST" action="{% url 'operation_four' %}">
           {% csrf_token %}
           <button type="submit" class="btn btn-outline-danger">Go To Operation Four</button>
         </form>
