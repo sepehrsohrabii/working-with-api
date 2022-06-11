@@ -2,36 +2,60 @@
 {% load static %}
 {% block title %}Operation One{% endblock %}
 {% block main %}
-    <div class="container">
+<div class="vw-100 vh-100 justify-content-center align-items-center">
+    <div class="container progress-box d-flex justify-content-center align-items-center p-4">
+        <span class="material-icons-round fs-1 text-danger me-2">network_ping</span>
+        <label>Ping</label>
+        <span class="linear-gradient active mx-3"></span>
+        <span class="material-icons-round fs-1 activate me-2 gray">travel_explore</span>
+        <label class="gray">Low Fare Search</label>
+        <span class="linear-gradient mx-3 gray"></span>
+        <span class="material-icons-round fs-1 activate me-2 gray">checklist_rtl</span>
+        <label class="gray">Fare Rule</label>
+        <span class="linear-gradient mx-3 gray"></span>
+        <span class="material-icons-round fs-1 activate me-2 gray">assignment_ind</span>
+        <label class="gray">Book & Ticket</label>
+        <span class="linear-gradient mx-3 gray"></span>
+        <span class="material-icons fs-1 activate me-2 gray">airplane_ticket</span>
+        <label class="gray">Read Reservation</label>
+    </div>
+    <div class="container box1 p-5 mt-5">
         <form class="row g-3 mt-5" method="POST">
             {% csrf_token %}
             <div class="col-auto">
-              <label for="pingRQ_label" class="visually-hidden">Input request text for pingRQ:</label>
-              <input type="text" readonly class="form-control-plaintext" id="pingRQ_label" name="pingRQ_label" value="Input request text for pingRQ:">
+              <label for="pingRQ_label" class="visually-hidden">Input text for Ping Request:</label>
+              <input type="text" readonly class="form-control-plaintext" id="pingRQ_label" name="pingRQ_label" value="Input text for Ping Request:">
             </div>
             <div class="col-auto">
-              <label for="pingRQ" class="visually-hidden">Input request text for pingRQ:</label>
+              <label for="pingRQ" class="visually-hidden">Input text for Ping Request:</label>
               <input type="text" class="form-control" id="pingRQ" name="pingRQ" placeholder="Example...">
             </div>
             <div class="col-auto">
-              <button type="submit" class="btn btn-primary mb-3">Submit</button>
+              <button type="submit" class="btn btn-primary mb-3">Send</button>
             </div>
         </form>
-        
+
         <div class="row">
             <div class="col mt-5 pt-5">
-                <h1>{{operation_one_RS.PingRS}}</h1>
-                <p>{{operation_one_RS.EchoData}}</p>
+                <p>
+                    <b>Response status: </b>
+                    {{operation_one_RS.PingRS}}
+                </p>
+                <p>
+                    <b>Response text: </b>
+                    {{operation_one_RS.EchoData}}</p>
             </div>
         </div>
-        
         <div class="row">
-            <div class="col mt-5 pt-5">
-                <a type="button" class="btn btn-outline-danger" href="{% url 'operation_two' %}">Go to operation two</a>
+            <div class="col mt-5 pt-5 text-end">
+                <a type="button" class="btn btn btn-outline-success" href="{% url 'operation_two' %}">Next Operation</a>
             </div>
         </div>
-        
-        
-        
+
+
+
     </div>
+</div>
+
 {% endblock %}
+

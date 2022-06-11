@@ -2,71 +2,104 @@
 {% load static %}
 {% block title %}Operation Four{% endblock %}
 {% block main %}
-    
-    <div class="container mt-5">
+
+    <div class="container progress-box d-flex justify-content-center align-items-center p-4">
+        <span class="material-icons-round fs-1 text-success me-2">network_ping</span>
+        <label>Ping</label>
+        <span class="linear-gradient mx-3 activated "></span>
+        <span class="material-icons-round fs-1 text-success me-2">travel_explore</span>
+        <label>Low Fare Search</label>
+        <span class="linear-gradient mx-3 activated"></span>
+        <span class="material-icons-round fs-1 text-success me-2">checklist_rtl</span>
+        <label>Fare Rule</label>
+        <span class="linear-gradient mx-3 activated"></span>
+        <span class="material-icons-round fs-1 text-danger me-2">assignment_ind</span>
+        <label>Book & Ticket</label>
+        <span class="linear-gradient mx-3 active"></span>
+        <span class="material-icons fs-1 me-2 gray">airplane_ticket</span>
+        <label class="gray">Read Reservation</label>
+    </div>
+
+
+    <div class="container mt-5 box2 px-5 py-4">
         {% for data in selected_flight %}
-            <div class="alert alert-success d-flex justify-content-between align-items-center" role="alert">
-                <p class="m-0 p-0"><b>Origin: </b> {{data.origin}},</p>
-                <p class="m-0 p-0"><b> Destination: </b> {{data.destination}},</p>
-                <p class="m-0 p-0"><b> Departure Date: </b> {{data.departureDate}},</p>
-                <p class="m-0 p-0"><b> Departure Time: </b> {{data.departureTime}},</p>
-                <p class="m-0 p-0"><b> Arrival Date: </b> {{data.ArrivalDate}},</p>
-                <p class="m-0 p-0"><b> Arrival Time: </b> {{data.ArrivalTime}},</p>
-                <p class="m-0 p-0"><b> Duration: </b> {{data.Duration}},</p>
-                <p class="m-0 p-0"><b> Flight Number: </b> {{data.FlightNumber}},</p>
-                <p class="m-0 p-0"><b> Air Equip Type: </b> {{data.AirEquipType}},</p>
-                <a class="btn btn-primary" data-bs-toggle="modal" href="#modal{{data.FlightNumber}}" role="button">Open first modal</a>
+            <div class="d-flex justify-content-between align-items-center">
+                {% if data.return_date %}
+                    <h5 class="d-flex align-items-center text-black m-0 p-0 col-2">
+                        <span class="material-icons-round fs-1">connecting_airports</span>
+                        Return Flight
+                    </h5>
+                {% else %}
+                    <h5 class="d-flex align-items-center text-black m-0 p-0 col-2">
+                        <span class="material-icons-round fs-1">airplanemode_active</span>
+                        One Way Flight
+                    </h5>
+                {% endif %}
+                <p class="m-0 p-0 "><b>Origin:</b></br>{{data.origin}}</p>
+                <p class="m-0 p-0"><b> Destination:</b></br>{{data.destination}}</p>
+                <p class="m-0 p-0"><b> Departure Date:</b></br>{{data.departureDate}}</p>
+                <p class="m-0 p-0"><b> Departure Time:</b></br>{{data.departureTime}}</p>
+                <p class="m-0 p-0"><b> Flight Number:</b></br>{{data.FlightNumber}}</p>
+                <p class="m-0 p-0"><b> Air Equip Type:</b></br>{{data.AirEquipType}}</p>
+                <a class="btn btn-warning p-3" data-bs-toggle="modal" href="#modal{{data.FlightNumber}}" role="button"><b>More Info</b></a>
             </div>
-            <div class="modal fade" id="modal{{data.FlightNumber}}" aria-hidden="true" aria-labelledby="modal{{data.FlightNumber}}Label" tabindex="-1">
-                <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
+            <div class="modal fade text-black" id="modal{{data.FlightNumber}}" aria-hidden="true" aria-labelledby="modal{{data.FlightNumber}}Label" tabindex="-1" style="backdrop-filter: unset;">
+                <div class="modal-dialog modal-dialog-centered" style="max-width: 800px;">
+                  <div class="modal-content">
                     <div class="modal-header">
-                    <h5 class="modal-title" id="modal{{data.FlightNumber}}Label">{{data.origin}} to {{data.destination}}</h5>
-                    <h5>{{data.TotalFare_Amount}}{{data.TotalFare_CurrencyCode}}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      <h5 class="modal-title" id="modal{{data.FlightNumber}}Label">{{data.origin}} to {{data.destination}}</h5>
+                      <h6 class="text-danger ms-5">{{data.TotalFare_Amount}}{{data.TotalFare_CurrencyCode}}</h6>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="row">
-                        <div class="col">
-                            <p>Departure Date: {{data.departureDate}}</p>
-                            <p>Departure Time: {{data.departureTime}}</p>
+                        <div class="row my-3">
+                          <div class="col-2"><b>Go</b></div>
+                          <div class="col">
+                              <p>Departure Date: {{data.departureDate}}</p>
+                              <p>DepartureTime: {{data.departureTime}}</p>
+                          </div>
+                          <div class="col">
+                              <p>Arrival Date: {{data.ArrivalDate}}</p>
+                              <p>Arrival Time: {{data.ArrivalTime}}</p>
+                          </div>
                         </div>
-                        <div class="col">
-                            <p>Arrival Date: {{data.ArrivalDate}}</p>
-                            <p>Arrival Time: {{data.ArrivalTime}}</p>
+                        {% if data.return_date %}
+                            <div class="row my-3">
+                                <div class="col-2"><b>Return</b></div>
+                              <div class="col">
+                                  <p>Return Departure Date: {{data.Return_departureDate}}</p>
+                                  <p>Return Departure Time: {{data.Return_departureTime}}</p>
+                              </div>
+                              <div class="col">
+                                  <p>Return Arrival Date: {{data.Return_ArrivalDate}}</p>
+                                  <p>Return Arrival Time: {{data.Return_ArrivalTime}}</p>
+                              </div>
+                            </div>
+                        {% endif %}
+                        <div class="row my-3">
+                          <div class="col"><b>Base Price:</b></div>
+                          {% for passenger in data.PTC_FBs %}
+                            <div class="col">{{passenger.PassengerTypeQuantity_Code}}: {{passenger.PassengerFare_BaseFare_Amount}}{{passenger.PassengerFare_BaseFare_CurrencyCode}} * {{passenger.PassengerTypeQuantity_Quantity}}</div>
+                          {% endfor %}
                         </div>
-                        </div>
-                        <div class="row">
-                        <h6>Passengers</h6>
-                        <p>Adult: {{ADTNumber}}</p>
-                        <p>Child: {{CHDNumber}}</p>
-                        <p>Baby: {{INFNumber}}</p>
-                        </div>
-                        <div class="row">
-                            <h6>Base Prices:</h6>
+                        <div class="row my-3">
+                            <div class="col-12"><b>Taxes:</b></div>
                             {% for passenger in data.PTC_FBs %}
-                            <p>{{passenger.PassengerTypeQuantity_Code}}: {{passenger.PassengerFare_BaseFare_Amount}}{{passenger.PassengerFare_BaseFare_CurrencyCode}} * {{passenger.PassengerTypeQuantity_Quantity}}</p>
-                            {% endfor %}
-                        </div>
-                        <div class="row">
-                            <h6>Taxes:</h6>
-                            {% for passenger in data.PTC_FBs %}
-                            <p><b>{{passenger.PassengerTypeQuantity_Code}} * {{passenger.PassengerTypeQuantity_Quantity}}</b></p>
-                            {% for tax in passenger.Taxes %}
-                                <p>{{tax.TaxName}}: {{tax.TaxText}}{{tax.Tax_CurrencyCode}}</p>
-                            {% endfor %}
-                            <p></p>
+                            <row>
+                                <div class="col"><b>{{passenger.PassengerTypeQuantity_Code}} * {{passenger.PassengerTypeQuantity_Quantity}}</b></div>
+                                {% for tax in passenger.Taxes %}
+                                  <div class="col">{{tax.TaxName}}: {{tax.TaxText}}{{tax.Tax_CurrencyCode}}</div>
+                                {% endfor %}
+                            </row>
                             {% endfor %}
                         </div>
 
                     </div>
                     <div class="modal-footer">
-                        
                     </div>
-                </div>
+                  </div>
                 </div>
             </div>
-            
     
         {% endfor %}
     </div>
@@ -76,7 +109,7 @@
             {% for data in selected_flight %}
                 {% for passengerCode in data.PTC_FBs %}
                     {% for passengerQuantity in passengerCode.PassengerTypeQuantity_Range %}
-                        <div class="container mb-5 border border-2 p-5 border-primary">
+                        <div class="container box1 mb-5 p-5">
                             <h3>{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}</h3>
                             <div class="row">
                                 <div class="col-4">
@@ -127,7 +160,7 @@
                 {% endfor %}
             {% endfor %}
 
-            <div class="container mb-5 border border-2 p-5 border-warning">
+            <div class="container mb-5 box3 p-5">
                 <div class="row">
                     <h4>Contact info</h4>
                 </div>
@@ -145,7 +178,7 @@
                         <input type="email" class="form-control" id="Email" name="Email" placeholder="Email" required/>
                     </div>
                     <div class="col">
-                        <label for="Telephone" class="Telephone">Mobile Number</label>
+                        <label for="Telephone" class="form-label">Mobile Number</label>
                         <input type="text" class="form-control" id="Telephone" name="Telephone" placeholder="Mobile Number" required/>
                     </div>
                     <div class="col">
@@ -161,9 +194,9 @@
     </div>
     {% for Error in Error %}
         {% if 'None' not in Error.ErrorText %}
-            <div class="container px-0">
+            <div class="container px-0 pb-5">
                 <div class="alert alert-danger d-flex justify-content-between align-items-center" role="alert">
-                    <p>{{Error.ErrorText}} // Code: {{Error.ErrorCode}}</p>
+                    <p class="mt-0 mb-0">{{Error.ErrorText}} // Code: {{Error.ErrorCode}}</p>
                 </div>
             </div>
         {% endif %}

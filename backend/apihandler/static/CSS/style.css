@@ -1,0 +1,79 @@
+body {
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 400;
+    line-height: 1.666em;
+    letter-spacing: .01em;
+    font-size: 16px;
+    color: #000000;
+    background: url("../IMG/pexels-harrison-haines-7286091.jpg");
+    background-size: cover;
+    background-position: center center;
+    unicode-bidi: isolate;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    scroll-behavior: smooth;
+	overflow-x: hidden !important;
+}
+
+.box1 {
+    border-radius: 16px;
+    backdrop-filter: blur(4.5px);
+    -webkit-backdrop-filter: blur(4.5px);
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow:  20px 20px 60px #bebebe,
+                 -20px -20px 60px #ffffff;
+    padding: 12px;
+}
+.box2 {
+    border-radius: 16px;
+    background: rgba(25, 135, 84, 0.8);
+    box-shadow:  20px 20px 60px #bebebe,
+                 -20px -20px 60px #ffffff;
+    padding: 12px;
+    color: #fff !important;
+}
+.box3 {
+    border-radius: 16px;
+    backdrop-filter: blur(4.5px);
+    -webkit-backdrop-filter: blur(4.5px);
+    background: rgba(255, 193, 7, 0.8);
+    box-shadow:  20px 20px 60px #bebebe,
+                 -20px -20px 60px #ffffff;
+    padding: 12px;
+}
+.progress-box {
+    margin-top: 4%;
+    border-radius: 16px;
+    backdrop-filter: blur(4.5px);
+    -webkit-backdrop-filter: blur(4.5px);
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow:  20px 20px 60px #bebebe,
+                 -20px -20px 60px #ffffff;
+}
+.linear-gradient {
+    border-radius: 8px;
+    height: 3px;
+    background-color: #B3B3B3;
+    width: 80px !important;
+}
+.linear-gradient.activated {
+    background-color: #198754;
+}
+.linear-gradient.active{
+    background: linear-gradient(to right, #198754, #b3b3b3);
+}
+
+i.activate {
+    color: #F29796;
+}
+.gray {
+    color: #B3B3B3 !important;
+}
+.alert {
+    border-radius: 16px;
+    backdrop-filter: blur(4.5px);
+    -webkit-backdrop-filter: blur(4.5px);
+    box-shadow:  20px 20px 60px #bebebe,
+                 -20px -20px 60px #ffffff;
+}

@@ -1,16 +1,16 @@
-<ns0:OTA_AirLowFareSearchRQ xmlns:ns0="http://www.opentravel.org/OTA/2003/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opentravel.org/OTA/2003/05    OTA_AirLowFareSearchRQ.xsd" EchoToken="0001" TimeStamp="2022-06-06T21:27:40" Target="Test" Version="2.001" SequenceNmbr="1" PrimaryLangID="En-us">
+<ns0:OTA_AirLowFareSearchRQ xmlns:ns0="http://www.opentravel.org/OTA/2003/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opentravel.org/OTA/2003/05    OTA_AirLowFareSearchRQ.xsd" EchoToken="0001" TimeStamp="2022-06-11T11:39:56" Target="Test" Version="2.001" SequenceNmbr="1" PrimaryLangID="En-us">
     <ns0:POS>
         <ns0:Source AirlineVendorID="IR" ISOCountry="IR" ISOCurrency="RUB">
             <ns0:RequestorID Type="5" ID="MOW07603" />
         </ns0:Source>
     </ns0:POS>
     <ns0:OriginDestinationInformation>
-        <ns0:DepartureDateTime>2022-06-14</ns0:DepartureDateTime>
+        <ns0:DepartureDateTime>2022-06-16</ns0:DepartureDateTime>
         <ns0:OriginLocation LocationCode="THR" />
         <ns0:DestinationLocation LocationCode="MHD" />
     </ns0:OriginDestinationInformation>
     <ns0:OriginDestinationInformation>
-        <ns0:DepartureDateTime>2022-06-21</ns0:DepartureDateTime>
+        <ns0:DepartureDateTime>2022-06-29</ns0:DepartureDateTime>
         <ns0:OriginLocation LocationCode="MHD" />
         <ns0:DestinationLocation LocationCode="THR" />
     </ns0:OriginDestinationInformation>
