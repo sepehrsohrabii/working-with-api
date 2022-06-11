@@ -56,7 +56,7 @@ def operation_two(request):
     if request.method == 'POST':
         flight_list.clear()
         data_handle(selected_operation_number)
-
+    selected_flight.clear()
     # send data to template
     operation_two_data = {
         'flight_list': flight_list,  # for results
@@ -77,7 +77,7 @@ def operation_three(request, FlightNumber):
     flight_list.clear()
     selected_operation_number = 3
     data_handle(selected_operation_number)
-    if selected_flight[0]['return_date']:
+    if 'return_date' in selected_flight[0]:
         selected_operation_number = 3
         data_handle(selected_operation_number)
     return render(request, './operation_three.html', operation_three_RS)
@@ -128,7 +128,6 @@ def operation_four(request):
         Email = request.POST.get('Email')
         Telephone = request.POST.get('Telephone')
         HomeTelephone = request.POST.get('HomeTelephone')
-
         data_handle(selected_operation_number)
 
     return render(request, './operation_four.html', {'selected_flight': selected_flight, 'Error': Error})
@@ -437,6 +436,31 @@ def read_from_xml(selected_operation_number, respath):
                         'PassengerFare_BaseFare_Amount': PassengerFare_BaseFare_Amount,
                         'Taxes': Taxes,
                     })
+                if return_date == 'None':
+                    flight_list.append({
+                        'SequenceNumber': SequenceNumber,
+                        'FlightNumber': FlightNumber,
+                        'ResBookDesigCode': ResBookDesigCode,
+                        'departureDate': departureDate,
+                        'departureTime': departureTime,
+                        'ArrivalDate': ArrivalDate,
+                        'ArrivalTime': ArrivalTime,
+                        'Duration': Duration,
+                        'StopQuantity': StopQuantity,
+                        'RPH': RPH,
+                        'origin': origin,
+                        'destination': destination,
+                        'OperatingAirline': OperatingAirline,
+                        'AirEquipType': AirEquipType,
+                        'ResBookDesigQuantity': ResBookDesigQuantity,
+                        'BaseFare_CurrencyCode': BaseFare_CurrencyCode,
+                        'BaseFare_DecimalPlaces': BaseFare_DecimalPlaces,
+                        'BaseFare_Amount': BaseFare_Amount,
+                        'TotalFare_CurrencyCode': TotalFare_CurrencyCode,
+                        'TotalFare_DecimalPlaces': TotalFare_DecimalPlaces,
+                        'TotalFare_Amount': TotalFare_Amount,
+                        'PTC_FBs': PTC_FBs,
+                    })
                 if return_date != 'None':
                     flight_list.append({
                         'SequenceNumber': SequenceNumber,
@@ -477,31 +501,6 @@ def read_from_xml(selected_operation_number, respath):
                         'Return_AirEquipType': Return_AirEquipType,
                         'Return_ResBookDesigQuantity': Return_ResBookDesigQuantity,
                     })
-                if return_date == 'None':
-                    flight_list.append({
-                        'SequenceNumber': SequenceNumber,
-                        'FlightNumber': FlightNumber,
-                        'ResBookDesigCode': ResBookDesigCode,
-                        'departureDate': departureDate,
-                        'departureTime': departureTime,
-                        'ArrivalDate': ArrivalDate,
-                        'ArrivalTime': ArrivalTime,
-                        'Duration': Duration,
-                        'StopQuantity': StopQuantity,
-                        'RPH': RPH,
-                        'origin': origin,
-                        'destination': destination,
-                        'OperatingAirline': OperatingAirline,
-                        'AirEquipType': AirEquipType,
-                        'ResBookDesigQuantity': ResBookDesigQuantity,
-                        'BaseFare_CurrencyCode': BaseFare_CurrencyCode,
-                        'BaseFare_DecimalPlaces': BaseFare_DecimalPlaces,
-                        'BaseFare_Amount': BaseFare_Amount,
-                        'TotalFare_CurrencyCode': TotalFare_CurrencyCode,
-                        'TotalFare_DecimalPlaces': TotalFare_DecimalPlaces,
-                        'TotalFare_Amount': TotalFare_Amount,
-                        'PTC_FBs': PTC_FBs,
-                    })
 
 
 
@@ -537,6 +536,7 @@ def read_from_xml(selected_operation_number, respath):
     elif selected_operation_number == 4:
         passengers.clear()
         Error.clear()
+        flight_list.clear()
         ErrorText = root[0][0].attrib['ShortText'] or 'None'
         ErrorCode = root[0][0].attrib['Code'] or 'None'
         Error.append({
