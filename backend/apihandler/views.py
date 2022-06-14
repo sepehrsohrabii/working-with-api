@@ -17,6 +17,7 @@ operation_one_RS = []
 selected_flight = []
 Error = []
 
+
 def operation_one(request):
     global pingRQ
     pingRQ = request.POST.get("pingRQ") or ""
@@ -31,7 +32,6 @@ def operation_one(request):
 
 
 def operation_two(request):
-    # data = json_load  # load JSON
     selected_operation_number = 2
     global origin
     global destination
@@ -49,14 +49,13 @@ def operation_two(request):
     CHDNumber = request.POST.get("CHDNumber") or '0'  # get number of people from template input
     INFNumber = request.POST.get("INFNumber") or '0'  # get number of people from template input
     Cabin = request.POST.get("Cabin") or 'Economy'  # get number of people from template input
-
     return_date = request.POST.get("Return_departureTime") or 'None'
 
     # when user clicks on the submit button of form
     if request.method == 'POST':
         flight_list.clear()
+        selected_flight.clear()
         data_handle(selected_operation_number)
-    selected_flight.clear()
     # send data to template
     operation_two_data = {
         'flight_list': flight_list,  # for results
@@ -71,19 +70,26 @@ def operation_two(request):
 
 
 def operation_three(request, FlightNumber):
-    for Flight in flight_list:
-        if Flight['FlightNumber'] in FlightNumber:
-            selected_flight.append(Flight)
-    flight_list.clear()
     selected_operation_number = 3
+    selected_flight.clear()
+    for Flight in flight_list:
+        if Flight['FlightNumber'] == FlightNumber:
+            selected_flight.append(Flight)
+            flight_list.clear()
+
     data_handle(selected_operation_number)
+    '''
     if 'return_date' in selected_flight[0]:
         selected_operation_number = 3
         data_handle(selected_operation_number)
+    '''
     return render(request, './operation_three.html', operation_three_RS)
 
 
 def operation_four(request):
+    passengers.clear()
+    Error.clear()
+    flight_list.clear()
     submit = request.POST.get('submit')
     if submit:
         selected_operation_number = 4
@@ -247,6 +253,7 @@ def write_on_xml(selected_operation_number):
         '''
 
     elif selected_operation_number == 4:
+
         root[1].attrib['DirectionInd'] = "OneWay"
         root[1][0][0][0].attrib['FlightNumber'] = selected_flight[0]['FlightNumber']
         root[1][0][0][0].attrib['ResBookDesigCode'] = selected_flight[0]['ResBookDesigCode']
@@ -264,7 +271,7 @@ def write_on_xml(selected_operation_number):
         root[1][0][0][0][4][0].attrib['ResBookDesigCode'] = selected_flight[0]['ResBookDesigCode']
         root[1][0][0][0][4][0].attrib['ResBookDesigQuantity'] = selected_flight[0]['ResBookDesigQuantity']
 
-        if selected_flight[0]['return_date']:
+        if 'return_date' in selected_flight[0]:
             root[1].attrib['DirectionInd'] = "Return"
             root[1][0].append(deepcopy(root[1][0][0]))
             root[1][0][1][0].attrib['FlightNumber'] = selected_flight[0]['Return_FlightNumber']
@@ -282,6 +289,8 @@ def write_on_xml(selected_operation_number):
             root[1][0][1][0][3].attrib['AirEquipType'] = selected_flight[0]['Return_AirEquipType']
             root[1][0][1][0][4][0].attrib['ResBookDesigCode'] = selected_flight[0]['Return_ResBookDesigCode']
             root[1][0][1][0][4][0].attrib['ResBookDesigQuantity'] = selected_flight[0]['Return_ResBookDesigQuantity']
+
+
 
         root[2][0][0].attrib['CurrencyCode'] = selected_flight[0]['BaseFare_CurrencyCode']
         root[2][0][0].attrib['DecimalPlaces'] = selected_flight[0]['BaseFare_DecimalPlaces']
@@ -502,8 +511,6 @@ def read_from_xml(selected_operation_number, respath):
                         'Return_ResBookDesigQuantity': Return_ResBookDesigQuantity,
                     })
 
-
-
     elif selected_operation_number == 3:
         global operation_three_RS
         if 'Success' in root[0].tag:
@@ -534,9 +541,6 @@ def read_from_xml(selected_operation_number, respath):
             }
 
     elif selected_operation_number == 4:
-        passengers.clear()
-        Error.clear()
-        flight_list.clear()
         ErrorText = root[0][0].attrib['ShortText'] or 'None'
         ErrorCode = root[0][0].attrib['Code'] or 'None'
         Error.append({
