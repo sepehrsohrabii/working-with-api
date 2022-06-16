@@ -45,7 +45,7 @@ def operation_two(request):
     destination = request.POST.get("destination") or 'None'  # get flight destination from template input
     departureTime = request.POST.get(
         "departureTime") or datetime.now().isoformat()  # get flight departureTime from template input
-    ADTNumber = request.POST.get("ADTNumber") or '0'  # get number of people from template input
+    ADTNumber = request.POST.get("ADTNumber") or '1'  # get number of people from template input
     CHDNumber = request.POST.get("CHDNumber") or '0'  # get number of people from template input
     INFNumber = request.POST.get("INFNumber") or '0'  # get number of people from template input
     Cabin = request.POST.get("Cabin") or 'Economy'  # get number of people from template input

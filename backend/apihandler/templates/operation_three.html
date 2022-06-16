@@ -4,11 +4,15 @@
 {% block main %}
 <div class="vw-100 vh-100 justify-content-center align-items-center">
   <div class="container progress-box d-flex justify-content-center align-items-center p-4">
-      <span class="material-icons-round fs-1 text-success me-2">network_ping</span>
-      <label>Ping</label>
+      <a href="{% url 'operation_one' %}">
+          <span class="material-icons-round fs-1 text-success me-2">network_ping</span>
+      </a>
+      <label><a href="{% url 'operation_one' %}">Ping</a></label>
       <span class="linear-gradient activated mx-3"></span>
-      <span class="material-icons-round fs-1 text-success me-2">travel_explore</span>
-      <label>Low Fare Search</label>
+      <a href="{% url 'operation_two' %}">
+          <span class="material-icons-round fs-1 text-success me-2">travel_explore</span>
+      </a>
+      <label><a href="{% url 'operation_two' %}">Low Fare Search</a></label>
       <span class="linear-gradient mx-3 activated"></span>
       <span class="material-icons-round fs-1 text-danger me-2">checklist_rtl</span>
       <label>Fare Rule</label>
@@ -44,7 +48,8 @@
       <div class="col mt-5 pt-5">
         <form method="POST" action="{% url 'operation_four' %}">
           {% csrf_token %}
-          <button type="submit" class="btn btn-outline-danger">Go To Operation Four</button>
+            <a href="{% url 'operation_two' %}" class="btn btn-outline-secondary">Back</a>
+            <button type="submit" class="btn btn-outline-danger">Go To Operation Four</button>
         </form>
       </div>
     </div>

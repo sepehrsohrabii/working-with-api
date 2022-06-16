@@ -15,7 +15,14 @@ body {
     scroll-behavior: smooth;
 	overflow-x: hidden !important;
 }
-
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+a:hover, a:focus {
+    color: inherit;
+    text-decoration: inherit;
+}
 .box1 {
     border-radius: 16px;
     backdrop-filter: blur(4.5px);

@@ -4,8 +4,11 @@
 {% block main %}
 <div class="vw-100 vh-100 justify-content-center align-items-center">
     <div class="container progress-box d-flex justify-content-center align-items-center p-4">
-        <span class="material-icons-round fs-1 text-danger me-2">network_ping</span>
-        <label>Ping</label>
+        <a href="{% url 'operation_one' %}">
+            <span class="material-icons-round fs-1 text-danger me-2">network_ping</span>
+        </a>
+        <label><a href="{% url 'operation_one' %}">Ping</a></label>
+
         <span class="linear-gradient active mx-3"></span>
         <span class="material-icons-round fs-1 activate me-2 gray">travel_explore</span>
         <label class="gray">Low Fare Search</label>
