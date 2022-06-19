@@ -17,6 +17,8 @@ operation_one_RS = []
 selected_flight = []
 Error = []
 
+#def home(request):
+#    return render(request, './home.html', context)
 
 def operation_one(request):
     global pingRQ
@@ -49,7 +51,7 @@ def operation_two(request):
     CHDNumber = request.POST.get("CHDNumber") or '0'  # get number of people from template input
     INFNumber = request.POST.get("INFNumber") or '0'  # get number of people from template input
     Cabin = request.POST.get("Cabin") or 'Economy'  # get number of people from template input
-    return_date = request.POST.get("Return_departureTime") or 'None'
+    return_date = request.POST.get("return_date") or 'None'
 
     # when user clicks on the submit button of form
     if request.method == 'POST':
@@ -66,7 +68,8 @@ def operation_two(request):
         'destination': destination,  # for nothing found result
         'departureTime': departureTime,
     }
-    return render(request, './operation_two.html', operation_two_data)
+    return render(request, './home.html', operation_two_data)
+    #return render(request, './operation_two.html', operation_two_data)
 
 
 def operation_three(request, FlightNumber):

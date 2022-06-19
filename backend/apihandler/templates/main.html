@@ -26,13 +26,60 @@
         <link rel="stylesheet" href="{% static 'CSS/style.css' %}">
     </head>
 
-    <body style="background-color:#f2f2f2">
+    <body>
+        <header>
+            <nav class="navbar navbar-expand-md fixed-top py-3 mt-3">
+                <div class="container">
+                <div class="col align-self-center text-start">
+                    <h3>PERSINO</h3>
+                </div>
+                <div class="col text-end d-none d-md-inline">
+                    <ul class="nav justify-content-end align-items-center">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href=""><h6>About Us</h6></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href=""><h6>How It Works</h6></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href=""><h6>FAQ</h6></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href=""><h6>Contact Us</h6></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col align-self-center text-end d-md-none">
+                    <button class="navbar-toggle" id="toggle" type="button">
+                    <svg viewBox="0 0 100 100" width="50">
+                        <path class="line top" d="m 30,33 h 40 c 0,0 9.044436,-0.654587 9.044436,-8.508902 0,-7.854315 -8.024349,-11.958003 -14.89975,-10.85914 -6.875401,1.098863 -13.637059,4.171617 -13.637059,16.368042 v 40" />
+                        <path class="line middle"d="m 30,50 h 40" />
+                        <path class="line bottom" d="m 30,67 h 40 c 12.796276,0 15.357889,-11.717785 15.357889,-26.851538 0,-15.133752 -4.786586,-27.274118 -16.667516,-27.274118 -11.88093,0 -18.499247,6.994427 -18.435284,17.125656 l 0.252538,40" />
+                    </svg>
+                    </button>
+                    <div class="navbar-new" id="toggle-nav">
+                    <ul id="navlinks">
+                        <li><a data-text="1" href="#footer">About Us</a></li>
+                        <li><a data-text="2" href="#howitworks">How It Works</a></li>
+                        <li><a data-text="3" href="#FAQ">FAQ</a></li>
+                        <li><a data-text="4" href="#FAQ">Contact Us</a></li>
+                    </ul>
+                    </div>
+                    <div id="bg-circle"></div>
+                </div>
+                </div>
+            </nav>
+        </header>
+        <main class="mt-5">
+            {% block main %}
 
-        {% block main %}
+            {% endblock %}
+        </main>
 
-        {% endblock %}
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/ScrollTrigger.min.js"></script>
         <script src="{% static 'JS/main.js' %}"></script>
         <script type="text/javascript">
             {% block script %}

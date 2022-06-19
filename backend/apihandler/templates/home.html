@@ -1,0 +1,279 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block title %}Persino{% endblock %}
+{% block main %}
+    <div class="container d-flex sliderBox align-items-center justify-content-center text-center">
+        <h1>Fly With</br>Cheapest Flight</h1>
+    </div>
+    <div class="container px-5">
+        <form class="container searchForm_Box p-5" method="POST" id="post-form">
+          {% csrf_token %}
+          <div class="row g-3">
+
+                <div class="col">
+                    <input class="form-control" list="originlistOptions" placeholder="Origin..." id="inputOrigin" name="origin">
+                    <datalist id="originlistOptions">
+                        <option>THR</option>
+                        <option>ESF</option>
+                        <option>BDR</option>
+                        <option>RST</option>
+                        <option>XXX</option>
+                    </datalist>
+                </div>
+                <div class="col">
+                    <input class="form-control" list="destinationlistOptions" placeholder="Destination..." id="Destination" name="destination">
+                    <datalist id="destinationlistOptions">
+                        <option>MHD</option>
+                        <option>RST</option>
+                        <option>SRZ</option>
+                        <option>LHJ</option>
+                        <option>TEH</option>
+                    </datalist>
+                </div>
+                <div class="col">
+                  <input class="form-control" id="Date" name="departureTime" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Departure Date">
+                </div>
+                <div class="col" id="Return_departureTimeCol" style="display: none;">
+                    <input class="form-control" id="Return_Date" name="Return_departureTime" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Return Date" style="display: none;">
+                </div>
+                <div class="col text-end">
+                  <button class="btn btn-outline-dark active" type="button" id="OW">One Way</button>
+                  <button class="btn btn-outline-dark" type="button" id="RT">Return</button>
+                </div>
+          </div>
+          <div class="row g-3 mt-3">
+
+            <div class="col">
+                  <select id="Cabin" class="form-select" name="Cabin">
+                    <option value="None" disabled selected>Cabin...</option>
+                    <option>Economy</option>
+                    <option>Business</option>
+                  </select>
+            </div>
+            <div class="col">
+              <input type="number" class="form-control" id="ADTNumber" value="{{ADTNumber}}" name="ADTNumber" placeholder="Adult Number">
+            </div>
+            <div class="col">
+              <input type="number" class="form-control" id="CHDNumber" value="{{CHDNumber}}" name="CHDNumber" placeholder="Child Number">
+            </div>
+            <div class="col">
+              <input type="number" class="form-control" id="INFNumber" value="{{INFNumber}}" name="INFNumber" placeholder="Infant Number">
+            </div>
+              <div class="col text-end">
+                  <button class="w-100 btn btn-success px-5 searchButton" type="submit">Search</button>
+              </div>
+          </div>
+      </form>
+    </div>
+    <div id="showresults" class="container my-5 px-0 pb-5">
+          {% if flight_list %}
+              {% for data in flight_list %}
+                  <form method="POST" action="{% url 'operation_three' FlightNumber=data.FlightNumber %}">
+                    {% csrf_token %}
+                      <div class="container alert alert-success justify-content-between align-items-center p-5" role="alert">
+                          <div class="row">
+                              <div class="col">
+                                  {% if data.return_date %}
+                                    <h4 class="d-flex align-items-center text-black mb-4">
+                                        <span class="material-icons-round fs-1">connecting_airports</span>
+                                        Return Flight
+                                    </h4>
+                                  {% else %}
+
+                                    <h4 class="d-flex align-items-center text-black mb-4">
+                                        <span class="material-icons-round fs-1">airplanemode_active</span>
+                                        One Way Flight
+                                    </h4>
+                                  {% endif %}
+                                  <p>From <b>{{data.origin}}</b> to <b>{{data.destination}}</b> on <b>{{data.departureDate}}</b> and <b>{{data.departureTime}}</b>.</p>
+                                  <p>Air Equip Type <b>{{data.AirEquipType}}</b> with <b>{{data.FlightNumber}}</b> FlightNumber.</p>
+                              </div>
+                          </div>
+                          {% if data.return_date %}
+                            <div class="row">
+                              <div class="col">
+                                  <p>Return Flight from <b>{{data.Return_origin}}</b> to <b>{{data.Return_destination}}</b> on <b>{{data.Return_departureDate}}</b> and <b>{{data.Return_departureTime}}</b>.
+                                  </p>
+                                  <p>Air Equip Type <b>{{data.Return_AirEquipType}}</b> with <b>{{data.Return_FlightNumber}}</b> Flight Number.
+                                  </p>
+                              </div>
+                            </div>
+                          {% endif %}
+                          <div class="row">
+                              <div class="col">
+                                  <a class="btn btn-warning" data-bs-toggle="modal" href="#modal{{data.FlightNumber}}" role="button">More info and reserve</a>
+                              </div>
+                          </div>
+
+                      </div>
+                      <div class="modal fade" id="modal{{data.FlightNumber}}" aria-hidden="true" aria-labelledby="modal{{data.FlightNumber}}Label" tabindex="-1">
+                        <div class="modal-dialog modal-dialog-centered" style="max-width: 800px;">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="modal{{data.FlightNumber}}Label">{{data.origin}} to {{data.destination}}</h5>
+                              <h6 class="text-danger ms-5">{{data.TotalFare_Amount}}{{data.TotalFare_CurrencyCode}}</h6>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row my-3">
+                                  <div class="col-2"><b>Go</b></div>
+                                  <div class="col">
+                                      <p>Departure Date: {{data.departureDate}}</p>
+                                      <p>DepartureTime: {{data.departureTime}}</p>
+                                  </div>
+                                  <div class="col">
+                                      <p>Arrival Date: {{data.ArrivalDate}}</p>
+                                      <p>Arrival Time: {{data.ArrivalTime}}</p>
+                                  </div>
+                                </div>
+                                {% if data.return_date %}
+                                    <div class="row my-3">
+                                        <div class="col-2"><b>Return</b></div>
+                                      <div class="col">
+                                          <p>Return Departure Date: {{data.Return_departureDate}}</p>
+                                          <p>Return Departure Time: {{data.Return_departureTime}}</p>
+                                      </div>
+                                      <div class="col">
+                                          <p>Return Arrival Date: {{data.Return_ArrivalDate}}</p>
+                                          <p>Return Arrival Time: {{data.Return_ArrivalTime}}</p>
+                                      </div>
+                                    </div>
+                                {% endif %}
+                                <div class="row my-3">
+                                  <div class="col"><b>Passengers</b></div>
+                                  <div class="col">Adults: {{ADTNumber}}</div>
+                                  <div class="col">Children: {{CHDNumber}}</div>
+                                  <div class="col">Infants: {{INFNumber}}</div>
+                                </div>
+                                <div class="row my-3">
+                                  <div class="col"><b>Base Price:</b></div>
+                                  {% for passenger in data.PTC_FBs %}
+                                    <div class="col">{{passenger.PassengerTypeQuantity_Code}}: {{passenger.PassengerFare_BaseFare_Amount}}{{passenger.PassengerFare_BaseFare_CurrencyCode}} * {{passenger.PassengerTypeQuantity_Quantity}}</div>
+                                  {% endfor %}
+                                </div>
+                                <div class="row my-3">
+                                    <div class="col-12"><b>Taxes:</b></div>
+                                    {% for passenger in data.PTC_FBs %}
+                                    <row>
+                                        <div class="col"><b>{{passenger.PassengerTypeQuantity_Code}} * {{passenger.PassengerTypeQuantity_Quantity}}</b></div>
+                                        {% for tax in passenger.Taxes %}
+                                          <div class="col">{{tax.TaxName}}: {{tax.TaxText}}{{tax.Tax_CurrencyCode}}</div>
+                                        {% endfor %}
+                                    </row>
+                                    {% endfor %}
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-outline-danger">Next Operation (Booking)</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                  </form>
+              {% endfor %}
+
+          {% elif 'None' not in origin or 'None' not in destination %}
+              <div class="alert alert-warning" role="alert">
+                  Sorry, There is no flight from {{origin}} to {{destination}} on {{departureTime}}.
+              </div>
+          {% endif %}
+
+        </div>
+{% endblock %}
+{% block script %}
+        $("#OW").click(function() {
+            $("#Return_departureTimeCol").hide();
+            $("#Return_Date").hide();
+            $("#OW").addClass('active');
+            $("#RT").removeClass('active');
+        });
+        $("#RT").click(function() {
+            $("#Return_departureTimeCol").show();
+            $("#Return_Date").show();
+            $("#RT").addClass('active');
+            $("#OW").removeClass('active');
+        });
+        $(function () {
+           var bindDatePicker = function() {
+                $(".date").datetimepicker({
+                format:'YYYY-MM-DD',
+                    icons: {
+                        time: "fa fa-clock-o",
+                        date: "fa fa-calendar",
+                        up: "fa fa-arrow-up",
+                        down: "fa fa-arrow-down"
+                    }
+                }).find('input:first').on("blur",function () {
+                    // check if the date is correct. We can accept dd-mm-yyyy and yyyy-mm-dd.
+                    // update the format if it's yyyy-mm-dd
+                    var date = parseDate($(this).val());
+                    if (! isValidDate(date)) {
+                        //create date based on momentjs (we have that)
+                        date = moment().format('YYYY-MM-DD');
+                    }
+                    $(this).val(date);
+                });
+            }
+           var isValidDate = function(value, format) {
+                format = format || false;
+                // lets parse the date to the best of our knowledge
+                if (format) {
+                    value = parseDate(value);
+                }
+                var timestamp = Date.parse(value);
+                return isNaN(timestamp) == false;
+           }
+           var parseDate = function(value) {
+                var m = value.match(/^(\d{1,2})(\/|-)?(\d{1,2})(\/|-)?(\d{4})$/);
+                if (m)
+                    value = m[5] + '-' + ("00" + m[3]).slice(-2) + '-' + ("00" + m[1]).slice(-2);
+                return value;
+           }
+           bindDatePicker();
+         });
+
+
+        // Submit post on submit
+        $('#post-form').on('submit', function(event){
+            event.preventDefault();
+            create_post();
+        });
+        // AJAX for posting
+        function create_post() {
+            $.ajax({
+                url : "", // the endpoint
+                type : "POST", // http method
+                data : {
+                    origin : $("#inputOrigin").val(),
+                    destination : $('#Destination').val(),
+                    departureTime : $('#Date').val(),
+                    ADTNumber : $('#ADTNumber').val(),
+                    CHDNumber : $('#CHDNumber').val(),
+                    INFNumber : $('#INFNumber').val(),
+                    Cabin : $('#Cabin').val(),
+                    return_date : $('#Return_Date').val(),
+                    csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                }, // data sent with the post request
+
+                // handle a successful response
+                success : function(json) {
+                    var result = $('<div />').append(json).find('#showresults').html();
+                    $('#showresults').html(result);
+                    $("#inputOrigin").val(''),
+                    $('#Destination').val(''),
+                    $('#Date').val(''),
+                    $('#ADTNumber').val(''),
+                    $('#CHDNumber').val(''),
+                    $('#INFNumber').val(''),
+                    $('#Return_Date').val('')
+                },
+                // handle a non-successful response
+                error : function(xhr,errmsg,err) {
+                    $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+                        " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+                }
+            });
+        };
+
+{% endblock %}
