@@ -9,20 +9,15 @@
     <div class="container px-5">
         <form class="container searchForm_Box p-5" method="POST" id="post-form">
           {% csrf_token %}
+          <div class="button-box1 text-end position-absolute">
+            <button class="wayButton btn btn-outline-dark active fw-bold" type="button" id="OW">One Way</button>
+            <button class="wayButton btn btn-outline-dark fw-bold" type="button" id="RT">Return</button>
+          </div>
           <div class="row g-3">
                 <div class="col">
-                  <div class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-leading-icon">
-                    <i class="material-icons mdc-text-field__icon">favorite</i>
-                    <input class="mdc-text-field__input" id="text-field-hero-input">
-                    <div class="mdc-notched-outline">
-                      <div class="mdc-notched-outline__leading"></div>
-                      <div class="mdc-notched-outline__notch">
-                        <label for="text-field-hero-input" class="mdc-floating-label">Lable</label>
-                      </div>
-                      <div class="mdc-notched-outline__trailing"></div>
-                    </div>
-                  </div>
+                  <div class="form-floating">
                     <input class="form-control" list="originlistOptions" placeholder="Origin..." id="inputOrigin" name="origin">
+                    <label for="inputOrigin">Origin</label>
                     <datalist id="originlistOptions">
                         <option>THR</option>
                         <option>ESF</option>
@@ -30,9 +25,12 @@
                         <option>RST</option>
                         <option>XXX</option>
                     </datalist>
+                  </div>
                 </div>
                 <div class="col">
+                  <div class="form-floating">
                     <input class="form-control" list="destinationlistOptions" placeholder="Destination..." id="Destination" name="destination">
+                    <label for="Destination">Destination</label>
                     <datalist id="destinationlistOptions">
                         <option>MHD</option>
                         <option>RST</option>
@@ -40,43 +38,54 @@
                         <option>LHJ</option>
                         <option>TEH</option>
                     </datalist>
+                  </div>
                 </div>
                 <div class="col">
-                  <input class="form-control" id="Date" name="departureTime" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Departure Date">
+                  <div class="form-floating">
+                    <input class="form-control" id="Date" name="departureTime" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Departure Date">
+                    <label for="Date">Departure Date</label>
+                  </div>
                 </div>
                 <div class="col" id="Return_departureTimeCol" style="display: none;">
+                  <div class="form-floating">
                     <input class="form-control" id="Return_Date" name="Return_departureTime" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Return Date" style="display: none;">
+                    <label for="Return_Date">Return Date</label>
+                  </div>
                 </div>
-                <div class="col text-end">
-                  <button class="btn btn-outline-dark active" type="button" id="OW">One Way</button>
-                  <button class="btn btn-outline-dark" type="button" id="RT">Return</button>
-                </div>
+                
           </div>
           <div class="row g-3 mt-3">
-
             <div class="col">
+                <div class="form-floating">
                   <select id="Cabin" class="form-select" name="Cabin">
-                    <option value="None" disabled selected>Cabin...</option>
                     <option>Economy</option>
                     <option>Business</option>
                   </select>
+                  <label for="Cabin">Cabin</label>
+                </div>
             </div>
             <div class="col">
-              <input type="number" class="form-control" id="ADTNumber" value="{{ADTNumber}}" name="ADTNumber" placeholder="Adult Number">
+              <div class="form-floating">
+                <input type="number" class="form-control" id="ADTNumber" value="{{ADTNumber}}" name="ADTNumber" placeholder="Adult Number">
+                <label for="ADTNumber">Adult Number</label>
+              </div>
             </div>
             <div class="col">
-              <input type="number" class="form-control" id="CHDNumber" value="{{CHDNumber}}" name="CHDNumber" placeholder="Child Number">
+              <div class="form-floating">
+                <input type="number" class="form-control" id="CHDNumber" value="{{CHDNumber}}" name="CHDNumber" placeholder="Child Number">
+                <label for="CHDNumber">Child Number</label>
+              </div>
             </div>
             <div class="col">
-              <input type="number" class="form-control" id="INFNumber" value="{{INFNumber}}" name="INFNumber" placeholder="Infant Number">
+              <div class="form-floating">
+                <input type="number" class="form-control" id="INFNumber" value="{{INFNumber}}" name="INFNumber" placeholder="Infant Number">
+                <label for="INFNumber">Infant Number</label>
+              </div>
             </div>
           </div>
-          <button class="mdc-button mdc-button--raised mdc-button--leading position-absolute searchButton fw-bold" type="submit">
-            <span class="mdc-button__ripple"></span>
-            <i class="material-icons mdc-button__icon" aria-hidden="true"
-              >search</i
-            >
-            <span class="mdc-button__label">Search for Cheapest</span>
+          <button class="btn btn-outline position-absolute searchButton fw-bold me-5 px-4" type="submit">
+            <i class="fa fa-search"></i>
+            Search for Cheapest
           </button>
           
       </form>
@@ -188,20 +197,6 @@
           {% endif %}
 
     </div>
-
-
-
-
-    
-
-        
-
-
-
-
-
-
-
 
 {% endblock %}
 {% block script %}

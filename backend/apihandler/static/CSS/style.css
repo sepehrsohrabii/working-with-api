@@ -421,9 +421,25 @@ i.activate {
   background-color: var(--color2) !important;
   border-color: var(--color2) !important;
   box-shadow: none !important;
-  margin-left: 62.5%;
   margin-top: 1.5%;
   height: 45px;
+  right: 0;
+}
+.button-box1 {
+  width: 300px;
+  height: 45px;
+  margin-top: -6%;
+}
+.wayButton {
+  background-color: white !important;
+  border-color: var(--color1) !important;
+  box-shadow: none !important;
+  height: 45px;
+}
+.wayButton.active {
+  background-color: var(--color1) !important;
+  color: var(--color4) !important;
+  border-color: var(--color1) !important;
 }
 
 .ticket-system {
