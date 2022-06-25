@@ -2,15 +2,26 @@
 {% load static %}
 {% block title %}Persino{% endblock %}
 {% block main %}
-    <div class="container d-flex sliderBox align-items-center justify-content-center text-center">
-        <h1>Fly With</br>Cheapest Flight</h1>
+    <div class="container align-items-center justify-content-center text-center">
+        <h1 class="color1 mt-6">Fly With</br>Cheapest Flight</h1>
+        <lottie-player class="mt-n-1" src="https://assets8.lottiefiles.com/packages/lf20_tCIUzD.json"  background="transparent"  speed="1"  style="width: 100%;"  loop  autoplay></lottie-player>
     </div>
     <div class="container px-5">
         <form class="container searchForm_Box p-5" method="POST" id="post-form">
           {% csrf_token %}
           <div class="row g-3">
-
                 <div class="col">
+                  <div class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-leading-icon">
+                    <i class="material-icons mdc-text-field__icon">favorite</i>
+                    <input class="mdc-text-field__input" id="text-field-hero-input">
+                    <div class="mdc-notched-outline">
+                      <div class="mdc-notched-outline__leading"></div>
+                      <div class="mdc-notched-outline__notch">
+                        <label for="text-field-hero-input" class="mdc-floating-label">Lable</label>
+                      </div>
+                      <div class="mdc-notched-outline__trailing"></div>
+                    </div>
+                  </div>
                     <input class="form-control" list="originlistOptions" placeholder="Origin..." id="inputOrigin" name="origin">
                     <datalist id="originlistOptions">
                         <option>THR</option>
@@ -59,117 +70,114 @@
             <div class="col">
               <input type="number" class="form-control" id="INFNumber" value="{{INFNumber}}" name="INFNumber" placeholder="Infant Number">
             </div>
-              <div class="col text-end">
-                  <button class="w-100 btn btn-success px-5 searchButton" type="submit">Search</button>
-              </div>
           </div>
+          <button class="mdc-button mdc-button--raised mdc-button--leading position-absolute searchButton fw-bold" type="submit">
+            <span class="mdc-button__ripple"></span>
+            <i class="material-icons mdc-button__icon" aria-hidden="true"
+              >search</i
+            >
+            <span class="mdc-button__label">Search for Cheapest</span>
+          </button>
+          
       </form>
+    </div>
+    <div id="loader" class="container">
+        <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_h7uimaj6.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px; margin: auto;"  loop autoplay></lottie-player>
     </div>
     <div id="showresults" class="container my-5 px-0 pb-5">
           {% if flight_list %}
               {% for data in flight_list %}
-                  <form method="POST" action="{% url 'operation_three' FlightNumber=data.FlightNumber %}">
+                  <form method="POST" action="{% url 'booking_page' FlightNumber=data.FlightNumber %}">
                     {% csrf_token %}
-                      <div class="container alert alert-success justify-content-between align-items-center p-5" role="alert">
-                          <div class="row">
-                              <div class="col">
-                                  {% if data.return_date %}
-                                    <h4 class="d-flex align-items-center text-black mb-4">
-                                        <span class="material-icons-round fs-1">connecting_airports</span>
-                                        Return Flight
-                                    </h4>
-                                  {% else %}
-
-                                    <h4 class="d-flex align-items-center text-black mb-4">
-                                        <span class="material-icons-round fs-1">airplanemode_active</span>
-                                        One Way Flight
-                                    </h4>
-                                  {% endif %}
-                                  <p>From <b>{{data.origin}}</b> to <b>{{data.destination}}</b> on <b>{{data.departureDate}}</b> and <b>{{data.departureTime}}</b>.</p>
-                                  <p>Air Equip Type <b>{{data.AirEquipType}}</b> with <b>{{data.FlightNumber}}</b> FlightNumber.</p>
-                              </div>
+                      <div class="container py-5">
+                        <div class="ticket-system">
+                          <div class="top">
+                          <div class="printer" />
                           </div>
-                          {% if data.return_date %}
-                            <div class="row">
-                              <div class="col">
-                                  <p>Return Flight from <b>{{data.Return_origin}}</b> to <b>{{data.Return_destination}}</b> on <b>{{data.Return_departureDate}}</b> and <b>{{data.Return_departureTime}}</b>.
-                                  </p>
-                                  <p>Air Equip Type <b>{{data.Return_AirEquipType}}</b> with <b>{{data.Return_FlightNumber}}</b> Flight Number.
-                                  </p>
-                              </div>
-                            </div>
-                          {% endif %}
-                          <div class="row">
-                              <div class="col">
-                                  <a class="btn btn-warning" data-bs-toggle="modal" href="#modal{{data.FlightNumber}}" role="button">More info and reserve</a>
-                              </div>
-                          </div>
-
-                      </div>
-                      <div class="modal fade" id="modal{{data.FlightNumber}}" aria-hidden="true" aria-labelledby="modal{{data.FlightNumber}}Label" tabindex="-1">
-                        <div class="modal-dialog modal-dialog-centered" style="max-width: 800px;">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="modal{{data.FlightNumber}}Label">{{data.origin}} to {{data.destination}}</h5>
-                              <h6 class="text-danger ms-5">{{data.TotalFare_Amount}}{{data.TotalFare_CurrencyCode}}</h6>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="row my-3">
-                                  <div class="col-2"><b>Go</b></div>
-                                  <div class="col">
-                                      <p>Departure Date: {{data.departureDate}}</p>
-                                      <p>DepartureTime: {{data.departureTime}}</p>
-                                  </div>
-                                  <div class="col">
-                                      <p>Arrival Date: {{data.ArrivalDate}}</p>
-                                      <p>Arrival Time: {{data.ArrivalTime}}</p>
-                                  </div>
-                                </div>
-                                {% if data.return_date %}
-                                    <div class="row my-3">
-                                        <div class="col-2"><b>Return</b></div>
+                          <div class="receipts-wrapper py-3">
+                              <div class="receipts">
+                                <div class="receipt col-8">
+                                  <div class="row">
                                       <div class="col">
-                                          <p>Return Departure Date: {{data.Return_departureDate}}</p>
-                                          <p>Return Departure Time: {{data.Return_departureTime}}</p>
+                                        <h3 class="fw-light mb-3">{{data.origin}}</h3>
+                                        <h6 class="text-secondary">Tehran</h6>
+                                        <h6 class="text-secondary">{{data.departureDate}}</h6>
+                                        <h6 class="text-secondary">{{data.departureTime}}</h6>
+                                        
+                                        {% if data.return_date %}
+                                          <h6 class="color1 mt-3">#Return</h6>
+                                          <h6 class="text-secondary">{{data.Return_ArrivalDate}}</h6>
+                                          <h6 class="text-secondary">{{data.Return_ArrivalTime}}</h6>
+                                        {% endif %}
+
                                       </div>
-                                      <div class="col">
-                                          <p>Return Arrival Date: {{data.Return_ArrivalDate}}</p>
-                                          <p>Return Arrival Time: {{data.Return_ArrivalTime}}</p>
+                                      <div class="col text-center">
+                                        <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_d8skfitr.json"  background="transparent"  speed="1"  style="width: 300px; height: 50px;"  loop  autoplay></lottie-player>
+                                        
+                                        {% if data.return_date %}
+                                          <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_d8skfitr.json"  background="transparent"  speed="1"  style="width: 300px; height: 50px; transform: rotate(180deg); margin-top: -30px;"  loop  autoplay></lottie-player>
+                                        {% endif %}
+
+                                        {% if data.return_date %}
+                                          <h5 class="text-secondary my-2">Return Flight</h5>
+                                        {% else %}
+                                          <h5 class="text-secondary my-2">One Way Flight</h5>
+                                        {% endif %}
+                                        <img class="mt-4" src="{% static 'IMG/IranAir-Logo.svg' %}" alt="Iran Air Logo" width="120px"/>
+                                      </div>
+                                      <div class="col text-end">
+                                        <h3 class="fw-light mb-3">{{data.destination}}</h3>
+                                        <h6 class="text-secondary">Mashhad</h6>
+                                        <h6 class="text-secondary">{{data.ArrivalDate}}</h6>
+                                        <h6 class="text-secondary">{{data.ArrivalTime}}</h6>
+                  
+                                        {% if data.return_date %}
+                                          <h6 class="color1 mt-3">#Return</h6>
+                                          <h6 class="text-secondary">{{data.Return_departureDate}}</h6>
+                                          <h6 class="text-secondary">{{data.Return_departureTime}}</h6>
+                                        {% endif %}
+                                      </div>
+                                  </div>
+                                    <div class="row mt-4 justify-content-between">
+                                      <div class="col align-self-center">
+                                        <h6 class="">Flight No.</h6>
+                                        <h6 class="text-secondary">{{data.FlightNumber}}</h6>
+                                        {% if data.return_date %}
+                                          <h6 class="color1 mt-3">#Return</h6>
+                                          <h6 class="text-secondary">{{data.Return_FlightNumber}}</h6>
+                                        {% endif %}
+                                      </div>
+                                      <div class="col align-self-center text-end">
+                                        <h6 class="">Air Equip Type</h6>
+                                        <h6 class="text-secondary">{{data.AirEquipType}}</h6>
+                                        {% if data.return_date %}
+                                          <h6 class="color1 mt-3">#Return</h6>
+                                          <h6 class="text-secondary">{{data.Return_AirEquipType}}</h6>
+                                        {% endif %}
                                       </div>
                                     </div>
-                                {% endif %}
-                                <div class="row my-3">
-                                  <div class="col"><b>Passengers</b></div>
-                                  <div class="col">Adults: {{ADTNumber}}</div>
-                                  <div class="col">Children: {{CHDNumber}}</div>
-                                  <div class="col">Infants: {{INFNumber}}</div>
+                                    
                                 </div>
-                                <div class="row my-3">
-                                  <div class="col"><b>Base Price:</b></div>
-                                  {% for passenger in data.PTC_FBs %}
-                                    <div class="col">{{passenger.PassengerTypeQuantity_Code}}: {{passenger.PassengerFare_BaseFare_Amount}}{{passenger.PassengerFare_BaseFare_CurrencyCode}} * {{passenger.PassengerTypeQuantity_Quantity}}</div>
-                                  {% endfor %}
+                                <div class="receipt col-4 qr-code">
+                                  <div class="container text-center p-5">
+                                    <div class="row">
+                                      <h6 class="text-secondary">Total Price</h6>
+                                      <h3 class="color1">{{data.TotalFare_Amount}} {{data.TotalFare_CurrencyCode}}</h3>
+                                    </div>
+                                    <div class="row mt-5">
+                                      <button type="submit" class="bookingBtn p-2"><h5 class="fw-normal">Book/Reserve</h5></button>
+                                    </div>
+                                    <div class="row mt-2">
+                                      <h6><a class="text-secondary">Flight Fare Rules</a></h6>
+                                    </div>
+                                  </div>
+                                    
                                 </div>
-                                <div class="row my-3">
-                                    <div class="col-12"><b>Taxes:</b></div>
-                                    {% for passenger in data.PTC_FBs %}
-                                    <row>
-                                        <div class="col"><b>{{passenger.PassengerTypeQuantity_Code}} * {{passenger.PassengerTypeQuantity_Quantity}}</b></div>
-                                        {% for tax in passenger.Taxes %}
-                                          <div class="col">{{tax.TaxName}}: {{tax.TaxText}}{{tax.Tax_CurrencyCode}}</div>
-                                        {% endfor %}
-                                    </row>
-                                    {% endfor %}
-                                </div>
-
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-outline-danger">Next Operation (Booking)</button>
-                            </div>
+                              </div>
                           </div>
                         </div>
                       </div>
+                      
                   </form>
               {% endfor %}
 
@@ -179,7 +187,22 @@
               </div>
           {% endif %}
 
-        </div>
+    </div>
+
+
+
+
+    
+
+        
+
+
+
+
+
+
+
+
 {% endblock %}
 {% block script %}
         $("#OW").click(function() {
@@ -233,7 +256,8 @@
            bindDatePicker();
          });
 
-
+        $('#loader').fadeOut();
+        $('#showresults').fadeOut();
         // Submit post on submit
         $('#post-form').on('submit', function(event){
             event.preventDefault();
@@ -244,6 +268,10 @@
             $.ajax({
                 url : "", // the endpoint
                 type : "POST", // http method
+                beforeSend: function () {
+                    $('#loader').fadeIn();
+                    $('#showresults').fadeOut();
+                    },
                 data : {
                     origin : $("#inputOrigin").val(),
                     destination : $('#Destination').val(),
@@ -258,6 +286,8 @@
 
                 // handle a successful response
                 success : function(json) {
+                    $('#loader').fadeOut();
+                    $('#showresults').fadeIn();
                     var result = $('<div />').append(json).find('#showresults').html();
                     $('#showresults').html(result);
                     $("#inputOrigin").val(''),
@@ -275,5 +305,4 @@
                 }
             });
         };
-
 {% endblock %}

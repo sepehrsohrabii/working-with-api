@@ -17,56 +17,60 @@
         <link rel="icon" type="image/x-icon" href="/img/favicon.png">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+
+        <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+        <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+
         <link rel="stylesheet" href="{% static 'CSS/style.css' %}">
     </head>
 
     <body>
-        <header>
-            <nav class="navbar navbar-expand-md fixed-top py-3 mt-3">
-                <div class="container">
-                <div class="col align-self-center text-start">
-                    <h3>PERSINO</h3>
-                </div>
-                <div class="col text-end d-none d-md-inline">
-                    <ul class="nav justify-content-end align-items-center">
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href=""><h6>About Us</h6></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href=""><h6>How It Works</h6></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href=""><h6>FAQ</h6></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href=""><h6>Contact Us</h6></a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col align-self-center text-end d-md-none">
-                    <button class="navbar-toggle" id="toggle" type="button">
-                    <svg viewBox="0 0 100 100" width="50">
-                        <path class="line top" d="m 30,33 h 40 c 0,0 9.044436,-0.654587 9.044436,-8.508902 0,-7.854315 -8.024349,-11.958003 -14.89975,-10.85914 -6.875401,1.098863 -13.637059,4.171617 -13.637059,16.368042 v 40" />
-                        <path class="line middle"d="m 30,50 h 40" />
-                        <path class="line bottom" d="m 30,67 h 40 c 12.796276,0 15.357889,-11.717785 15.357889,-26.851538 0,-15.133752 -4.786586,-27.274118 -16.667516,-27.274118 -11.88093,0 -18.499247,6.994427 -18.435284,17.125656 l 0.252538,40" />
-                    </svg>
-                    </button>
-                    <div class="navbar-new" id="toggle-nav">
-                    <ul id="navlinks">
-                        <li><a data-text="1" href="#footer">About Us</a></li>
-                        <li><a data-text="2" href="#howitworks">How It Works</a></li>
-                        <li><a data-text="3" href="#FAQ">FAQ</a></li>
-                        <li><a data-text="4" href="#FAQ">Contact Us</a></li>
-                    </ul>
+        <header class="d-flex justify-content-center">
+            <nav class="container navbar navbar-expand-md fixed-top px-3 mt-3 py-3">
+                <div class="container text-white">
+                    <div class="col align-self-center text-start d-flex align-items-center">
+                        <h4>PERSINO</h4>
                     </div>
-                    <div id="bg-circle"></div>
-                </div>
+                    <div class="col text-end d-none d-md-inline">
+                        <ul class="nav justify-content-end align-items-center">
+                            <li class="nav-item">
+                                <a class="nav-link text-white" aria-current="page" href="{% url 'home_page' %}"><h6>Home</h6></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="{% url 'operation_one' %}"><h6>Full Test</h6></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href=""><h6>FAQ</h6></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href=""><h6>Contact Us</h6></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col align-self-center text-end d-md-none">
+                        <button class="navbar-toggle" id="toggle" type="button">
+                        <svg viewBox="0 0 100 100" width="50">
+                            <path class="line top" d="m 30,33 h 40 c 0,0 9.044436,-0.654587 9.044436,-8.508902 0,-7.854315 -8.024349,-11.958003 -14.89975,-10.85914 -6.875401,1.098863 -13.637059,4.171617 -13.637059,16.368042 v 40" />
+                            <path class="line middle"d="m 30,50 h 40" />
+                            <path class="line bottom" d="m 30,67 h 40 c 12.796276,0 15.357889,-11.717785 15.357889,-26.851538 0,-15.133752 -4.786586,-27.274118 -16.667516,-27.274118 -11.88093,0 -18.499247,6.994427 -18.435284,17.125656 l 0.252538,40" />
+                        </svg>
+                        </button>
+                        <div class="navbar-new" id="toggle-nav">
+                        <ul id="navlinks">
+                            <li><a data-text="1" href="{% url 'home_page' %}">Home</a></li>
+                            <li><a data-text="2" href="{% url 'operation_one' %}">Full Test</a></li>
+                            <li><a data-text="3" href="#FAQ">FAQ</a></li>
+                            <li><a data-text="4" href="#FAQ">Contact Us</a></li>
+                        </ul>
+                        </div>
+                        <div id="bg-circle"></div>
+                    </div>
                 </div>
             </nav>
         </header>
@@ -75,11 +79,53 @@
 
             {% endblock %}
         </main>
+        <footer class="d-flex align-items-center text-md-start text-center" id="footer">
+            <div class="footer-new container p-5">
+                <div class="row justify-content-between">
+                    <div class="col-md-2">
+                        <img src="/img/logo footer.svg" alt="Advva Logo for footer" height="72px">
+                    </div>
+                    <div class="col-md-2 ">
+                        <h6 class="fw-normal mb-md-3 pt-5 pt-md-0">
+                        FOLLOW US
+                        </h6>
+                        <a href="https://www.instagram.com/advvainc/"><img src="/img/instagram.svg" alt="advva deals instagram"></a>
+                        <a href="#"><img src="/img/linkedin.svg" alt="advva deals linkedin"></a>
+                        <a href="https://www.facebook.com/Advva-103036491994850"><img src="/img/facebook.svg" alt="advva deals facebook"></a>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="row">
+                        <div class="col fs2 px-4 px-md-0 pt-md-0 pt-4">Advva, one of the largest advertising companies in California, is wrapping cars now.
+                            You can make extra money every month.</div>
+                        </div>
+                        <div class="row justify-content-between mt-md-2 pt-4 pt-md-0 px-md-0">
+                        <div class="col-md-8 col-12 fs2 fw-bold px-md-0">Advertising & Marketing Agency</div>
+                        <div class="col-md-4 col-12 fs2 text-center text-md-end px-md-0">Ⓒ 2022 Advva Inc.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-md-5 mt-3 pt-md-4 justify-content-between">
+                <div class="col-md-5 d-md-block d-grid">
+                    <a class="fs2 pe-md-2" href="/Terms-of-Use">Terms of Use</a>
+                    <a class="fs2 mx-md-5 px-md-4" href="/Privacy-Statement">Privacy Statement</a>
+                    <a class="fs2 ps-md-1" href="/Terms-of-Sale">Terms of Sale</a>
+                </div>
+                <div class="col-md-5 mt-md-0 mt-3 text-md-end text-center px-md-0">
+                    <span class="fs2 text-secondary">Design & Develope By <a class="colorFour" href="https://viana-studio.com/">Viana-Studio</a></span>
+                </div>
+                </div>
+            </div>
+        </footer>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+        
+        <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+        
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/ScrollTrigger.min.js"></script>
+        <script src="https://unpkg.com/@lottiefiles/lottie-interactivity@latest/dist/lottie-interactivity.min.js"></script>
+        <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
         <script src="{% static 'JS/main.js' %}"></script>
         <script type="text/javascript">
             {% block script %}
