@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-#=dzwkljo1x!52c$d#i!%gw525ongp6lc5f&17n-@4czvtjvz_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'persino24.com', 'persino.ru']
 
 
 # Application definition
@@ -76,8 +76,12 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'persino',
+        'USER': 'persinouser',
+        'PASSWORD': 'Persino#2021',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 

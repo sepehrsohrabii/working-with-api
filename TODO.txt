@@ -1,0 +1,8 @@
+1- User management -> User Admin or Client User
+
+2- Gozaresh giri dar panele Admin
+
+3- Save kardane hameye data ha (blit haye book shode blit haye kharidari shode) dar database -> in etelaAt bayad tuye yek 
+    databasei gharar begire ke ghabeliate gozaresh giri ham dashte bashe bar asase zaman ya har chize digei.
+
+4- Aval namayesh bede bad emkane download bede.

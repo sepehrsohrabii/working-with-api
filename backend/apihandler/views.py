@@ -16,6 +16,7 @@ passengers = []
 operation_one_RS = []
 selected_flight = []
 Error = []
+operation_three_RS = {}
 
 def home_page(request):
     selected_operation_number = 2
@@ -613,7 +614,6 @@ def read_from_xml(selected_operation_number, respath):
                     })
 
     elif selected_operation_number == 3:
-        global operation_three_RS
         if 'Success' in root[0].tag:
             try:
                 FareRuleText = root[2][0].text
