@@ -5,4 +5,6 @@
 3- Save kardane hameye data ha (blit haye book shode blit haye kharidari shode) dar database -> in etelaAt bayad tuye yek 
     databasei gharar begire ke ghabeliate gozaresh giri ham dashte bashe bar asase zaman ya har chize digei.
 
+    Ye model bayad besazim be esme search tamame field haye search ro tu model dashte bashim ke harbar ke search mishe datae search add beshe be un model.
+
 4- Aval namayesh bede bad emkane download bede.

@@ -17,7 +17,7 @@
         <link rel="icon" type="image/x-icon" href="/img/favicon.png">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
@@ -44,9 +44,27 @@
                             <li class="nav-item">
                                 <a class="nav-link text-white" href=""><h6>FAQ</h6></a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item border-end">
                                 <a class="nav-link text-white" href=""><h6>Contact Us</h6></a>
                             </li>
+                            {% if user.is_authenticated %}
+                                <li class="nav-item">
+                                    <a class="nav-link text-white dropdown-toggle d-flex align-items-center" type="button" id="accountsDropdown" data-bs-toggle="dropdown" aria-expanded="false"><h6 class="fw-bold">Hi {{ user.first_name }}</h6></a>
+                                    <ul class="dropdown-menu" aria-labelledby="accountsDropdown" style="right: 0 !important; left: unset !important;">
+                                        <li><a class="dropdown-item" href="{% url 'userProfile' %}">Profile</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'logoutView' %}">Logout</a></li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                    </ul>
+                                </li>
+                            {% else %}
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" href="{% url 'loginView' %}"><h6 class="fw-bold">Login</h6></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" href="{% url 'signupView' %}"><h6 class="fw-bold">Signup</h6></a>
+                                </li>
+                            {% endif %}
+
                         </ul>
                     </div>
                     <div class="col align-self-center text-end d-md-none">

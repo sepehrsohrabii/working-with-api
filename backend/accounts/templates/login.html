@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="UTF-8">
+        <title>Login</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-title" content="Persino Login">
+        <meta name="robots" content="max-image-preview:large">
+        <meta itemprop="name" content="Persino Login">
+        <meta itemprop="url" content="">
+
+        <link rel="icon" type="image/x-icon" href="/img/favicon.png">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="{% static 'CSS/style.css' %}">
+    </head>
+
+    <body>
+
+        <div class="vw-100 vh-100 d-flex align-items-center">
+            <div class="row w-100">
+                <div class="col d-flex align-items-center justify-content-center vh-100 p-5">
+
+                    <form class="w-50" id="loginForm" method="POST">
+                        {% csrf_token %}
+                        <h2 class="fw-bold">Login</h2>
+                        <h6 class="text-secondary mb-5">Join us to have cheapest tickets in your email</h6>
+                        <div class="form-floating mb-2">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your Email" required/>
+                            <label for="email">Email</label>
+                        </div>
+                        <div class="form-floating mb-2">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required/>
+                            <label for="password">Password</label>
+                        </div>
+                        {% if not user.is_authenticated and request.method == 'POST' %}
+                            <p class="text-danger">Sorry, Your email or password is incorrect.</p>
+                        {% endif %}
+                        <button type="submit" class="btn btn-primary w-100 mt-4 py-2"><h4>Login</h4></button>
+                    </form>
+                </div>
+                <div class="col bg1 vh-100 d-flex align-items-center">
+                    <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_umqaz2yv.json"  background="transparent"  speed="1"  style="width: 100%;"  loop  autoplay></lottie-player>
+                </div>
+            </div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/ScrollTrigger.min.js"></script>
+        <script src="https://unpkg.com/@lottiefiles/lottie-interactivity@latest/dist/lottie-interactivity.min.js"></script>
+        <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+        <script src="{% static 'JS/main.js' %}"></script>
+    </body>
+</html>

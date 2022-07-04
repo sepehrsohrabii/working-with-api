@@ -1,0 +1,26 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block title %}{{ user.first_name }} Persino Profile{% endblock %}
+{% block main %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12 box4 d-flex justify-content-center align-items-center">
+                <h4>Hi {{user.first_name}}!</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3">
+                <lottie-player class="profilePic" src="https://assets2.lottiefiles.com/packages/lf20_kousotsb.json"  background="transparent"  speed="1"  style="width: 150px; height: 150px;"  loop autoplay></lottie-player>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+{% endblock %}
