@@ -1,17 +1,21 @@
 $(document).ready(function(){
 	$(window).on("scroll",function(){
-  	var wn = $(window).scrollTop();
-    if(wn > 120){
-      $(".navbar").css("background-color","#E4F9FF");
-      $(".navbar").removeClass("py-3");
-      $(".navbar").css("transition","0.3s");
-      $(".navbar").removeClass("mt-3");
-    }
-    else{
-      $(".navbar").addClass("py-3");
-      $(".navbar").css("background-color","#E4F9FF");
-      $(".navbar").removeClass("mt-3");
-    }
+	var x = window.matchMedia("(min-width: 769px)")
+	if (x.matches) { // If media query matches
+        var wn = $(window).scrollTop();
+        if(wn > 120){
+          $(".navbar").css("background-color","#E4F9FF");
+          $(".navbar").removeClass("py-md-3");
+          $(".navbar").css("transition","0.3s");
+          $(".navbar").removeClass("mt-3");
+        }
+        else{
+          $(".navbar").addClass("py-md-3");
+          $(".navbar").css("background-color","#E4F9FF");
+          $(".navbar").removeClass("mt-3");
+        }
+    } else {}
+
   });
 });
  $(function () {

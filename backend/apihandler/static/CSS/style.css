@@ -11,7 +11,7 @@ body {
     -webkit-font-smoothing: antialiased;
     scroll-behavior: smooth;
     overflow-x: hidden !important;
-    background-color: #fff;
+    background-color: #e6f0f2;
     --color1: #FA163F;
     --color2: #12CAD6;
     --color3: #0FABBC;
@@ -25,36 +25,21 @@ h1, h2, h3, h4, h5, h6 {
 }
 h1{
     font-weight: 900;
-    color: #fff;
     margin-bottom: 0;
   }
   @media (max-width:768px) {
-    h1 {
-      font-size: 40px;
+    .searchButton {
+        left: 25px !important;
+        right: 25px !important;
+        bottom: -20px !important;
+    }
+    .button-box1 {
+        left: 25px;
+        right: 25px;
+        margin-top: -25%;
     }
   }
   @media (min-width: 769px) {
-    h1 {
-      font-size: 67.34px;
-    }
-    h2 {
-      font-size: 50.52px;
-    }
-    h3 {
-      font-size: 37.90px;
-    }
-    h4 {
-      font-size: 28.43px;
-    }
-    h5 {
-      font-size: 21.33px;
-    }
-    h6 {
-      font-size: 16.00px;
-    }
-    .mt-6 {
-      margin-top: 200px !important;
-    }
     .mt-n-1 {
       margin-top: -158px !important;
     }
@@ -62,8 +47,15 @@ h1{
       left: auto !important;
       right: auto !important;
     }
+    .button-box1 {
+      width: 300px;
+      height: 45px;
+      margin-top: -6%;
+    }
   }
-
+.mt-6 {
+      margin-top: 200px !important;
+    }
 a {
   color: black !important;
   text-decoration: inherit !important;
@@ -72,7 +64,19 @@ a:hover, a:focus {
     color: #7C3E66 !important;
     text-decoration: inherit !important;
 }
+.img-default {
+    object-fit: cover;
+    object-position: center center;
+}
+.rounded {
+    border-radius: 16px !important;
+}
+/* Centered text */
+.centered {
+  position: absolute;
 
+  transform: translate(-50%, -50%);
+}
 .box1 {
     border-radius: 16px;
     backdrop-filter: blur(4.5px);
@@ -81,6 +85,10 @@ a:hover, a:focus {
     box-shadow:  20px 20px 60px #bebebe,
                  -20px -20px 60px #ffffff;
     padding: 12px;
+}
+.with-line:before {
+    content: "\00a0\00a0\00a0\00a0\00a0\00a0";
+    text-decoration: line-through;
 }
 .box2 {
     border-radius: 16px;
@@ -431,11 +439,7 @@ i.activate {
   height: 45px;
   right: 0;
 }
-.button-box1 {
-  width: 300px;
-  height: 45px;
-  margin-top: -6%;
-}
+
 .wayButton {
   background-color: white !important;
   border-color: var(--color1) !important;

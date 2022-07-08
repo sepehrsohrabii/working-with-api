@@ -1,12 +1,10 @@
-from typing import Dict, List, Any
-
 from django.shortcuts import render
 import requests
-from pathlib import Path
 import re
 from datetime import datetime
 import xml.etree.ElementTree as ET
 from copy import deepcopy
+from search_data.models import SearchData
 
 context = {}
 flight_list = []
@@ -18,6 +16,7 @@ selected_flight = []
 Error = []
 operation_three_RS = {}
 
+
 def home_page(request):
     selected_operation_number = 2
     global origin
@@ -28,6 +27,7 @@ def home_page(request):
     global CHDNumber
     global INFNumber
     global Cabin
+    global user
     origin = request.POST.get("origin") or 'None'  # get flight origin from template input
     destination = request.POST.get("destination") or 'None'  # get flight destination from template input
     departureTime = request.POST.get(
@@ -42,6 +42,7 @@ def home_page(request):
     if request.method == 'POST':
         flight_list.clear()
         selected_flight.clear()
+        user = request.user
         data_handle(selected_operation_number)
     # send data to template
     operation_two_data = {
@@ -57,7 +58,6 @@ def home_page(request):
 
 
 def booking_page(request, FlightNumber):
-    
     submit = request.POST.get('submit')
     if submit:
         passengers.clear()
@@ -116,8 +116,8 @@ def booking_page(request, FlightNumber):
 
         data_handle(selected_operation_number)
 
-    return render(request, './booking.html', {'selected_flight': selected_flight, 'Error': Error, 'operation_three_RS': operation_three_RS})
-
+    return render(request, './booking.html',
+                  {'selected_flight': selected_flight, 'Error': Error, 'operation_three_RS': operation_three_RS})
 
 
 def operation_one(request):
@@ -392,8 +392,6 @@ def write_on_xml(selected_operation_number):
             root[1][0][1][0][4][0].attrib['ResBookDesigCode'] = selected_flight[0]['Return_ResBookDesigCode']
             root[1][0][1][0][4][0].attrib['ResBookDesigQuantity'] = selected_flight[0]['Return_ResBookDesigQuantity']
 
-
-
         root[2][0][0].attrib['CurrencyCode'] = selected_flight[0]['BaseFare_CurrencyCode']
         root[2][0][0].attrib['DecimalPlaces'] = selected_flight[0]['BaseFare_DecimalPlaces']
         root[2][0][0].attrib['Amount'] = selected_flight[0]['BaseFare_Amount']
@@ -468,6 +466,8 @@ def read_from_xml(selected_operation_number, respath):
                 DepartureDateTime = FlightSegment.attrib['DepartureDateTime'].split('T')
                 departureDate = DepartureDateTime[0]
                 departureTime = DepartureDateTime[1].replace("+04", "+03")
+                departureTime_model = departureTime.split(':')
+                departureTime_model = departureTime_model[0] + ':' + departureTime_model[1]
                 ArrivalDateTime = FlightSegment.attrib['ArrivalDateTime'].split('T')
                 ArrivalDate = ArrivalDateTime[0]
                 ArrivalTime = ArrivalDateTime[1]
@@ -488,6 +488,8 @@ def read_from_xml(selected_operation_number, respath):
                     Return_DepartureDateTime = Return_FlightSegment.attrib['DepartureDateTime'].split('T')
                     Return_departureDate = Return_DepartureDateTime[0]
                     Return_departureTime = Return_DepartureDateTime[1].replace("+04", "+03")
+                    Return_departureTime_model = Return_departureTime.split(':')
+                    Return_departureTime_model = Return_departureTime_model[0] + ':' + Return_departureTime_model[1]
                     Return_ArrivalDateTime = Return_FlightSegment.attrib['ArrivalDateTime'].split('T')
                     Return_ArrivalDate = Return_ArrivalDateTime[0]
                     Return_ArrivalTime = Return_ArrivalDateTime[1]
@@ -612,6 +614,20 @@ def read_from_xml(selected_operation_number, respath):
                         'Return_AirEquipType': Return_AirEquipType,
                         'Return_ResBookDesigQuantity': Return_ResBookDesigQuantity,
                     })
+            search_data = SearchData()
+            search_data.origin = origin
+            search_data.departureDateTime = departureDate + ' ' + departureTime_model
+            search_data.returnStatus = False
+            if return_date != 'None':
+                search_data.returnDateTime = Return_departureDate + ' ' + Return_departureTime_model
+                search_data.returnStatus = True
+            search_data.destination = destination
+            search_data.cabin = Cabin
+            search_data.adultNum = ADTNumber
+            search_data.childNum = CHDNumber
+            search_data.infantNum = INFNumber
+            search_data.creator_id = user
+            search_data.save()
 
     elif selected_operation_number == 3:
         if 'Success' in root[0].tag:

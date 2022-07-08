@@ -2,19 +2,28 @@
 {% load static %}
 {% block title %}Persino{% endblock %}
 {% block main %}
-    <div class="container align-items-center justify-content-center text-center">
-        <h1 class="color1 mt-6">Fly With</br>Cheapest Flight</h1>
-        <lottie-player class="mt-n-1" src="https://assets8.lottiefiles.com/packages/lf20_tCIUzD.json"  background="transparent"  speed="1"  style="width: 100%;"  loop  autoplay></lottie-player>
+    <div class="container vh-100 d-flex align-items-center">
+        <div class="row w-100">
+            <div class="col text-start" style="margin-top: -50px; padding-left: 100px;">
+                <h5 class="with-line" style="transform: translate(0px, 0px);"> Persino</h5>
+                <h1 class="my-3">Fly With</br><span class="color1">Cheapest</span> Flight</h1>
+                <h3 class="fw-bold">Search and Find</h3>
+                <p class="w-75 my-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris in tortor ex. Mauris sodales vulputate pharetra. </p>
+            </div>
+            <div class="col">
+                <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_bbyxgwhr.json"  background="transparent"  speed="1"  style="width: 1200px; height: 1200px; position: absolute; margin-top:-500px; margin-left: -300px;"  loop autoplay></lottie-player>
+            </div>
+        </div>
     </div>
     <div class="container px-5">
         <form class="container searchForm_Box p-5" method="POST" id="post-form">
           {% csrf_token %}
-          <div class="button-box1 text-end position-absolute">
+          <div class="button-box1 text-md-end position-absolute">
             <button class="wayButton btn btn-outline-dark active fw-bold" type="button" id="OW">One Way</button>
             <button class="wayButton btn btn-outline-dark fw-bold" type="button" id="RT">Return</button>
           </div>
           <div class="row g-3">
-                <div class="col">
+                <div class="col-md col-12">
                   <div class="form-floating">
                     <input class="form-control" list="originlistOptions" placeholder="Origin..." id="inputOrigin" name="origin">
                     <label for="inputOrigin">Origin</label>
@@ -27,7 +36,7 @@
                     </datalist>
                   </div>
                 </div>
-                <div class="col">
+                <div class="col-md col-12">
                   <div class="form-floating">
                     <input class="form-control" list="destinationlistOptions" placeholder="Destination..." id="Destination" name="destination">
                     <label for="Destination">Destination</label>
@@ -40,13 +49,13 @@
                     </datalist>
                   </div>
                 </div>
-                <div class="col">
+                <div class="col-md col-12">
                   <div class="form-floating">
                     <input class="form-control" id="Date" name="departureTime" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Departure Date">
                     <label for="Date">Departure Date</label>
                   </div>
                 </div>
-                <div class="col" id="Return_departureTimeCol" style="display: none;">
+                <div class="col-md col-12" id="Return_departureTimeCol" style="display: none;">
                   <div class="form-floating">
                     <input class="form-control" id="Return_Date" name="Return_departureTime" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Return Date" style="display: none;">
                     <label for="Return_Date">Return Date</label>
@@ -55,7 +64,7 @@
                 
           </div>
           <div class="row g-3 mt-3">
-            <div class="col">
+            <div class="col-md col-12">
                 <div class="form-floating">
                   <select id="Cabin" class="form-select" name="Cabin">
                     <option>Economy</option>
@@ -64,26 +73,26 @@
                   <label for="Cabin">Cabin</label>
                 </div>
             </div>
-            <div class="col">
+            <div class="col-md col-12">
               <div class="form-floating">
                 <input type="number" class="form-control" id="ADTNumber" value="{{ADTNumber}}" name="ADTNumber" placeholder="Adult Number">
                 <label for="ADTNumber">Adult Number</label>
               </div>
             </div>
-            <div class="col">
+            <div class="col-md col-12">
               <div class="form-floating">
                 <input type="number" class="form-control" id="CHDNumber" value="{{CHDNumber}}" name="CHDNumber" placeholder="Child Number">
                 <label for="CHDNumber">Child Number</label>
               </div>
             </div>
-            <div class="col">
+            <div class="col-md col-12">
               <div class="form-floating">
                 <input type="number" class="form-control" id="INFNumber" value="{{INFNumber}}" name="INFNumber" placeholder="Infant Number">
                 <label for="INFNumber">Infant Number</label>
               </div>
             </div>
           </div>
-          <button class="btn btn-outline position-absolute searchButton fw-bold me-5 px-4" type="submit">
+          <button class="btn btn-outline position-absolute searchButton fw-bold me-md-5 px-4 text-white" type="submit">
             <i class="fa fa-search"></i>
             Search for Cheapest
           </button>
@@ -101,11 +110,11 @@
                       <div class="container py-5">
                         <div class="ticket-system">
                           <div class="top">
-                          <div class="printer" />
+                          <div class="printer" {% if data.return_date %} style="height: 375px !important;" {% endif %}/>
                           </div>
                           <div class="receipts-wrapper py-3">
                               <div class="receipts">
-                                <div class="receipt col-8">
+                                <div class="receipt col-8" {% if data.return_date %} style="height:360px !important;" {% endif %}>
                                   <div class="row">
                                       <div class="col">
                                         <h3 class="fw-light mb-3">{{data.origin}}</h3>
@@ -167,7 +176,7 @@
                                     </div>
                                     
                                 </div>
-                                <div class="receipt col-4 qr-code">
+                                <div class="receipt col-4 qr-code" {% if data.return_date %} style="height:360px !important;" {% endif %}>
                                   <div class="container text-center p-5">
                                     <div class="row">
                                       <h6 class="text-secondary">Total Price</h6>
@@ -198,6 +207,59 @@
 
     </div>
 
+    <div class="container mt-5 pt-5">
+        <div class="row">
+            <div class="col text-center px-5">
+                <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_qt4a6xmc.json"  background="transparent"  speed="1"  style="height: 150px;"  loop autoplay></lottie-player>
+                <h5>Cheapest Offers</h5>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+            </div>
+            <div class="col text-center px-5">
+                <lottie-player src="https://assets8.lottiefiles.com/packages/lf20_y3ib5ejh.json"  background="transparent"  speed="1"  style="height: 150px;"  loop autoplay></lottie-player>
+                <h5>Every Where</h5>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+            </div>
+            <div class="col text-center px-5">
+                <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_68oqpp9l.json"  background="transparent"  speed="1"  style="height: 150px;"  loop autoplay></lottie-player>
+                <h5>Any Where</h5>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col">
+                <a class="d-flex align-items-center" href="#">
+                    <img class="img-default rounded" src="{% static 'IMG/1.jpg' %}" width="100%" height="200px">
+                    <div class="position-absolute">Centered</div>
+                </a>
+            </div>
+            <div class="col">
+                <a class="d-flex align-items-center" href="#">
+                    <img class="img-default rounded" src="{% static 'IMG/2.jpg' %}" width="100%" height="200px">
+                    <div class="position-absolute">Centered</div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-5 pt-5">
+        <div class="row">
+            <div class="col-4">
+
+            </div>
+            <div class="col-8 d-flex">
+                <h5>Subscribe here to have special offers in your email.</h5>
+                <div class="form-floating w-75 me-3">
+                    <input class="form-control" placeholder="Your Email..." id="subscribe" name="subscribe">
+                    <label for="subscribe">Your Email...</label>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-outline-secondary p-3 px-5">Submit</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
 {% endblock %}
 {% block script %}
         $("#OW").click(function() {
