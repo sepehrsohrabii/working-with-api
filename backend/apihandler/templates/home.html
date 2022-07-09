@@ -1,17 +1,20 @@
 {% extends 'main.html' %}
 {% load static %}
+{% load guest_user %}
 {% block title %}Persino{% endblock %}
 {% block main %}
     <div class="container vh-100 d-flex align-items-center">
         <div class="row w-100">
-            <div class="col text-start" style="margin-top: -50px; padding-left: 100px;">
+            <div class="textBox1 col-md col-12 text-start order-md-1 order-2" style="">
                 <h5 class="with-line" style="transform: translate(0px, 0px);"> Persino</h5>
                 <h1 class="my-3">Fly With</br><span class="color1">Cheapest</span> Flight</h1>
                 <h3 class="fw-bold">Search and Find</h3>
                 <p class="w-75 my-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris in tortor ex. Mauris sodales vulputate pharetra. </p>
             </div>
-            <div class="col">
-                <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_bbyxgwhr.json"  background="transparent"  speed="1"  style="width: 1200px; height: 1200px; position: absolute; margin-top:-500px; margin-left: -300px;"  loop autoplay></lottie-player>
+            <div class="col-md col-12 order-md-2 order-1 overflow-hidden w-100">
+                <div class="overflow-hidden w-100">
+                    <lottie-player class="lottie1 overflow-hidden" src="https://assets1.lottiefiles.com/packages/lf20_bbyxgwhr.json"  background="transparent"  speed="1"  loop autoplay></lottie-player>
+                </div>
             </div>
         </div>
     </div>
@@ -23,45 +26,44 @@
             <button class="wayButton btn btn-outline-dark fw-bold" type="button" id="RT">Return</button>
           </div>
           <div class="row g-3">
-                <div class="col-md col-12">
-                  <div class="form-floating">
-                    <input class="form-control" list="originlistOptions" placeholder="Origin..." id="inputOrigin" name="origin">
-                    <label for="inputOrigin">Origin</label>
-                    <datalist id="originlistOptions">
-                        <option>THR</option>
-                        <option>ESF</option>
-                        <option>BDR</option>
-                        <option>RST</option>
-                        <option>XXX</option>
-                    </datalist>
-                  </div>
-                </div>
-                <div class="col-md col-12">
-                  <div class="form-floating">
-                    <input class="form-control" list="destinationlistOptions" placeholder="Destination..." id="Destination" name="destination">
-                    <label for="Destination">Destination</label>
-                    <datalist id="destinationlistOptions">
-                        <option>MHD</option>
-                        <option>RST</option>
-                        <option>SRZ</option>
-                        <option>LHJ</option>
-                        <option>TEH</option>
-                    </datalist>
-                  </div>
-                </div>
-                <div class="col-md col-12">
-                  <div class="form-floating">
-                    <input class="form-control" id="Date" name="departureTime" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Departure Date">
-                    <label for="Date">Departure Date</label>
-                  </div>
-                </div>
-                <div class="col-md col-12" id="Return_departureTimeCol" style="display: none;">
-                  <div class="form-floating">
-                    <input class="form-control" id="Return_Date" name="Return_departureTime" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Return Date" style="display: none;">
-                    <label for="Return_Date">Return Date</label>
-                  </div>
-                </div>
-                
+            <div class="col-md col-12">
+              <div class="form-floating">
+                <input class="form-control" list="originlistOptions" placeholder="Origin..." id="inputOrigin" name="origin">
+                <label for="inputOrigin">Origin</label>
+                <datalist id="originlistOptions">
+                    <option>THR</option>
+                    <option>ESF</option>
+                    <option>BDR</option>
+                    <option>RST</option>
+                    <option>XXX</option>
+                </datalist>
+              </div>
+            </div>
+            <div class="col-md col-12">
+              <div class="form-floating">
+                <input class="form-control" list="destinationlistOptions" placeholder="Destination..." id="Destination" name="destination">
+                <label for="Destination">Destination</label>
+                <datalist id="destinationlistOptions">
+                    <option>MHD</option>
+                    <option>RST</option>
+                    <option>SRZ</option>
+                    <option>LHJ</option>
+                    <option>TEH</option>
+                </datalist>
+              </div>
+            </div>
+            <div class="col-md col-12">
+              <div class="form-floating">
+                <input class="form-control" id="Date" name="departureTime" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Departure Date">
+                <label for="Date">Departure Date</label>
+              </div>
+            </div>
+            <div class="col-md col-12" id="Return_departureTimeCol" style="display: none;">
+              <div class="form-floating">
+                <input class="form-control" id="Return_Date" name="Return_departureTime" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Return Date" style="display: none;">
+                <label for="Return_Date">Return Date</label>
+              </div>
+            </div>
           </div>
           <div class="row g-3 mt-3">
             <div class="col-md col-12">
@@ -95,9 +97,8 @@
           <button class="btn btn-outline position-absolute searchButton fw-bold me-md-5 px-4 text-white" type="submit">
             <i class="fa fa-search"></i>
             Search for Cheapest
-          </button>
-          
-      </form>
+          </button>  
+        </form>
     </div>
     <div id="loader" class="container">
         <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_h7uimaj6.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px; margin: auto;"  loop autoplay></lottie-player>
@@ -110,89 +111,91 @@
                       <div class="container py-5">
                         <div class="ticket-system">
                           <div class="top">
-                          <div class="printer" {% if data.return_date %} style="height: 375px !important;" {% endif %}/>
-                          </div>
-                          <div class="receipts-wrapper py-3">
-                              <div class="receipts">
-                                <div class="receipt col-8" {% if data.return_date %} style="height:360px !important;" {% endif %}>
-                                  <div class="row">
-                                      <div class="col">
-                                        <h3 class="fw-light mb-3">{{data.origin}}</h3>
-                                        <h6 class="text-secondary">Tehran</h6>
-                                        <h6 class="text-secondary">{{data.departureDate}}</h6>
-                                        <h6 class="text-secondary">{{data.departureTime}}</h6>
-                                        
-                                        {% if data.return_date %}
-                                          <h6 class="color1 mt-3">#Return</h6>
-                                          <h6 class="text-secondary">{{data.Return_ArrivalDate}}</h6>
-                                          <h6 class="text-secondary">{{data.Return_ArrivalTime}}</h6>
-                                        {% endif %}
-
-                                      </div>
-                                      <div class="col text-center">
-                                        <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_d8skfitr.json"  background="transparent"  speed="1"  style="width: 300px; height: 50px;"  loop  autoplay></lottie-player>
-                                        
-                                        {% if data.return_date %}
-                                          <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_d8skfitr.json"  background="transparent"  speed="1"  style="width: 300px; height: 50px; transform: rotate(180deg); margin-top: -30px;"  loop  autoplay></lottie-player>
-                                        {% endif %}
-
-                                        {% if data.return_date %}
-                                          <h5 class="text-secondary my-2">Return Flight</h5>
-                                        {% else %}
-                                          <h5 class="text-secondary my-2">One Way Flight</h5>
-                                        {% endif %}
-                                        <img class="mt-4" src="{% static 'IMG/IranAir-Logo.svg' %}" alt="Iran Air Logo" width="120px"/>
-                                      </div>
-                                      <div class="col text-end">
-                                        <h3 class="fw-light mb-3">{{data.destination}}</h3>
-                                        <h6 class="text-secondary">Mashhad</h6>
-                                        <h6 class="text-secondary">{{data.ArrivalDate}}</h6>
-                                        <h6 class="text-secondary">{{data.ArrivalTime}}</h6>
-                  
-                                        {% if data.return_date %}
-                                          <h6 class="color1 mt-3">#Return</h6>
-                                          <h6 class="text-secondary">{{data.Return_departureDate}}</h6>
-                                          <h6 class="text-secondary">{{data.Return_departureTime}}</h6>
-                                        {% endif %}
-                                      </div>
-                                  </div>
-                                    <div class="row mt-4 justify-content-between">
-                                      <div class="col align-self-center">
-                                        <h6 class="">Flight No.</h6>
-                                        <h6 class="text-secondary">{{data.FlightNumber}}</h6>
-                                        {% if data.return_date %}
-                                          <h6 class="color1 mt-3">#Return</h6>
-                                          <h6 class="text-secondary">{{data.Return_FlightNumber}}</h6>
-                                        {% endif %}
-                                      </div>
-                                      <div class="col align-self-center text-end">
-                                        <h6 class="">Air Equip Type</h6>
-                                        <h6 class="text-secondary">{{data.AirEquipType}}</h6>
-                                        {% if data.return_date %}
-                                          <h6 class="color1 mt-3">#Return</h6>
-                                          <h6 class="text-secondary">{{data.Return_AirEquipType}}</h6>
-                                        {% endif %}
-                                      </div>
-                                    </div>
-                                    
-                                </div>
-                                <div class="receipt col-4 qr-code" {% if data.return_date %} style="height:360px !important;" {% endif %}>
-                                  <div class="container text-center p-5">
+                            <div class="printer" {% if data.return_date %} style="height: 375px !important;" {% endif %}/>
+                            </div>
+                            <div class="receipts-wrapper py-3">
+                                <div class="receipts">
+                                  <div class="receipt col-8" {% if data.return_date %} style="height:360px !important;" {% endif %}>
                                     <div class="row">
-                                      <h6 class="text-secondary">Total Price</h6>
-                                      <h3 class="color1">{{data.TotalFare_Amount}} {{data.TotalFare_CurrencyCode}}</h3>
+                                        <div class="col">
+                                          <h3 class="fw-light mb-3">{{data.origin}}</h3>
+                                          <h6 class="text-secondary">Tehran</h6>
+                                          <h6 class="text-secondary">{{data.departureDate}}</h6>
+                                          <h6 class="text-secondary">{{data.departureTime}}</h6>
+                                          
+                                          {% if data.return_date %}
+                                            <h6 class="color1 mt-3">#Return</h6>
+                                            <h6 class="text-secondary">{{data.Return_ArrivalDate}}</h6>
+                                            <h6 class="text-secondary">{{data.Return_ArrivalTime}}</h6>
+                                          {% endif %}
+
+                                        </div>
+                                        <div class="col text-center">
+                                          <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_d8skfitr.json"  background="transparent"  speed="1"  style="width: 300px; height: 50px;"  loop  autoplay></lottie-player>
+                                          
+                                          {% if data.return_date %}
+                                            <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_d8skfitr.json"  background="transparent"  speed="1"  style="width: 300px; height: 50px; transform: rotate(180deg); margin-top: -30px;"  loop  autoplay></lottie-player>
+                                          {% endif %}
+
+                                          {% if data.return_date %}
+                                            <h5 class="text-secondary my-2">Return Flight</h5>
+                                          {% else %}
+                                            <h5 class="text-secondary my-2">One Way Flight</h5>
+                                          {% endif %}
+                                          <img class="mt-4" src="{% static 'IMG/IranAir-Logo.svg' %}" alt="Iran Air Logo" width="120px"/>
+                                        </div>
+                                        <div class="col text-end">
+                                          <h3 class="fw-light mb-3">{{data.destination}}</h3>
+                                          <h6 class="text-secondary">Mashhad</h6>
+                                          <h6 class="text-secondary">{{data.ArrivalDate}}</h6>
+                                          <h6 class="text-secondary">{{data.ArrivalTime}}</h6>
+                    
+                                          {% if data.return_date %}
+                                            <h6 class="color1 mt-3">#Return</h6>
+                                            <h6 class="text-secondary">{{data.Return_departureDate}}</h6>
+                                            <h6 class="text-secondary">{{data.Return_departureTime}}</h6>
+                                          {% endif %}
+                                        </div>
                                     </div>
-                                    <div class="row mt-5">
-                                      <button type="submit" class="bookingBtn p-2"><h5 class="fw-normal">Book/Reserve</h5></button>
-                                    </div>
-                                    <div class="row mt-2">
-                                      <h6><a class="text-secondary">Flight Fare Rules</a></h6>
-                                    </div>
+                                      <div class="row mt-4 justify-content-between">
+                                        <div class="col align-self-center">
+                                          <h6 class="">Flight No.</h6>
+                                          <h6 class="text-secondary">{{data.FlightNumber}}</h6>
+                                          {% if data.return_date %}
+                                            <h6 class="color1 mt-3">#Return</h6>
+                                            <h6 class="text-secondary">{{data.Return_FlightNumber}}</h6>
+                                          {% endif %}
+                                        </div>
+                                        <div class="col align-self-center text-end">
+                                          <h6 class="">Air Equip Type</h6>
+                                          <h6 class="text-secondary">{{data.AirEquipType}}</h6>
+                                          {% if data.return_date %}
+                                            <h6 class="color1 mt-3">#Return</h6>
+                                            <h6 class="text-secondary">{{data.Return_AirEquipType}}</h6>
+                                          {% endif %}
+                                        </div>
+                                      </div>
+                                      
                                   </div>
-                                    
+                                  <div class="receipt col-4 qr-code" {% if data.return_date %} style="height:360px !important;" {% endif %}>
+                                    <div class="container text-center p-5">
+                                      <div class="row">
+                                        <h6 class="text-secondary">Total Price</h6>
+                                        <h3 class="color1">{{data.TotalFare_Amount}} {{data.TotalFare_CurrencyCode}}</h3>
+                                      </div>
+                                      <div class="row mt-5">
+                                        <button type="submit" class="bookingBtn p-2"><h5 class="fw-normal">Book/Reserve</h5></button>
+                                      </div>
+                                      <div class="row mt-2">
+                                        <h6><a class="text-secondary">Flight Fare Rules</a></h6>
+                                      </div>
+                                    </div>
+                                      
+                                  </div>
                                 </div>
-                              </div>
+                            </div>
                           </div>
+                          
                         </div>
                       </div>
                       
@@ -204,51 +207,72 @@
                   Sorry, There is no flight from {{origin}} to {{destination}} on {{departureTime}}.
               </div>
           {% endif %}
-
     </div>
 
-    <div class="container mt-5 pt-5">
+    <div class="container my-5 pt-5">
         <div class="row">
-            <div class="col text-center px-5">
+            <div class="col-md col-12 text-center px-5">
                 <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_qt4a6xmc.json"  background="transparent"  speed="1"  style="height: 150px;"  loop autoplay></lottie-player>
                 <h5>Cheapest Offers</h5>
                 <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
             </div>
-            <div class="col text-center px-5">
+            <div class="col-md col-12 text-center px-5">
                 <lottie-player src="https://assets8.lottiefiles.com/packages/lf20_y3ib5ejh.json"  background="transparent"  speed="1"  style="height: 150px;"  loop autoplay></lottie-player>
                 <h5>Every Where</h5>
                 <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
             </div>
-            <div class="col text-center px-5">
+            <div class="col-md col-12 text-center px-5">
                 <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_68oqpp9l.json"  background="transparent"  speed="1"  style="height: 150px;"  loop autoplay></lottie-player>
                 <h5>Any Where</h5>
                 <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
             </div>
         </div>
     </div>
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col">
+    <div class="container my-5">
+        <div class="row mt-5">
+            <div class="col-md col-12">
                 <a class="d-flex align-items-center" href="#">
                     <img class="img-default rounded" src="{% static 'IMG/1.jpg' %}" width="100%" height="200px">
-                    <div class="position-absolute">Centered</div>
+                    <h3 class="position-absolute ps-5 fw-bold text-white">Popular</br>Destinations</h3>
                 </a>
             </div>
-            <div class="col">
+            <div class="col-md col-12 mt-3 mt-md-0">
                 <a class="d-flex align-items-center" href="#">
                     <img class="img-default rounded" src="{% static 'IMG/2.jpg' %}" width="100%" height="200px">
-                    <div class="position-absolute">Centered</div>
+                    <h3 class="position-absolute ps-5 fw-bold text-white">Popular</br>Flights</h3>
                 </a>
             </div>
         </div>
     </div>
-    <div class="container mt-5 pt-5">
-        <div class="row">
-            <div class="col-4">
-
+    <div class="container">
+        <div class="row justify-content-between">
+            <div class="col-md-5 col-12">
+                <lottie-player class="mt-n-2" src="https://assets5.lottiefiles.com/packages/lf20_af77tbqx.json"  background="transparent"  speed="1"  style=""  loop autoplay></lottie-player>
             </div>
-            <div class="col-8 d-flex">
+            <div class="col-md-5 col-12 align-self-center">
+                <h1 class="fw-bold mb-4">Ready for Take Off?</h1>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+            </div>
+        </div>
+    </div>
+    <div class="container rounded bg2" style="height: 500px;">
+        <div class="row h-100 justify-content-between ps-5">
+            <div class="col-md-5 col-12 text-start text-white align-self-center px-5 order-md-1 order-2">
+                <h5 class="with-line" style="transform: translate(0px, 0px);"> IranAir</h5>
+                <h1 class="my-3">Flights Are</br>The Most Safe</h1>
+                <p class="my-3 pe-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris in tortor ex. Mauris sodales vulputate pharetra. </p>
+            </div>
+            <div class="col-md-5 col-12 align-self-center order-md-2 order-1">
+                <img src="{% static 'IMG/3.png' %}" class="img1">
+            </div>
+        </div>
+    </div>
+    <div class="container my-5 pt-5">
+        <div class="row justify-content-around">
+            <div class="col-3">
                 <h5>Subscribe here to have special offers in your email.</h5>
+            </div>
+            <div class="col-5 d-flex">
                 <div class="form-floating w-75 me-3">
                     <input class="form-control" placeholder="Your Email..." id="subscribe" name="subscribe">
                     <label for="subscribe">Your Email...</label>
@@ -257,7 +281,6 @@
                     <button type="submit" class="btn btn-outline-secondary p-3 px-5">Submit</button>
                 </div>
             </div>
-
         </div>
     </div>
 {% endblock %}

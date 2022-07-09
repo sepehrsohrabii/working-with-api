@@ -5,6 +5,8 @@ from datetime import datetime
 import xml.etree.ElementTree as ET
 from copy import deepcopy
 from search_data.models import SearchData
+from guest_user.decorators import allow_guest_user
+
 
 context = {}
 flight_list = []
@@ -16,7 +18,15 @@ selected_flight = []
 Error = []
 operation_three_RS = {}
 
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
 
+@allow_guest_user
 def home_page(request):
     selected_operation_number = 2
     global origin

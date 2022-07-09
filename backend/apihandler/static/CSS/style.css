@@ -38,10 +38,30 @@ h1{
         right: 25px;
         margin-top: -25%;
     }
+    .lottie1 {
+        width: -webkit-fill-available;
+        height: 500px;
+        position: absolute;
+        margin-top: -196px;
+        margin-left: 0px;
+    }
+    .img1 {
+        height: 200px;
+    }
+    .textBox1 {
+        margin-top: 200px;
+        padding-left: 90px;
+    }
+    .mt-n-2 {
+        margin-top: -40px;
+    }
   }
   @media (min-width: 769px) {
     .mt-n-1 {
       margin-top: -158px !important;
+    }
+    .mt-n-2 {
+        margin-top: -40px;
     }
     .fixed-top {
       left: auto !important;
@@ -51,6 +71,20 @@ h1{
       width: 300px;
       height: 45px;
       margin-top: -6%;
+    }
+    .lottie1 {
+        width: 1200px;
+        height: 1200px;
+        position: absolute;
+        margin-top:-500px;
+        margin-left: -300px;
+    }
+    .img1 {
+        height: 400px;
+    }
+    .textBox1 {
+        margin-top: -50px;
+        padding-left: 100px;
     }
   }
 .mt-6 {
@@ -613,6 +647,9 @@ header > nav {
 
 .bg1 {
   background-color: var(--color4);
+}
+.bg2 {
+  background-color: var(--color3);
 }
 .profilePic {
   margin-top: -75px;
