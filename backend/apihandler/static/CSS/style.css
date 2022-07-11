@@ -4,7 +4,7 @@ body {
     line-height: 1.666em;
     letter-spacing: .01em;
     font-size: 16px;
-    color: #000000;
+    color: #343a40;
     unicode-bidi: isolate;
     margin: 0;
     padding: 0;
@@ -54,6 +54,9 @@ h1{
     }
     .mt-n-2 {
         margin-top: -40px;
+    }
+    .mt-n-3 {
+      margin-top: -60px;
     }
   }
   @media (min-width: 769px) {

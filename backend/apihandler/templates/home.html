@@ -106,7 +106,7 @@
     <div id="showresults" class="container my-5 px-0 pb-5">
           {% if flight_list %}
               {% for data in flight_list %}
-                  <form method="POST" action="{% url 'booking_page' FlightNumber=data.FlightNumber %}">
+                  <form method="POST" action="{% if not user|is_guest_user and user.is_authenticated %}{% url 'booking_page' FlightNumber=data.FlightNumber %}{% else %}{% url 'loginView' %}{% endif %}">
                     {% csrf_token %}
                       <div class="container py-5">
                         <div class="ticket-system">
@@ -249,30 +249,30 @@
             <div class="col-md-5 col-12">
                 <lottie-player class="mt-n-2" src="https://assets5.lottiefiles.com/packages/lf20_af77tbqx.json"  background="transparent"  speed="1"  style=""  loop autoplay></lottie-player>
             </div>
-            <div class="col-md-5 col-12 align-self-center">
+            <div class="col-md-5 col-12 align-self-center mx-md-0 mx-4 mb-5 mb-md-0">
                 <h1 class="fw-bold mb-4">Ready for Take Off?</h1>
                 <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
             </div>
         </div>
     </div>
-    <div class="container rounded bg2" style="height: 500px;">
-        <div class="row h-100 justify-content-between ps-5">
+    <div class="container rounded bg2 mt-5" style="height: 500px;">
+        <div class="row h-100 justify-content-between ps-md-5">
             <div class="col-md-5 col-12 text-start text-white align-self-center px-5 order-md-1 order-2">
                 <h5 class="with-line" style="transform: translate(0px, 0px);"> IranAir</h5>
                 <h1 class="my-3">Flights Are</br>The Most Safe</h1>
                 <p class="my-3 pe-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris in tortor ex. Mauris sodales vulputate pharetra. </p>
             </div>
-            <div class="col-md-5 col-12 align-self-center order-md-2 order-1">
+            <div class="col-md-5 col-12 align-self-center order-md-2 order-1 mt-n-3 text-center text-md-right">
                 <img src="{% static 'IMG/3.png' %}" class="img1">
             </div>
         </div>
     </div>
     <div class="container my-5 pt-5">
         <div class="row justify-content-around">
-            <div class="col-3">
+            <div class="col-md-3 col-12 mb-md-0 mb-5">
                 <h5>Subscribe here to have special offers in your email.</h5>
             </div>
-            <div class="col-5 d-flex">
+            <div class="col-md-5 col-12 d-flex">
                 <div class="form-floating w-75 me-3">
                     <input class="form-control" placeholder="Your Email..." id="subscribe" name="subscribe">
                     <label for="subscribe">Your Email...</label>

@@ -30,9 +30,9 @@
 
         <div class="vw-100 vh-100 d-flex align-items-center">
             <div class="row w-100">
-                <div class="col d-flex align-items-center justify-content-center vh-100 p-5">
+                <div class="col-md col-12 d-flex align-items-center justify-content-center vh-md-100 p-5 order-2 order-md-1">
 
-                    <form class="w-50" id="loginForm" method="POST">
+                    <form class="w-75" id="loginForm" method="POST">
                         {% csrf_token %}
                         <h2 class="fw-bold">Login</h2>
                         <h6 class="text-secondary mb-5">Join us to have cheapest tickets in your email</h6>
@@ -50,7 +50,7 @@
                         <button type="submit" class="btn btn-primary w-100 mt-4 py-2"><h4>Login</h4></button>
                     </form>
                 </div>
-                <div class="col bg1 vh-100 d-flex align-items-center">
+                <div class="col-md col-12 bg1 vh-md-100 d-flex align-items-center order-1 order-md-2">
                     <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_umqaz2yv.json"  background="transparent"  speed="1"  style="width: 100%;"  loop  autoplay></lottie-player>
                 </div>
             </div>

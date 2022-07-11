@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 import requests
 import re
 from datetime import datetime
@@ -67,6 +68,7 @@ def home_page(request):
     return render(request, './home.html', operation_two_data)
 
 
+@login_required(login_url='loginView')
 def booking_page(request, FlightNumber):
     submit = request.POST.get('submit')
     if submit:
@@ -128,6 +130,14 @@ def booking_page(request, FlightNumber):
 
     return render(request, './booking.html',
                   {'selected_flight': selected_flight, 'Error': Error, 'operation_three_RS': operation_three_RS})
+
+
+@login_required(login_url='loginView')
+def read_reservation(request):
+
+    return render(request, './read_reservation.html')
+
+
 
 
 def operation_one(request):
@@ -249,7 +259,6 @@ def operation_four(request):
         data_handle(selected_operation_number)
 
     return render(request, './operation_four.html', {'selected_flight': selected_flight, 'Error': Error})
-
 
 def source_table():
     Operation = []
@@ -435,9 +444,9 @@ def write_on_xml(selected_operation_number):
         root[4][2].attrib['PhoneNumber'] = HomeTelephone
         root[4][3].text = Email
         root[5][0][0].attrib['PaymentType'] = "2"
-        root[5][0][0][0].attrib['DirectBill_ID'] = "THRTA023"
+        root[5][0][0][0].attrib['DirectBill_ID'] = Agent_id
         root[5][0][0][0][0].attrib['CompanyShortName'] = "HOMARES OTA"
-        root[5][0][0][0][0].attrib['Code'] = "THRTA023"
+        root[5][0][0][0][0].attrib['Code'] = Agent_id
         root[5][0][0][1].attrib['CurrencyCode'] = selected_flight[0]['TotalFare_CurrencyCode']
         root[5][0][0][1].attrib['DecimalPlaces'] = selected_flight[0]['TotalFare_DecimalPlaces']
         root[5][0][0][1].attrib['Amount'] = selected_flight[0]['TotalFare_Amount']
@@ -475,7 +484,7 @@ def read_from_xml(selected_operation_number, respath):
                 ResBookDesigCode = FlightSegment.attrib['ResBookDesigCode']
                 DepartureDateTime = FlightSegment.attrib['DepartureDateTime'].split('T')
                 departureDate = DepartureDateTime[0]
-                departureTime = DepartureDateTime[1].replace("+04", "+03")
+                departureTime = DepartureDateTime[1].replace("+03", "+04")
                 departureTime_model = departureTime.split(':')
                 departureTime_model = departureTime_model[0] + ':' + departureTime_model[1]
                 ArrivalDateTime = FlightSegment.attrib['ArrivalDateTime'].split('T')
@@ -497,7 +506,7 @@ def read_from_xml(selected_operation_number, respath):
                     Return_ResBookDesigCode = Return_FlightSegment.attrib['ResBookDesigCode']
                     Return_DepartureDateTime = Return_FlightSegment.attrib['DepartureDateTime'].split('T')
                     Return_departureDate = Return_DepartureDateTime[0]
-                    Return_departureTime = Return_DepartureDateTime[1].replace("+04", "+03")
+                    Return_departureTime = Return_DepartureDateTime[1].replace("+03", "+04")
                     Return_departureTime_model = Return_departureTime.split(':')
                     Return_departureTime_model = Return_departureTime_model[0] + ':' + Return_departureTime_model[1]
                     Return_ArrivalDateTime = Return_FlightSegment.attrib['ArrivalDateTime'].split('T')
@@ -637,6 +646,7 @@ def read_from_xml(selected_operation_number, respath):
             search_data.childNum = CHDNumber
             search_data.infantNum = INFNumber
             search_data.creator_id = user
+            #search_data.level = 'SR'
             search_data.save()
 
     elif selected_operation_number == 3:
@@ -668,12 +678,151 @@ def read_from_xml(selected_operation_number, respath):
             }
 
     elif selected_operation_number == 4:
-        ErrorText = root[0][0].attrib['ShortText'] or 'None'
-        ErrorCode = root[0][0].attrib['Code'] or 'None'
-        Error.append({
-            'ErrorText': ErrorText,
-            'ErrorCode': ErrorCode
-        })
+        if 'Success' in root[0].tag:
+            CreatedDateTme = root[1].attrib['CreatedDateTme']
+            DirectionInd = root[1][0].attrib['DirectionInd']
+        
+            FlightSegment = root[1][0][0][0][0]
+            Status = FlightSegment.attrib['Status']
+            FlightNumber = FlightSegment.attrib['FlightNumber']
+            FareBasisCode = FlightSegment.attrib['FareBasisCode']
+            ResBookDesigCode = FlightSegment.attrib['ResBookDesigCode']
+            DepartureDateTime = FlightSegment.attrib['DepartureDateTime']
+            ArrivalDateTime = FlightSegment.attrib['ArrivalDateTime']
+            StopQuantity = FlightSegment.attrib['StopQuantity']
+            RPH = FlightSegment.attrib['RPH']
+            DepartureAirportLocationCode = FlightSegment[0].attrib['LocationCode']
+            DepartureAirportLocationName = FlightSegment[0].attrib['LocationName']
+            ArrivalAirportLocationCode = FlightSegment[1].attrib['LocationCode']
+            ArrivalAirportLocationName = FlightSegment[1].attrib['LocationName']
+            OperatingAirlineCode = FlightSegment[2].attrib['Code']
+            EquipmentAirEquipType = FlightSegment[3].attrib['AirEquipType']
+
+            if DirectionInd == 'Return':
+                Return_FlightSegment = root[1][0][0][0][1]
+                Return_Status = FlightSegment.attrib['Status']
+                Return_FlightNumber = FlightSegment.attrib['FlightNumber']
+                Return_FareBasisCode = FlightSegment.attrib['FareBasisCode']
+                Return_ResBookDesigCode = FlightSegment.attrib['ResBookDesigCode']
+                Return_DepartureDateTime = FlightSegment.attrib['DepartureDateTime']
+                Return_ArrivalDateTime = FlightSegment.attrib['ArrivalDateTime']
+                Return_StopQuantity = FlightSegment.attrib['StopQuantity']
+                Return_RPH = FlightSegment.attrib['RPH']
+                Return_DepartureAirportLocationCode = FlightSegment[0].attrib['LocationCode']
+                Return_DepartureAirportLocationName = FlightSegment[0].attrib['LocationName']
+                Return_ArrivalAirportLocationCode = FlightSegment[1].attrib['LocationCode']
+                Return_ArrivalAirportLocationName = FlightSegment[1].attrib['LocationName']
+                Return_OperatingAirlineCode = FlightSegment[2].attrib['Code']
+                Return_EquipmentAirEquipType = FlightSegment[3].attrib['AirEquipType']
+            
+            CompanyShortName = root[1][1][0].attrib['CompanyShortName']
+            CompanyCode = root[1][1][0].attrib['Code']
+
+            TotalFareCurrencyCode = root[1][2][0][0].attrib['CurrencyCode']
+            TotalFareDecimalPlaces = root[1][2][0][0].attrib['DecimalPlaces']
+            TotalFareAmount = root[1][2][0][0].attrib['Amount']
+
+            PTC_FareBreakdowns = root[1][2][1]
+            for PTC_FareBreakdown in PTC_FareBreakdowns:
+                PassengerTypeQuantity_Code = PTC_FareBreakdown[0].attrib['Code']
+                PassengerTypeQuantity_Quantity = PTC_FareBreakdown[0].attrib['Quantity']
+                FareBasisCode = PTC_FareBreakdown[1][0].text
+                PassengerFare_BaseFare_CurrencyCode = PTC_FareBreakdown[2][0].attrib['CurrencyCode']
+                PassengerFare_BaseFare_DecimalPlaces = PTC_FareBreakdown[2][0].attrib['DecimalPlaces']
+                PassengerFare_BaseFare_Amount = PTC_FareBreakdown[2][0].attrib['Amount']
+                PassengerFare_Taxes = PTC_FareBreakdown[2][1]
+                Taxes.clear()
+                for Tax in PassengerFare_Taxes:
+                    TaxText = Tax.text or 'none'
+                    TaxCode = Tax.attrib['TaxCode']
+                    TaxName = Tax.attrib['TaxName']
+                    Tax_CurrencyCode = Tax.attrib['CurrencyCode']
+                    Tax_DecimalPlaces = Tax.attrib['DecimalPlaces']
+                    Taxes.append({
+                        'TaxText': TaxText,
+                        'TaxCode': TaxCode,
+                        'TaxName': TaxName,
+                        'Tax_CurrencyCode': Tax_CurrencyCode,
+                        'Tax_DecimalPlaces': Tax_DecimalPlaces,
+                    })
+                PassengerFare_TotalFare_CurrencyCode = PTC_FareBreakdown[2][2].attrib['CurrencyCode']
+                PassengerFare_TotalFare_DecimalPlaces = PTC_FareBreakdown[2][2].attrib['DecimalPlaces']
+                PassengerFare_TotalFare_Amount = PTC_FareBreakdown[2][2].attrib['Amount']
+
+                FareInfo_FareInfo_FareBasisCode = PTC_FareBreakdown[3][0].attrib['FareBasisCode']
+                FareInfo_FareInfo_BaseAmount = PTC_FareBreakdown[3][0][0].attrib['BaseAmount']
+
+                PTC_FBs.append({
+                    'PassengerTypeQuantity_Code': PassengerTypeQuantity_Code,
+                    'PassengerTypeQuantity_Quantity': PassengerTypeQuantity_Quantity,
+                    'PassengerTypeQuantity_Range': range(1, int(PassengerTypeQuantity_Quantity) + 1),
+                    'FareBasisCode': FareBasisCode,
+                    'FareBasisCode_FlightSegmentRPH': FareBasisCode_FlightSegmentRPH,
+                    'FareBasisCode_fareRPH': FareBasisCode_fareRPH,
+                    'PassengerFare_BaseFare_CurrencyCode': PassengerFare_BaseFare_CurrencyCode,
+                    'PassengerFare_BaseFare_DecimalPlaces': PassengerFare_BaseFare_DecimalPlaces,
+                    'PassengerFare_BaseFare_Amount': PassengerFare_BaseFare_Amount,
+                    'Taxes': Taxes,
+                    'PassengerFare_TotalFare_CurrencyCode': PassengerFare_TotalFare_CurrencyCode,
+                    'PassengerFare_TotalFare_DecimalPlaces': PassengerFare_TotalFare_DecimalPlaces,
+                    'PassengerFare_TotalFare_Amount': PassengerFare_TotalFare_Amount,
+                    'FareInfo_FareInfo_FareBasisCode': FareInfo_FareInfo_FareBasisCode,
+                    'FareInfo_FareInfo_BaseAmount': FareInfo_FareInfo_BaseAmount,
+                })
+
+            Travelers = root[1][3]
+            for Traveler in Travelers:
+                AirTravelerBirthDate = Traveler.attrib['BirthDate']
+                AirTravelerPassengerTypeCode = Traveler.attrib['PassengerTypeCode']
+                AirTravelerAccompaniedByInfantInd = Traveler.attrib['AccompaniedByInfantInd']
+                AirTravelerTravelerNationality = Traveler.attrib['TravelerNationality']
+                AirTravelerGender = Traveler.attrib['Gender']
+                PersonNameNamePrefix = Traveler[0][0].text
+                PersonNameGivenName = Traveler[0][1].text
+                PersonNameSurname = Traveler[0][2].text
+                DocumentId = Traveler[1].attrib['DocID']
+                DocumentType = Traveler[1].attrib['DocType']
+                DocumentIssueCountry = Traveler[1].attrib['DocIssueCountry']
+                DocumentHolderNationality = Traveler[1].attrib['DocHolderNationality']
+                DocumentExpireDate = Traveler[1].attrib['ExpireDate']
+                TravelerRefNumberRPH = Traveler[2].attrib['RPH']
+
+            ContactPersonGivenName = root[1][4][0][0].text
+            ContactPersonSurname = root[1][4][0][1].text
+            ContactPersonMobile = root[1][4][1].attrib['PhoneNumber']
+            ContactPersonHomeTelephone = root[1][4][2].attrib['PhoneNumber']
+            ContactPersonEmail = root[1][4][3].text
+
+            PaymentType = root[1][5][0][0].attrib['PaymentType']
+            DirectBill_ID = root[1][5][0][0][0].attrib['DirectBill_ID']
+            CompanyShortName = root[1][5][0][0][0][0].attrib['CompanyShortName']
+            CompanyCode = root[1][5][0][0][0][0].attrib['Code']
+            CompanyAgentType = root[1][5][0][0][0][0].attrib['AgentType']
+
+            PaymentAmountCurrencyCode = root[1][5][0][0][1].attrib['CurrencyCode']
+            PaymentAmountDecimalPlaces = root[1][5][0][0][1].attrib['DecimalPlaces']
+            PaymentAmountAmount = root[1][5][0][0][1].attrib['Amount']
+
+            i = 6
+            for Traveler in Travelers:
+                Ticketing = root[1][i]
+                TicketingTravelerRefNumber = Traveler.attrib['TravelerRefNumber']
+                TicketingTicketDocumentNbr = Traveler.attrib['TicketDocumentNbr']
+                i = i + 1
+
+            BookingReferenceIDStatus = root[1][i].attrib['Status']    
+            BookingReferenceIDInstance = root[1][i].attrib['Instance']
+            BookingReferenceID = root[1][i].attrib['ID']
+            BookingReferenceID_Context = root[1][i].attrib['ID_Context']
+
+
+        else:
+            ErrorText = root[0][0].attrib['ShortText'] or 'None'
+            ErrorCode = root[0][0].attrib['Code'] or 'None'
+            Error.append({
+                'ErrorText': ErrorText,
+                'ErrorCode': ErrorCode
+            })
 
     elif selected_operation_number == 5:
         root[1].attrib['ID'] = 'VPTF21'

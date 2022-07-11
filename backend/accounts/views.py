@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from accounts.models import UserInfo
 from django.contrib.auth import authenticate, login, logout
 from apihandler.views import home_page
+from panel.views import AdminPanel
 
 def loginView (request):
     if request.method == 'POST':
