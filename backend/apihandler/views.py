@@ -18,6 +18,9 @@ operation_one_RS = []
 selected_flight = []
 Error = []
 operation_three_RS = {}
+Travelers_info = []
+Ticketing_RefDocNUM = []
+Ticket = {}
 
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
@@ -134,8 +137,9 @@ def booking_page(request, FlightNumber):
 
 @login_required(login_url='loginView')
 def read_reservation(request):
-
-    return render(request, './read_reservation.html')
+    selected_operation_number = 5
+    data_handle(selected_operation_number)
+    return render(request, './read_reservation.html', Ticket)
 
 
 
@@ -352,26 +356,6 @@ def write_on_xml(selected_operation_number):
             root[2][n].attrib['FlightSegmentRPH'] = PTC_FB['FareBasisCode_FlightSegmentRPH']
             root[2][n].attrib['fareRPH'] = PTC_FB['FareBasisCode_fareRPH']
             n = n + 1
-        '''
-        if selected_flight[0]['return_date']:
-            root[1].append(deepcopy(root[1][0]))
-            root[1][1][0].attrib['FlightNumber'] = selected_flight[0]['Return_FlightNumber']
-            root[1][1][0].attrib['ResBookDesigCode'] = selected_flight[0]['Return_ResBookDesigCode']
-            root[1][1][0].attrib['DepartureDateTime'] = selected_flight[0]['Return_departureDate'] + 'T' + \
-                                                        selected_flight[0]['Return_departureTime']
-            root[1][1][0].attrib['ArrivalDateTime'] = selected_flight[0]['Return_ArrivalDate'] + 'T' + \
-                                                      selected_flight[0][
-                                                          'Return_ArrivalTime']
-            root[1][1][0].attrib['Duration'] = selected_flight[0]['Return_Duration']
-            root[1][1][0].attrib['StopQuantity'] = selected_flight[0]['Return_StopQuantity']
-            root[1][1][0].attrib['RPH'] = selected_flight[0]['Return_RPH']
-            root[1][1][0][0].attrib['LocationCode'] = selected_flight[0]['Return_origin']
-            root[1][1][0][1].attrib['LocationCode'] = selected_flight[0]['Return_destination']
-            root[1][1][0][2].attrib['Code'] = selected_flight[0]['Return_OperatingAirline']
-            root[1][1][0][3].attrib['AirEquipType'] = selected_flight[0]['Return_AirEquipType']
-            root[1][1][0][4][0].attrib['ResBookDesigCode'] = selected_flight[0]['Return_ResBookDesigCode']
-            root[1][1][0][4][0].attrib['ResBookDesigQuantity'] = selected_flight[0]['Return_ResBookDesigQuantity']
-        '''
 
     elif selected_operation_number == 4:
 
@@ -452,7 +436,7 @@ def write_on_xml(selected_operation_number):
         root[5][0][0][1].attrib['Amount'] = selected_flight[0]['TotalFare_Amount']
 
     elif selected_operation_number == 5:
-        root[1].attrib['ID'] = 'VPTF21'
+        root[1].attrib['ID'] = BookingReferenceID
 
     tree.write(newpath)
     with open(newpath) as file:
@@ -679,6 +663,24 @@ def read_from_xml(selected_operation_number, respath):
 
     elif selected_operation_number == 4:
         if 'Success' in root[0].tag:
+            i = 6
+            Travelers = root[1][3]
+            for Traveler in Travelers:
+                i = i + 1
+
+            global BookingReferenceID
+            BookingReferenceID = root[1][i].attrib['ID']
+
+        else:
+            ErrorText = root[0][0].attrib['ShortText'] or 'None'
+            ErrorCode = root[0][0].attrib['Code'] or 'None'
+            Error.append({
+                'ErrorText': ErrorText,
+                'ErrorCode': ErrorCode
+            })
+
+    elif selected_operation_number == 5:
+        if 'Success' in root[0].tag:
             CreatedDateTme = root[1].attrib['CreatedDateTme']
             DirectionInd = root[1][0].attrib['DirectionInd']
         
@@ -777,7 +779,7 @@ def read_from_xml(selected_operation_number, respath):
                 AirTravelerAccompaniedByInfantInd = Traveler.attrib['AccompaniedByInfantInd']
                 AirTravelerTravelerNationality = Traveler.attrib['TravelerNationality']
                 AirTravelerGender = Traveler.attrib['Gender']
-                PersonNameNamePrefix = Traveler[0][0].text
+                PersonNamePrefix = Traveler[0][0].text
                 PersonNameGivenName = Traveler[0][1].text
                 PersonNameSurname = Traveler[0][2].text
                 DocumentId = Traveler[1].attrib['DocID']
@@ -786,6 +788,24 @@ def read_from_xml(selected_operation_number, respath):
                 DocumentHolderNationality = Traveler[1].attrib['DocHolderNationality']
                 DocumentExpireDate = Traveler[1].attrib['ExpireDate']
                 TravelerRefNumberRPH = Traveler[2].attrib['RPH']
+                Travelers_info.append({
+                    'AirTravelerBirthDate': AirTravelerBirthDate,
+                    'AirTravelerPassengerTypeCode': AirTravelerPassengerTypeCode,
+                    'AirTravelerAccompaniedByInfantInd': AirTravelerAccompaniedByInfantInd,
+                    'AirTravelerTravelerNationality': AirTravelerTravelerNationality,
+                    'AirTravelerGender': AirTravelerGender,
+                    'PersonNameNamePrefix': PersonNamePrefix,
+                    'PersonNameGivenName': PersonNameGivenName,
+                    'PersonNameSurname': PersonNameSurname,
+                    'DocumentId': DocumentId,
+                    'DocumentType': DocumentType,
+                    'DocumentIssueCountry': DocumentIssueCountry,
+                    'DocumentHolderNationality': DocumentHolderNationality,
+                    'DocumentExpireDate': DocumentExpireDate,
+                    'TravelerRefNumberRPH': TravelerRefNumberRPH,
+                    'StopQuantity': StopQuantity,
+
+                })
 
             ContactPersonGivenName = root[1][4][0][0].text
             ContactPersonSurname = root[1][4][0][1].text
@@ -809,23 +829,71 @@ def read_from_xml(selected_operation_number, respath):
                 TicketingTravelerRefNumber = Traveler.attrib['TravelerRefNumber']
                 TicketingTicketDocumentNbr = Traveler.attrib['TicketDocumentNbr']
                 i = i + 1
+                Ticketing_RefDocNUM.append({
+                    'TicketingTravelerRefNumber': TicketingTravelerRefNumber,
+                    'TicketingTicketDocumentNbr': TicketingTicketDocumentNbr,
+                })
+
 
             BookingReferenceIDStatus = root[1][i].attrib['Status']    
             BookingReferenceIDInstance = root[1][i].attrib['Instance']
             BookingReferenceID = root[1][i].attrib['ID']
             BookingReferenceID_Context = root[1][i].attrib['ID_Context']
-
-
-        else:
-            ErrorText = root[0][0].attrib['ShortText'] or 'None'
-            ErrorCode = root[0][0].attrib['Code'] or 'None'
-            Error.append({
-                'ErrorText': ErrorText,
-                'ErrorCode': ErrorCode
-            })
-
-    elif selected_operation_number == 5:
-        root[1].attrib['ID'] = 'VPTF21'
+            
+            Ticket = {
+                'CreatedDateTme': CreatedDateTme,
+                'DirectionInd': DirectionInd,
+                'Status': Status,
+                'FlightNumber': FlightNumber,
+                'FareBasisCode': FareBasisCode,
+                'ResBookDesigCode': ResBookDesigCode,
+                'DepartureDateTime': DepartureDateTime,
+                'ArrivalDateTime': ArrivalDateTime,
+                'RPH': RPH,
+                'DepartureAirportLocationCode': DepartureAirportLocationCode,
+                'DepartureAirportLocationName': DepartureAirportLocationName,
+                'ArrivalAirportLocationCode': ArrivalAirportLocationCode,
+                'ArrivalAirportLocationName': ArrivalAirportLocationName,
+                'OperatingAirlineCode': OperatingAirlineCode,
+                'EquipmentAirEquipType': EquipmentAirEquipType,
+                'Return_Status': Return_Status or 'None',
+                'Return_FlightNumber': Return_FlightNumber or 'None',
+                'Return_FareBasisCode': Return_FareBasisCode or 'None',
+                'Return_ResBookDesigCode': Return_ResBookDesigCode or 'None',
+                'Return_DepartureDateTime': Return_DepartureDateTime or 'None',
+                'Return_ArrivalDateTime': Return_ArrivalDateTime or 'None',
+                'Return_StopQuantity': Return_StopQuantity or 'None',
+                'Return_RPH': Return_RPH or 'None',
+                'Return_DepartureAirportLocationCode': Return_DepartureAirportLocationCode or 'None',
+                'Return_DepartureAirportLocationName': Return_DepartureAirportLocationName or 'None',
+                'Return_ArrivalAirportLocationCode': Return_ArrivalAirportLocationCode or 'None',
+                'Return_ArrivalAirportLocationName': Return_ArrivalAirportLocationName or 'None',
+                'Return_OperatingAirlineCode': Return_OperatingAirlineCode or 'None',
+                'Return_EquipmentAirEquipType': Return_EquipmentAirEquipType or 'None',
+                'CompanyShortName': CompanyShortName,
+                'CompanyCode': CompanyCode,
+                'TotalFareCurrencyCode': TotalFareCurrencyCode,
+                'TotalFareDecimalPlaces': TotalFareDecimalPlaces,
+                'TotalFareAmount': TotalFareAmount,
+                'PTC_FBs': PTC_FBs,
+                'Travelers_info': Travelers_info,
+                'ContactPersonGivenName': ContactPersonGivenName,
+                'ContactPersonSurname': ContactPersonSurname,
+                'ContactPersonMobile': ContactPersonMobile,
+                'ContactPersonHomeTelephone': ContactPersonHomeTelephone,
+                'ContactPersonEmail': ContactPersonEmail,
+                'PaymentType': PaymentType,
+                'DirectBill_ID': DirectBill_ID,
+                'CompanyAgentType': CompanyAgentType,
+                'PaymentAmountCurrencyCode': PaymentAmountCurrencyCode,
+                'PaymentAmountDecimalPlaces': PaymentAmountDecimalPlaces,
+                'PaymentAmountAmount': PaymentAmountAmount,
+                'Ticketing_RefDocNUM': Ticketing_RefDocNUM,
+                'BookingReferenceIDStatus': BookingReferenceIDStatus,
+                'BookingReferenceIDInstance': BookingReferenceIDInstance,
+                'BookingReferenceID': BookingReferenceID,
+                'BookingReferenceID_Context': BookingReferenceID_Context,
+            }
 
 
 def data_handle(selected_operation_number):

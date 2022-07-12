@@ -108,7 +108,7 @@
         {% endfor %}
     </div>
     <div class="container">
-        <form class="row g-3 mt-5" method="POST">
+        <form class="row g-3 mt-5" action="{% url 'read_reservation' %}" method="POST">
             {% csrf_token %}
             {% for data in selected_flight %}
                 {% for passengerCode in data.PTC_FBs %}
