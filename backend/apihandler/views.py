@@ -5,7 +5,7 @@ import re
 from datetime import datetime
 import xml.etree.ElementTree as ET
 from copy import deepcopy
-from search_data.models import SearchData
+from search_data.models import BookedTicket, SearchData
 from guest_user.decorators import allow_guest_user
 
 
@@ -21,6 +21,7 @@ operation_three_RS = {}
 Travelers_info = []
 Ticketing_RefDocNUM = []
 Ticket = {}
+
 
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
@@ -121,6 +122,9 @@ def booking_page(request, FlightNumber):
         Telephone = request.POST.get('Telephone')
         HomeTelephone = request.POST.get('HomeTelephone')
         data_handle(selected_operation_number)
+        user = request.user
+        selected_operation_number = 5
+        data_handle(selected_operation_number)
     else:
         selected_operation_number = 3
         selected_flight.clear()
@@ -137,132 +141,9 @@ def booking_page(request, FlightNumber):
 
 @login_required(login_url='loginView')
 def read_reservation(request):
-    selected_operation_number = 5
-    data_handle(selected_operation_number)
+    
     return render(request, './read_reservation.html', Ticket)
 
-
-
-
-def operation_one(request):
-    global pingRQ
-    pingRQ = request.POST.get("pingRQ") or ""
-    selected_operation_number = 1
-    operation_one_RS.clear()
-    data_handle(selected_operation_number)
-    operation_one_data = {
-        'operation_one': selected_operation_number,
-        'operation_one_RS': operation_one_RS[0]
-    }
-    return render(request, './operation_one.html', operation_one_data)
-
-
-def operation_two(request):
-    selected_operation_number = 2
-    global origin
-    global destination
-    global departureTime
-    global return_date
-    global ADTNumber
-    global CHDNumber
-    global INFNumber
-    global Cabin
-    origin = request.POST.get("origin") or 'None'  # get flight origin from template input
-    destination = request.POST.get("destination") or 'None'  # get flight destination from template input
-    departureTime = request.POST.get(
-        "departureTime") or datetime.now().isoformat()  # get flight departureTime from template input
-    ADTNumber = request.POST.get("ADTNumber") or '1'  # get number of people from template input
-    CHDNumber = request.POST.get("CHDNumber") or '0'  # get number of people from template input
-    INFNumber = request.POST.get("INFNumber") or '0'  # get number of people from template input
-    Cabin = request.POST.get("Cabin") or 'Economy'  # get number of people from template input
-    return_date = request.POST.get("return_date") or 'None'
-
-    # when user clicks on the submit button of form
-    if request.method == 'POST':
-        flight_list.clear()
-        selected_flight.clear()
-        data_handle(selected_operation_number)
-    # send data to template
-    operation_two_data = {
-        'flight_list': flight_list,  # for results
-        'ADTNumber': ADTNumber,  # for number of Adults which is in popup
-        'CHDNumber': CHDNumber,  # for number of Children which is in popup
-        'INFNumber': INFNumber,  # for number of Babies which is in popup
-        'origin': origin,  # for nothing found result
-        'destination': destination,  # for nothing found result
-        'departureTime': departureTime,
-    }
-    return render(request, './operation_two.html', operation_two_data)
-
-
-def operation_three(request, FlightNumber):
-    selected_operation_number = 3
-    selected_flight.clear()
-    for Flight in flight_list:
-        if Flight['FlightNumber'] == FlightNumber:
-            selected_flight.append(Flight)
-            flight_list.clear()
-
-    data_handle(selected_operation_number)
-    '''
-    if 'return_date' in selected_flight[0]:
-        selected_operation_number = 3
-        data_handle(selected_operation_number)
-    '''
-    return render(request, './operation_three.html', operation_three_RS)
-
-
-def operation_four(request):
-    passengers.clear()
-    Error.clear()
-    flight_list.clear()
-    submit = request.POST.get('submit')
-    if submit:
-        selected_operation_number = 4
-        for passenger in selected_flight[0]['PTC_FBs']:
-            for passenger_Quantity in range(1, int(passenger['PassengerTypeQuantity_Quantity']) + 1):
-                NamePrefix_str = str(
-                    "NamePrefix" + str(passenger_Quantity) + str(passenger['PassengerTypeQuantity_Code']))
-                NamePrefix = request.POST.get(NamePrefix_str)
-                GivenName_str = str(
-                    "GivenName" + str(passenger_Quantity) + str(passenger['PassengerTypeQuantity_Code']))
-                GivenName = request.POST.get(GivenName_str)
-                SureName_str = str("SureName" + str(passenger_Quantity) + str(passenger['PassengerTypeQuantity_Code']))
-                SureName = request.POST.get(SureName_str)
-                BirthDate_str = str(
-                    "BirthDate" + str(passenger_Quantity) + str(passenger['PassengerTypeQuantity_Code']))
-                BirthDate = request.POST.get(BirthDate_str)
-                Gender_str = str("Gender" + str(passenger_Quantity) + str(passenger['PassengerTypeQuantity_Code']))
-                Gender = request.POST.get(Gender_str)
-                TravelerNationality_str = str(
-                    "TravelerNationality" + str(passenger_Quantity) + str(passenger['PassengerTypeQuantity_Code']))
-                TravelerNationality = request.POST.get(TravelerNationality_str)
-                DocID_str = str("DocID" + str(passenger_Quantity) + str(passenger['PassengerTypeQuantity_Code']))
-                DocID = request.POST.get(DocID_str)
-                passengers.append({
-                    'NamePrefix': NamePrefix,
-                    'GivenName': GivenName,
-                    'SureName': SureName,
-                    'BirthDate': BirthDate,
-                    'Gender': Gender,
-                    'TravelerNationality': TravelerNationality,
-                    'DocID': DocID,
-                    'TypeCode': str(passenger['PassengerTypeQuantity_Code']),
-                })
-
-        global ContactGivenName
-        global ContactSureName
-        global Email
-        global Telephone
-        global HomeTelephone
-        ContactGivenName = request.POST.get('ContactGivenName')
-        ContactSureName = request.POST.get('ContactSureName')
-        Email = request.POST.get('Email')
-        Telephone = request.POST.get('Telephone')
-        HomeTelephone = request.POST.get('HomeTelephone')
-        data_handle(selected_operation_number)
-
-    return render(request, './operation_four.html', {'selected_flight': selected_flight, 'Error': Error})
 
 def source_table():
     Operation = []
@@ -429,13 +310,14 @@ def write_on_xml(selected_operation_number):
         root[4][3].text = Email
         root[5][0][0].attrib['PaymentType'] = "2"
         root[5][0][0][0].attrib['DirectBill_ID'] = Agent_id
-        root[5][0][0][0][0].attrib['CompanyShortName'] = "HOMARES OTA"
+        root[5][0][0][0][0].attrib['CompanyShortName'] = "PERSINO"
         root[5][0][0][0][0].attrib['Code'] = Agent_id
         root[5][0][0][1].attrib['CurrencyCode'] = selected_flight[0]['TotalFare_CurrencyCode']
         root[5][0][0][1].attrib['DecimalPlaces'] = selected_flight[0]['TotalFare_DecimalPlaces']
         root[5][0][0][1].attrib['Amount'] = selected_flight[0]['TotalFare_Amount']
 
     elif selected_operation_number == 5:
+
         root[1].attrib['ID'] = BookingReferenceID
 
     tree.write(newpath)
@@ -448,7 +330,6 @@ def read_from_xml(selected_operation_number, respath):
     Operation, Request_Schema, Response_Schema, Resource = source_table()
     tree = ET.parse(respath)
     root = tree.getroot()
-
     if selected_operation_number == 1:
         if 'Success' in root[1].tag:
             root_1_tag = 'Success'
@@ -630,7 +511,6 @@ def read_from_xml(selected_operation_number, respath):
             search_data.childNum = CHDNumber
             search_data.infantNum = INFNumber
             search_data.creator_id = user
-            #search_data.level = 'SR'
             search_data.save()
 
     elif selected_operation_number == 3:
@@ -670,7 +550,6 @@ def read_from_xml(selected_operation_number, respath):
 
             global BookingReferenceID
             BookingReferenceID = root[1][i].attrib['ID']
-
         else:
             ErrorText = root[0][0].attrib['ShortText'] or 'None'
             ErrorCode = root[0][0].attrib['Code'] or 'None'
@@ -894,13 +773,14 @@ def read_from_xml(selected_operation_number, respath):
                 'BookingReferenceID': BookingReferenceID,
                 'BookingReferenceID_Context': BookingReferenceID_Context,
             }
-
+            bookedTicket = BookedTicket()
+            bookedTicket.traveler = user
+            bookedTicket.ticketData = Ticket
+            bookedTicket.save()
 
 def data_handle(selected_operation_number):
     Agent_id = 'MOW07603'
     Operation, Request_Schema, Response_Schema, Resource = source_table()
-    for index, oper in enumerate(Operation, 1):
-        print(str(index) + '-' + oper)
 
     selected_Response_Schema = Response_Schema[selected_operation_number - 1]
     selected_Resource = Resource[selected_operation_number - 1]

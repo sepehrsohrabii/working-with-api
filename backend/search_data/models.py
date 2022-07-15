@@ -14,19 +14,9 @@ class SearchData(models.Model):
     infantNum = models.IntegerField(null=True, blank=True)
     returnStatus = models.BooleanField(null=True, blank=True)
     creator_id = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    '''
-    SEARCH = 'SR'
-    BOOKING = 'BK'
-    LEVEL_CHOICES = [
-        (SEARCH, 'Search'),
-        (BOOKING, 'Booking'),
-    ]
-    level = models.CharField(
-        max_length=2,
-        choices=LEVEL_CHOICES,
-        default=SEARCH,
-        blank=True,
-        null=True,
-    )
-    '''
+
+class BookedTicket(models.Model):
+    id = models.AutoField(primary_key=True)
+    traveler = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    ticketData = models.JSONField()
 

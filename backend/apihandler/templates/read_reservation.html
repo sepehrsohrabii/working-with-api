@@ -4,24 +4,16 @@
 {% block main %}
 
     <div class="container progress-box d-flex justify-content-center align-items-center p-4">
-        <a href="{% url 'operation_one' %}">
-            <span class="material-icons-round fs-1 text-success me-2">network_ping</span>
-        </a>
-        <label><a href="{% url 'operation_one' %}">Ping</a></label>
-        <span class="linear-gradient activated mx-3"></span>
-        <a href="{% url 'operation_two' %}">
+        <a href="{% url 'home_page' %}">
             <span class="material-icons-round fs-1 text-success me-2">travel_explore</span>
         </a>
-        <label><a href="{% url 'operation_two' %}">Low Fare Search</a></label>
+        <label><a href="{% url 'home_page' %}">Low Fare Search</a></label>
         <span class="linear-gradient mx-3 activated"></span>
-        <span class="material-icons-round fs-1 text-success me-2">checklist_rtl</span>
-        <label>Fare Rule</label>
-        <span class="linear-gradient mx-3 activated"></span>
-        <span class="material-icons-round fs-1 text-danger me-2">assignment_ind</span>
+        <span class="material-icons-round fs-1 text-success me-2">assignment_ind</span>
         <label>Book & Ticket</label>
-        <span class="linear-gradient mx-3 active"></span>
-        <span class="material-icons fs-1 me-2 gray">airplane_ticket</span>
-        <label class="gray">Read Reservation</label>
+        <span class="linear-gradient mx-3 activated"></span>
+        <span class="material-icons fs-1 me-2 text-success">airplane_ticket</span>
+        <label>Read Reservation</label>
     </div>
 
 

@@ -40,9 +40,6 @@
                                 <a class="nav-link text-white" aria-current="page" href="{% url 'home_page' %}"><h6>Home</h6></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-white" href="{% url 'operation_one' %}"><h6>Full Test</h6></a>
-                            </li>
-                            <li class="nav-item">
                                 <a class="nav-link text-white" href=""><h6>FAQ</h6></a>
                             </li>
                             <li class="nav-item border-end">
@@ -78,10 +75,26 @@
                         </button>
                         <div class="navbar-new" id="toggle-nav">
                         <ul id="navlinks">
+                            {% if user.is_authenticated and not user|is_guest_user %}
+                                <li class="nav-item">
+                                    <a class="nav-link text-white dropdown-toggle d-flex align-items-center" type="button" id="accountsDropdown" data-bs-toggle="dropdown" aria-expanded="false"><h6 class="fw-bold">Hi {{ user.first_name }}</h6></a>
+                                    <ul class="dropdown-menu" aria-labelledby="accountsDropdown" style="right: 0 !important; left: unset !important;">
+                                        <li><a class="dropdown-item" href="{% url 'userProfile' %}">Profile</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'logoutView' %}">Logout</a></li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                    </ul>
+                                </li>
+                            {% else %}
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" href="{% url 'loginView' %}"><h6 class="fw-bold">Login</h6></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" href="{% url 'signupView' %}"><h6 class="fw-bold">Signup</h6></a>
+                                </li>
+                            {% endif %}
                             <li><a data-text="1" href="{% url 'home_page' %}">Home</a></li>
-                            <li><a data-text="2" href="{% url 'operation_one' %}">Full Test</a></li>
-                            <li><a data-text="3" href="#FAQ">FAQ</a></li>
-                            <li><a data-text="4" href="#FAQ">Contact Us</a></li>
+                            <li><a data-text="2" href="#FAQ">FAQ</a></li>
+                            <li><a data-text="3" href="#FAQ">Contact Us</a></li>
                         </ul>
                         </div>
                         <div id="bg-circle"></div>
