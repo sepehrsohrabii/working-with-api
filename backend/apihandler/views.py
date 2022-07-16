@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 import requests
 import re
@@ -7,7 +7,6 @@ import xml.etree.ElementTree as ET
 from copy import deepcopy
 from search_data.models import BookedTicket, SearchData
 from guest_user.decorators import allow_guest_user
-
 
 context = {}
 flight_list = []
@@ -125,6 +124,7 @@ def booking_page(request, FlightNumber):
         user = request.user
         selected_operation_number = 5
         data_handle(selected_operation_number)
+        return redirect('read_reservation')
     else:
         selected_operation_number = 3
         selected_flight.clear()
@@ -578,7 +578,23 @@ def read_from_xml(selected_operation_number, respath):
             ArrivalAirportLocationName = FlightSegment[1].attrib['LocationName']
             OperatingAirlineCode = FlightSegment[2].attrib['Code']
             EquipmentAirEquipType = FlightSegment[3].attrib['AirEquipType']
-
+            
+            Return_FlightSegment = 'None'
+            Return_Status = 'None'
+            Return_FlightNumber = 'None'
+            Return_FareBasisCode = 'None'
+            Return_ResBookDesigCode = 'None'
+            Return_DepartureDateTime = 'None'
+            Return_ArrivalDateTime = 'None'
+            Return_StopQuantity = 'None'
+            Return_RPH = 'None'
+            Return_DepartureAirportLocationCode = 'None'
+            Return_DepartureAirportLocationName = 'None'
+            Return_ArrivalAirportLocationCode = 'None'
+            Return_ArrivalAirportLocationName = 'None'
+            Return_OperatingAirlineCode = 'None'
+            Return_EquipmentAirEquipType = 'None'
+            
             if DirectionInd == 'Return':
                 Return_FlightSegment = root[1][0][0][0][1]
                 Return_Status = FlightSegment.attrib['Status']
@@ -636,10 +652,7 @@ def read_from_xml(selected_operation_number, respath):
                 PTC_FBs.append({
                     'PassengerTypeQuantity_Code': PassengerTypeQuantity_Code,
                     'PassengerTypeQuantity_Quantity': PassengerTypeQuantity_Quantity,
-                    'PassengerTypeQuantity_Range': range(1, int(PassengerTypeQuantity_Quantity) + 1),
                     'FareBasisCode': FareBasisCode,
-                    'FareBasisCode_FlightSegmentRPH': FareBasisCode_FlightSegmentRPH,
-                    'FareBasisCode_fareRPH': FareBasisCode_fareRPH,
                     'PassengerFare_BaseFare_CurrencyCode': PassengerFare_BaseFare_CurrencyCode,
                     'PassengerFare_BaseFare_DecimalPlaces': PassengerFare_BaseFare_DecimalPlaces,
                     'PassengerFare_BaseFare_Amount': PassengerFare_BaseFare_Amount,
@@ -663,9 +676,7 @@ def read_from_xml(selected_operation_number, respath):
                 PersonNameSurname = Traveler[0][2].text
                 DocumentId = Traveler[1].attrib['DocID']
                 DocumentType = Traveler[1].attrib['DocType']
-                DocumentIssueCountry = Traveler[1].attrib['DocIssueCountry']
                 DocumentHolderNationality = Traveler[1].attrib['DocHolderNationality']
-                DocumentExpireDate = Traveler[1].attrib['ExpireDate']
                 TravelerRefNumberRPH = Traveler[2].attrib['RPH']
                 Travelers_info.append({
                     'AirTravelerBirthDate': AirTravelerBirthDate,
@@ -678,12 +689,8 @@ def read_from_xml(selected_operation_number, respath):
                     'PersonNameSurname': PersonNameSurname,
                     'DocumentId': DocumentId,
                     'DocumentType': DocumentType,
-                    'DocumentIssueCountry': DocumentIssueCountry,
                     'DocumentHolderNationality': DocumentHolderNationality,
-                    'DocumentExpireDate': DocumentExpireDate,
                     'TravelerRefNumberRPH': TravelerRefNumberRPH,
-                    'StopQuantity': StopQuantity,
-
                 })
 
             ContactPersonGivenName = root[1][4][0][0].text
@@ -705,8 +712,8 @@ def read_from_xml(selected_operation_number, respath):
             i = 6
             for Traveler in Travelers:
                 Ticketing = root[1][i]
-                TicketingTravelerRefNumber = Traveler.attrib['TravelerRefNumber']
-                TicketingTicketDocumentNbr = Traveler.attrib['TicketDocumentNbr']
+                TicketingTravelerRefNumber = Ticketing.attrib['TravelerRefNumber']
+                TicketingTicketDocumentNbr = Ticketing.attrib['TicketDocumentNbr']
                 i = i + 1
                 Ticketing_RefDocNUM.append({
                     'TicketingTravelerRefNumber': TicketingTravelerRefNumber,
@@ -775,7 +782,7 @@ def read_from_xml(selected_operation_number, respath):
             }
             bookedTicket = BookedTicket()
             bookedTicket.traveler = user
-            bookedTicket.ticketData = Ticket
+            bookedTicket.ticketData = str(Ticket)
             bookedTicket.save()
 
 def data_handle(selected_operation_number):

@@ -1,8 +1,8 @@
-<ns0:OTA_ReadRQ xmlns:ns0="http://www.opentravel.org/OTA/2003/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opentravel.org/OTA/2003/05 OTA_ReadRQ.xsd" EchoToken="0001" TimeStamp="2022-07-14T17:29:36" Target="Test" Version="2.001" SequenceNmbr="1" PrimaryLangID="En-us">
+<ns0:OTA_ReadRQ xmlns:ns0="http://www.opentravel.org/OTA/2003/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opentravel.org/OTA/2003/05 OTA_ReadRQ.xsd" EchoToken="0001" TimeStamp="2022-07-15T19:55:49" Target="Test" Version="2.001" SequenceNmbr="1" PrimaryLangID="En-us">
     <ns0:POS>
         <ns0:Source AirlineVendorID="IR" ISOCountry="IR" ISOCurrency="RUB">
             <ns0:RequestorID Type="5" ID="MOW07603" />
         </ns0:Source>
     </ns0:POS>
-  <ns0:UniqueID ID="" />
+  <ns0:UniqueID ID="AJ7BSF" />
 </ns0:OTA_ReadRQ>

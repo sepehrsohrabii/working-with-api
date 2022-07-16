@@ -20,3 +20,5 @@ class BookedTicket(models.Model):
     traveler = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     ticketData = models.JSONField()
 
+
+
