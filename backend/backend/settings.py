@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'apihandler',
     'accounts',
     'search_data',
-    'guest_user',
     'panel',
 ]
 

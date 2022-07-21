@@ -37,8 +37,6 @@
                 <p class="m-0 p-0"><b> Departure Time:</b></br>{{data.departureTime}}</p>
                 <p class="m-0 p-0"><b> Flight Number:</b></br>{{data.FlightNumber}}</p>
                 <p class="m-0 p-0"><b> Air Equip Type:</b></br>{{data.AirEquipType}}</p>
-                <p class="m-0 p-0"><b> FareRuleText:</b> {{operation_three_RS.FareRuleText}}</br></p>
-                <p class="m-0 p-0"><b> FlightRefNumberRPH:</b> {{operation_three_RS.FlightRefNumberRPH}}</br></p>
                 <a class="btn btn-warning p-3" data-bs-toggle="modal" href="#modal{{data.FlightNumber}}" role="button"><b>More Info</b></a>
             </div>
             <div class="modal fade text-black" id="modal{{data.FlightNumber}}" aria-hidden="true" aria-labelledby="modal{{data.FlightNumber}}Label" tabindex="-1" style="backdrop-filter: unset;">
@@ -91,7 +89,10 @@
                             </row>
                             {% endfor %}
                         </div>
-
+                        <div class="row my-3">
+                            <p class="m-0 p-0"><b> FareRuleText:</b> {{operation_three_RS.FareRuleText}}</br></p>
+                            <p class="m-0 p-0"><b> FlightRefNumberRPH:</b> {{operation_three_RS.FlightRefNumberRPH}}</br></p>
+                        </div>
                     </div>
                     <div class="modal-footer">
                     </div>
@@ -184,11 +185,18 @@
                         <input type="text" class="form-control" id="HomeTelephone" name="HomeTelephone" placeholder="Home Number" required/>
                     </div>
                 </div>
+            </div>
+            <div class="container">
                 <div class="row">
+                    <div class="col-md col-12">
+                        <a href="{% url 'home_page' %}" class="btn btn-outline-secondary w-100 py-3">Back</a>
+                    </div>
+                    <div class="col-md col-12">
+                        <button type="submit" class="btn btn-success mb-5 w-100 py-3" value="Submit" name="submit">Submit</button>
+                    </div>
                 </div>
             </div>
-            <a href="{% url 'home_page' %}" class="btn btn-outline-secondary">Back</a>
-            <button type="submit" class="btn btn-success mb-5" value="Submit" name="submit">Submit</button>
+            
         </form>
     </div>
     {% for Error in Error %}

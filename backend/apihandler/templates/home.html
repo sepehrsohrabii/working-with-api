@@ -1,6 +1,5 @@
 {% extends 'main.html' %}
 {% load static %}
-{% load guest_user %}
 {% block title %}Persino{% endblock %}
 {% block main %}
     <div class="container vh-100 d-flex align-items-center">
@@ -106,7 +105,7 @@
     <div id="showresults" class="container my-5 px-0 pb-5">
           {% if flight_list %}
               {% for data in flight_list %}
-                  <form method="POST" action="{% if not user|is_guest_user and user.is_authenticated %}{% url 'booking_page' FlightNumber=data.FlightNumber %}{% else %}{% url 'loginView' %}{% endif %}">
+                  <form method="POST" action="{% if user.is_authenticated %}{% url 'booking_page' FlightNumber=data.FlightNumber %}{% else %}{% url 'loginView' %}{% endif %}">
                     {% csrf_token %}
                       <div class="container py-5">
                         <div class="ticket-system">
@@ -252,6 +251,7 @@
             <div class="col-md-5 col-12 align-self-center mx-md-0 mx-4 mb-5 mb-md-0">
                 <h1 class="fw-bold mb-4">Ready for Take Off?</h1>
                 <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                <button class="btn btn-primary button1 border-none px-4 py-2">Book Now</button>
             </div>
         </div>
     </div>

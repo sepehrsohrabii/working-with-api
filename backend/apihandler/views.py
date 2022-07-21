@@ -6,7 +6,8 @@ from datetime import datetime
 import xml.etree.ElementTree as ET
 from copy import deepcopy
 from search_data.models import BookedTicket, SearchData
-from guest_user.decorators import allow_guest_user
+#from guest_user.decorators import allow_guest_user
+from django.contrib.auth.models import User
 
 context = {}
 flight_list = []
@@ -30,7 +31,7 @@ def get_client_ip(request):
         ip = request.META.get('REMOTE_ADDR')
     return ip
 
-@allow_guest_user
+#@allow_guest_user
 def home_page(request):
     selected_operation_number = 2
     global origin
@@ -56,7 +57,10 @@ def home_page(request):
     if request.method == 'POST':
         flight_list.clear()
         selected_flight.clear()
-        user = request.user
+        if request.user.is_authenticated:
+            user = request.user
+        else:
+            user = User.objects.get(username='Guest')
         data_handle(selected_operation_number)
     # send data to template
     operation_two_data = {
@@ -510,7 +514,10 @@ def read_from_xml(selected_operation_number, respath):
             search_data.adultNum = ADTNumber
             search_data.childNum = CHDNumber
             search_data.infantNum = INFNumber
-            search_data.creator_id = user
+            if user.is_authenticated:
+                search_data.creator_id = user
+            else:
+                search_data.creator_id = User.objects.get(username='Guest')
             search_data.save()
 
     elif selected_operation_number == 3:
@@ -618,7 +625,7 @@ def read_from_xml(selected_operation_number, respath):
             TotalFareCurrencyCode = root[1][2][0][0].attrib['CurrencyCode']
             TotalFareDecimalPlaces = root[1][2][0][0].attrib['DecimalPlaces']
             TotalFareAmount = root[1][2][0][0].attrib['Amount']
-
+            PTC_FBs.clear()
             PTC_FareBreakdowns = root[1][2][1]
             for PTC_FareBreakdown in PTC_FareBreakdowns:
                 PassengerTypeQuantity_Code = PTC_FareBreakdown[0].attrib['Code']
@@ -663,7 +670,7 @@ def read_from_xml(selected_operation_number, respath):
                     'FareInfo_FareInfo_FareBasisCode': FareInfo_FareInfo_FareBasisCode,
                     'FareInfo_FareInfo_BaseAmount': FareInfo_FareInfo_BaseAmount,
                 })
-
+            Travelers_info.clear()
             Travelers = root[1][3]
             for Traveler in Travelers:
                 AirTravelerBirthDate = Traveler.attrib['BirthDate']
@@ -710,6 +717,7 @@ def read_from_xml(selected_operation_number, respath):
             PaymentAmountAmount = root[1][5][0][0][1].attrib['Amount']
 
             i = 6
+            Ticketing_RefDocNUM.clear()
             for Traveler in Travelers:
                 Ticketing = root[1][i]
                 TicketingTravelerRefNumber = Ticketing.attrib['TravelerRefNumber']

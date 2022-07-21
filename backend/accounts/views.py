@@ -1,20 +1,26 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from accounts.models import UserInfo
 from django.contrib.auth import authenticate, login, logout
 from apihandler.views import home_page
-from panel.views import AdminPanel
 
 def loginView (request):
-    if request.method == 'POST':
-        email = request.POST.get('email')
-        userName= email
-        password = request.POST.get('password')
-        user = authenticate(request, username=userName, password=password)
-        if user is not None:
-            login(request, user)
-            return home_page(request)
-    return render(request, './login.html')
+    if request.user.is_authenticated:
+        return redirect(request.POST.get('next'))
+    else:
+        if request.method == 'POST':
+            userName= request.POST.get('username')
+            password = request.POST.get('password')
+            user = authenticate(request, username=userName, password=password)
+            if user is not None and user.is_active:
+                login(request, user)
+                if 'next' in request.POST:
+                    return redirect(request.POST.get('next'))
+                else:
+                    return home_page(request)
+        else:
+            return render(request, './login.html')
 
 def signupView (request):
     if request.method == 'POST':

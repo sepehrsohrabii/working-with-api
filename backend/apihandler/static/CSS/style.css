@@ -101,6 +101,11 @@ a:hover, a:focus {
     color: #7C3E66 !important;
     text-decoration: inherit !important;
 }
+.button1 {
+  background-color: var(--color3);
+  color: white!important;
+  border: none;
+}
 .img-default {
     object-fit: cover;
     object-position: center center;
@@ -151,7 +156,7 @@ a:hover, a:focus {
   margin-top: 100px;
 }
 .progress-box {
-    margin-top: 4%;
+    margin-top: 7%;
     border-radius: 16px;
     backdrop-filter: blur(4.5px);
     -webkit-backdrop-filter: blur(4.5px);

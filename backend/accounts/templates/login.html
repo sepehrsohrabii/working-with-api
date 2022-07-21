@@ -37,8 +37,8 @@
                         <h2 class="fw-bold">Login</h2>
                         <h6 class="text-secondary mb-5">Join us to have cheapest tickets in your email</h6>
                         <div class="form-floating mb-2">
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your Email" required/>
-                            <label for="email">Email</label>
+                            <input type="username" class="form-control" id="username" name="username" placeholder="Enter your username" required/>
+                            <label for="username">Username</label>
                         </div>
                         <div class="form-floating mb-2">
                             <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required/>
@@ -46,6 +46,9 @@
                         </div>
                         {% if not user.is_authenticated and request.method == 'POST' %}
                             <p class="text-danger">Sorry, Your email or password is incorrect.</p>
+                        {% endif %}
+                        {% if request.GET.next %}
+                            <input type="hidden" name="next" value="{{ request.GET.next }}"/>
                         {% endif %}
                         <button type="submit" class="btn btn-primary w-100 mt-4 py-2"><h4>Login</h4></button>
                     </form>

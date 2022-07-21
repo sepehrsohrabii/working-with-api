@@ -1,5 +1,4 @@
 {% load static %}
-{% load guest_user %}
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
     <head>
@@ -45,7 +44,7 @@
                             <li class="nav-item border-end">
                                 <a class="nav-link text-white" href=""><h6>Contact Us</h6></a>
                             </li>
-                            {% if user.is_authenticated and not user|is_guest_user %}
+                            {% if user.is_authenticated %}
                                 <li class="nav-item">
                                     <a class="nav-link text-white dropdown-toggle d-flex align-items-center" type="button" id="accountsDropdown" data-bs-toggle="dropdown" aria-expanded="false"><h6 class="fw-bold">Hi {{ user.first_name }}</h6></a>
                                     <ul class="dropdown-menu" aria-labelledby="accountsDropdown" style="right: 0 !important; left: unset !important;">
@@ -75,7 +74,7 @@
                         </button>
                         <div class="navbar-new" id="toggle-nav">
                         <ul id="navlinks">
-                            {% if user.is_authenticated and not user|is_guest_user %}
+                            {% if user.is_authenticated %}
                                 <li class="nav-item">
                                     <a class="nav-link text-white dropdown-toggle d-flex align-items-center" type="button" id="accountsDropdown" data-bs-toggle="dropdown" aria-expanded="false"><h6 class="fw-bold">Hi {{ user.first_name }}</h6></a>
                                     <ul class="dropdown-menu" aria-labelledby="accountsDropdown" style="right: 0 !important; left: unset !important;">
@@ -123,7 +122,7 @@
                     </div>
                     <div class="col-md-5">
                         <div class="row">
-                        <div class="col fs2 px-4 px-md-0 pt-md-0 pt-4 text-white">Advva, one of the largest advertising companies in California, is wrapping cars now.
+                        <div class="col fs2 px-4 px-md-0 pt-md-0 pt-4 text-white">Persino, one of the largest advertising companies in California, is wrapping cars now.
                             You can make extra money every month.</div>
                         </div>
                         <div class="row justify-content-between mt-md-2 pt-4 pt-md-0 px-md-0">
