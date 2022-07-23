@@ -5,8 +5,7 @@ import re
 from datetime import datetime
 import xml.etree.ElementTree as ET
 from copy import deepcopy
-from search_data.models import BookedTicket, SearchData
-#from guest_user.decorators import allow_guest_user
+from search_data.models import BookedTicket, SearchData, PassengerType, Tax, PassengerInfo
 from django.contrib.auth.models import User
 
 context = {}
@@ -31,7 +30,7 @@ def get_client_ip(request):
         ip = request.META.get('REMOTE_ADDR')
     return ip
 
-#@allow_guest_user
+
 def home_page(request):
     selected_operation_number = 2
     global origin
@@ -412,12 +411,12 @@ def read_from_xml(selected_operation_number, respath):
                     PassengerFare_BaseFare_Amount = PTC_FareBreakdown[2][0].attrib['Amount']
                     PassengerFare_Taxes = PTC_FareBreakdown[2][1]
                     Taxes.clear()
-                    for Tax in PassengerFare_Taxes:
-                        TaxText = Tax.text
-                        TaxCode = Tax.attrib['TaxCode']
-                        TaxName = Tax.attrib['TaxName']
-                        Tax_CurrencyCode = Tax.attrib['CurrencyCode']
-                        Tax_DecimalPlaces = Tax.attrib['DecimalPlaces']
+                    for Tax_item in PassengerFare_Taxes:
+                        TaxText = Tax_item.text
+                        TaxCode = Tax_item.attrib['TaxCode']
+                        TaxName = Tax_item.attrib['TaxName']
+                        Tax_CurrencyCode = Tax_item.attrib['CurrencyCode']
+                        Tax_DecimalPlaces = Tax_item.attrib['DecimalPlaces']
                         Taxes.append({
                             'TaxText': TaxText,
                             'TaxCode': TaxCode,
@@ -575,8 +574,16 @@ def read_from_xml(selected_operation_number, respath):
             FlightNumber = FlightSegment.attrib['FlightNumber']
             FareBasisCode = FlightSegment.attrib['FareBasisCode']
             ResBookDesigCode = FlightSegment.attrib['ResBookDesigCode']
-            DepartureDateTime = FlightSegment.attrib['DepartureDateTime']
-            ArrivalDateTime = FlightSegment.attrib['ArrivalDateTime']
+            DepartureDateTime = FlightSegment.attrib['DepartureDateTime'].split('T')
+            departureDate = DepartureDateTime[0]
+            departureTime = DepartureDateTime[1].replace("+03", "+04")
+            departureTime_model = departureTime.split(':')
+            departureTime_model = departureTime_model[0] + ':' + departureTime_model[1]
+            ArrivalDateTime = FlightSegment.attrib['ArrivalDateTime'].split('T')
+            arrivalDate = ArrivalDateTime[0]
+            arrivalTime = ArrivalDateTime[1].replace("+03", "+04")
+            arrivalTime_model = arrivalTime.split(':')
+            arrivalTime_model = arrivalTime_model[0] + ':' + arrivalTime_model[1]
             StopQuantity = FlightSegment.attrib['StopQuantity']
             RPH = FlightSegment.attrib['RPH']
             DepartureAirportLocationCode = FlightSegment[0].attrib['LocationCode']
@@ -586,21 +593,29 @@ def read_from_xml(selected_operation_number, respath):
             OperatingAirlineCode = FlightSegment[2].attrib['Code']
             EquipmentAirEquipType = FlightSegment[3].attrib['AirEquipType']
             
-            Return_FlightSegment = 'None'
-            Return_Status = 'None'
-            Return_FlightNumber = 'None'
-            Return_FareBasisCode = 'None'
-            Return_ResBookDesigCode = 'None'
-            Return_DepartureDateTime = 'None'
-            Return_ArrivalDateTime = 'None'
-            Return_StopQuantity = 'None'
-            Return_RPH = 'None'
-            Return_DepartureAirportLocationCode = 'None'
-            Return_DepartureAirportLocationName = 'None'
-            Return_ArrivalAirportLocationCode = 'None'
-            Return_ArrivalAirportLocationName = 'None'
-            Return_OperatingAirlineCode = 'None'
-            Return_EquipmentAirEquipType = 'None'
+            Return_FlightSegment = ''
+            Return_Status = ''
+            Return_FlightNumber = ''
+            Return_FareBasisCode = ''
+            Return_ResBookDesigCode = ''
+            Return_DepartureDateTime = ''
+            Return_DepartureDate = ''
+            Return_DepartureTime = ''
+            Return_DepartureTime_model = ''
+            Return_DepartureTime_model = ''
+            Return_ArrivalDateTime = ''
+            Return_ArrivalDate = ''
+            Return_ArrivalTime = ''
+            Return_ArrivalTime_model = ''
+            Return_ArrivalTime_model = ''
+            Return_StopQuantity = ''
+            Return_RPH = ''
+            Return_DepartureAirportLocationCode = ''
+            Return_DepartureAirportLocationName = ''
+            Return_ArrivalAirportLocationCode = ''
+            Return_ArrivalAirportLocationName = ''
+            Return_OperatingAirlineCode = ''
+            Return_EquipmentAirEquipType = ''
             
             if DirectionInd == 'Return':
                 Return_FlightSegment = root[1][0][0][0][1]
@@ -608,8 +623,16 @@ def read_from_xml(selected_operation_number, respath):
                 Return_FlightNumber = FlightSegment.attrib['FlightNumber']
                 Return_FareBasisCode = FlightSegment.attrib['FareBasisCode']
                 Return_ResBookDesigCode = FlightSegment.attrib['ResBookDesigCode']
-                Return_DepartureDateTime = FlightSegment.attrib['DepartureDateTime']
-                Return_ArrivalDateTime = FlightSegment.attrib['ArrivalDateTime']
+                Return_DepartureDateTime = FlightSegment.attrib['DepartureDateTime'].split('T')
+                Return_DepartureDate = Return_DepartureDateTime[0]
+                Return_DepartureTime = Return_DepartureDateTime[1].replace("+03", "+04")
+                Return_DepartureTime_model = Return_DepartureTime.split(':')
+                Return_DepartureTime_model = Return_DepartureTime_model[0] + ':' + Return_DepartureTime_model[1]
+                Return_ArrivalDateTime = FlightSegment.attrib['ArrivalDateTime'].split('T')
+                Return_ArrivalDate = Return_ArrivalDateTime[0]
+                Return_ArrivalTime = Return_ArrivalDateTime[1].replace("+03", "+04")
+                Return_ArrivalTime_model = Return_ArrivalTime.split(':')
+                Return_ArrivalTime_model = Return_ArrivalTime_model[0] + ':' + Return_ArrivalTime_model[1]
                 Return_StopQuantity = FlightSegment.attrib['StopQuantity']
                 Return_RPH = FlightSegment.attrib['RPH']
                 Return_DepartureAirportLocationCode = FlightSegment[0].attrib['LocationCode']
@@ -636,18 +659,20 @@ def read_from_xml(selected_operation_number, respath):
                 PassengerFare_BaseFare_Amount = PTC_FareBreakdown[2][0].attrib['Amount']
                 PassengerFare_Taxes = PTC_FareBreakdown[2][1]
                 Taxes.clear()
-                for Tax in PassengerFare_Taxes:
-                    TaxText = Tax.text or 'none'
-                    TaxCode = Tax.attrib['TaxCode']
-                    TaxName = Tax.attrib['TaxName']
-                    Tax_CurrencyCode = Tax.attrib['CurrencyCode']
-                    Tax_DecimalPlaces = Tax.attrib['DecimalPlaces']
+                for Tax_itme2 in PassengerFare_Taxes:
+                    TaxText = Tax_itme2.text or 'none'
+                    TaxCode = Tax_itme2.attrib['TaxCode']
+                    TaxName = Tax_itme2.attrib['TaxName']
+                    Tax_CurrencyCode = Tax_itme2.attrib['CurrencyCode']
+                    Tax_DecimalPlaces = Tax_itme2.attrib['DecimalPlaces']
+                    Tax_Amount = Tax_itme2.attrib['Amount']
                     Taxes.append({
                         'TaxText': TaxText,
                         'TaxCode': TaxCode,
                         'TaxName': TaxName,
                         'Tax_CurrencyCode': Tax_CurrencyCode,
                         'Tax_DecimalPlaces': Tax_DecimalPlaces,
+                        'Tax_Amount': Tax_Amount,
                     })
                 PassengerFare_TotalFare_CurrencyCode = PTC_FareBreakdown[2][2].attrib['CurrencyCode']
                 PassengerFare_TotalFare_DecimalPlaces = PTC_FareBreakdown[2][2].attrib['DecimalPlaces']
@@ -741,8 +766,10 @@ def read_from_xml(selected_operation_number, respath):
                 'FlightNumber': FlightNumber,
                 'FareBasisCode': FareBasisCode,
                 'ResBookDesigCode': ResBookDesigCode,
-                'DepartureDateTime': DepartureDateTime,
-                'ArrivalDateTime': ArrivalDateTime,
+                'departureDate': departureDate,
+                'departureTime': departureTime_model,
+                'arrivalDate': arrivalDate,
+                'arrivalTime': arrivalTime_model,
                 'RPH': RPH,
                 'DepartureAirportLocationCode': DepartureAirportLocationCode,
                 'DepartureAirportLocationName': DepartureAirportLocationName,
@@ -750,20 +777,22 @@ def read_from_xml(selected_operation_number, respath):
                 'ArrivalAirportLocationName': ArrivalAirportLocationName,
                 'OperatingAirlineCode': OperatingAirlineCode,
                 'EquipmentAirEquipType': EquipmentAirEquipType,
-                'Return_Status': Return_Status or 'None',
-                'Return_FlightNumber': Return_FlightNumber or 'None',
-                'Return_FareBasisCode': Return_FareBasisCode or 'None',
-                'Return_ResBookDesigCode': Return_ResBookDesigCode or 'None',
-                'Return_DepartureDateTime': Return_DepartureDateTime or 'None',
-                'Return_ArrivalDateTime': Return_ArrivalDateTime or 'None',
-                'Return_StopQuantity': Return_StopQuantity or 'None',
-                'Return_RPH': Return_RPH or 'None',
-                'Return_DepartureAirportLocationCode': Return_DepartureAirportLocationCode or 'None',
-                'Return_DepartureAirportLocationName': Return_DepartureAirportLocationName or 'None',
-                'Return_ArrivalAirportLocationCode': Return_ArrivalAirportLocationCode or 'None',
-                'Return_ArrivalAirportLocationName': Return_ArrivalAirportLocationName or 'None',
-                'Return_OperatingAirlineCode': Return_OperatingAirlineCode or 'None',
-                'Return_EquipmentAirEquipType': Return_EquipmentAirEquipType or 'None',
+                'Return_Status': Return_Status or None,
+                'Return_FlightNumber': Return_FlightNumber or None,
+                'Return_FareBasisCode': Return_FareBasisCode or None,
+                'Return_ResBookDesigCode': Return_ResBookDesigCode or None,
+                'Return_DepartureDate': Return_DepartureDate or None,
+                'Return_DepartureTime': Return_DepartureTime_model or None,
+                'Return_ArrivalDate': Return_ArrivalDate or None,
+                'Return_ArrivalTime': Return_ArrivalTime_model or None,
+                'Return_StopQuantity': Return_StopQuantity or None,
+                'Return_RPH': Return_RPH or None,
+                'Return_DepartureAirportLocationCode': Return_DepartureAirportLocationCode or None,
+                'Return_DepartureAirportLocationName': Return_DepartureAirportLocationName or None,
+                'Return_ArrivalAirportLocationCode': Return_ArrivalAirportLocationCode or None,
+                'Return_ArrivalAirportLocationName': Return_ArrivalAirportLocationName or None,
+                'Return_OperatingAirlineCode': Return_OperatingAirlineCode or None,
+                'Return_EquipmentAirEquipType': Return_EquipmentAirEquipType or None,
                 'CompanyShortName': CompanyShortName,
                 'CompanyCode': CompanyCode,
                 'TotalFareCurrencyCode': TotalFareCurrencyCode,
@@ -788,10 +817,113 @@ def read_from_xml(selected_operation_number, respath):
                 'BookingReferenceID': BookingReferenceID,
                 'BookingReferenceID_Context': BookingReferenceID_Context,
             }
+
             bookedTicket = BookedTicket()
-            bookedTicket.traveler = user
-            bookedTicket.ticketData = str(Ticket)
+            bookedTicket.user = user
+            bookedTicket.createdDateTime = Ticket['CreatedDateTme']
+            bookedTicket.directionInd = Ticket['DirectionInd']
+            bookedTicket.status = Ticket['Status']
+            bookedTicket.flightNumber = Ticket['FlightNumber']
+            bookedTicket.fareBasisCode = Ticket['FareBasisCode']
+            bookedTicket.resBookDesigCode = Ticket['ResBookDesigCode']
+            bookedTicket.departureDate = Ticket['departureDate']
+            bookedTicket.departureTime = Ticket['departureTime']
+            bookedTicket.arrivalDate = Ticket['arrivalDate']
+            bookedTicket.arrivalTime = Ticket['arrivalTime']
+            bookedTicket.RPH = Ticket['RPH']
+            bookedTicket.departureAirportLocationCode = Ticket['DepartureAirportLocationCode']
+            bookedTicket.departureAirportLocationName = Ticket['DepartureAirportLocationName']
+            bookedTicket.arrivalAirportLocationCode = Ticket['ArrivalAirportLocationCode']
+            bookedTicket.arrivalAirportLocationName = Ticket['ArrivalAirportLocationName']
+            bookedTicket.operatingAirlineCode = Ticket['OperatingAirlineCode']
+            bookedTicket.equipmentAirEquipType = Ticket['EquipmentAirEquipType']
+            bookedTicket.return_Status = Ticket['Return_Status']
+            bookedTicket.return_FlightNumber = Ticket['Return_FlightNumber']
+            bookedTicket.return_FareBasisCode = Ticket['Return_FareBasisCode']
+            bookedTicket.return_ResBookDesigCode = Ticket['Return_ResBookDesigCode']
+            bookedTicket.return_DepartureDate = Ticket['Return_DepartureDate']
+            bookedTicket.return_DepartureTime = Ticket['Return_DepartureTime']
+            bookedTicket.return_ArrivalDate = Ticket['Return_ArrivalDate']
+            bookedTicket.return_ArrivalTime = Ticket['Return_ArrivalTime']
+            bookedTicket.return_StopQuantity = Ticket['Return_StopQuantity']
+            bookedTicket.return_RPH = Ticket['Return_RPH']
+            bookedTicket.return_DepartureAirportLocationCode = Ticket['Return_DepartureAirportLocationCode']
+            bookedTicket.return_DepartureAirportLocationName = Ticket['Return_DepartureAirportLocationName']
+            bookedTicket.return_ArrivalAirportLocationCode = Ticket['Return_ArrivalAirportLocationCode']
+            bookedTicket.return_ArrivalAirportLocationName = Ticket['Return_ArrivalAirportLocationName']
+            bookedTicket.return_OperatingAirlineCode = Ticket['Return_OperatingAirlineCode']
+            bookedTicket.return_EquipmentAirEquipType = Ticket['Return_EquipmentAirEquipType']
+            bookedTicket.companyShortName = Ticket['CompanyShortName']
+            bookedTicket.companyCode = Ticket['CompanyCode']
+            bookedTicket.totalFareCurrencyCode = Ticket['TotalFareCurrencyCode']
+            bookedTicket.totalFareDecimalPlaces = Ticket['TotalFareDecimalPlaces']
+            bookedTicket.totalFareAmount = Ticket['TotalFareAmount']
+
+            bookedTicket.contactPersonGivenName = Ticket['ContactPersonGivenName']
+            bookedTicket.contactPersonSurname = Ticket['ContactPersonSurname']
+            bookedTicket.contactPersonMobile = Ticket['ContactPersonMobile']
+            bookedTicket.contactPersonHomeTelephone = Ticket['ContactPersonHomeTelephone']
+            bookedTicket.contactPersonEmail = Ticket['ContactPersonEmail']
+            bookedTicket.paymentType = Ticket['PaymentType']
+            bookedTicket.directBill_ID = Ticket['DirectBill_ID']
+            bookedTicket.companyAgentType = Ticket['CompanyAgentType']
+            bookedTicket.paymentAmountCurrencyCode = Ticket['PaymentAmountCurrencyCode']
+            bookedTicket.paymentAmountDecimalPlaces = Ticket['PaymentAmountDecimalPlaces']
+            bookedTicket.paymentAmountAmount = Ticket['PaymentAmountAmount']
+
+            bookedTicket.bookingReferenceIDStatus = Ticket['BookingReferenceIDStatus']
+            bookedTicket.bookingReferenceIDInstance = Ticket['BookingReferenceIDInstance']
+            bookedTicket.bookingReferenceID = Ticket['BookingReferenceID']
+            bookedTicket.bookingReferenceID_Context = Ticket['BookingReferenceID_Context']
             bookedTicket.save()
+            for PTC_FB in Ticket['PTC_FBs']:
+                passengerType = PassengerType()
+                passengerType.ticket = bookedTicket
+                passengerType.passengerTypeQuantity_Code = PTC_FB['PassengerTypeQuantity_Code']
+                passengerType.passengerTypeQuantity_Quantity = PTC_FB['PassengerTypeQuantity_Quantity']
+                passengerType.fareBasisCode = PTC_FB['FareBasisCode']
+                passengerType.passengerFare_BaseFare_CurrencyCode = PTC_FB['PassengerFare_BaseFare_CurrencyCode']
+                passengerType.passengerFare_BaseFare_DecimalPlaces = PTC_FB['PassengerFare_BaseFare_DecimalPlaces']
+                passengerType.passengerFare_BaseFare_Amount = PTC_FB['PassengerFare_BaseFare_Amount']
+                passengerType.passengerFare_TotalFare_CurrencyCode = PTC_FB['PassengerFare_TotalFare_CurrencyCode']
+                passengerType.passengerFare_TotalFare_DecimalPlaces = PTC_FB['PassengerFare_TotalFare_DecimalPlaces']
+                passengerType.passengerFare_TotalFare_Amount = PTC_FB['PassengerFare_TotalFare_Amount']
+                passengerType.fareInfo_FareInfo_FareBasisCode = PTC_FB['FareInfo_FareInfo_FareBasisCode']
+                passengerType.fareInfo_FareInfo_BaseAmount = PTC_FB['FareInfo_FareInfo_BaseAmount']
+                passengerType.save()
+                for tax_item3 in PTC_FB['Taxes']:
+                    taxModel = Tax()
+                    taxModel.passengerType = passengerType
+                    taxModel.taxText = tax_item3['TaxText']
+                    taxModel.taxCode = tax_item3['TaxCode']
+                    taxModel.taxName = tax_item3['TaxName']
+                    taxModel.tax_CurrencyCode = tax_item3['Tax_CurrencyCode']
+                    taxModel.tax_DecimalPlaces = tax_item3['Tax_DecimalPlaces']
+                    taxModel.tax_Amount = tax_item3['Tax_Amount']
+                    taxModel.save()
+            i = 0
+            for traveler in Ticket['Travelers_info']:
+                passengerInfo = PassengerInfo()
+                passengerInfo.ticket = bookedTicket
+                passengerInfo.airTravelerBirthDate = traveler['AirTravelerBirthDate']
+                passengerInfo.airTravelerPassengerTypeCode = traveler['AirTravelerPassengerTypeCode']
+                passengerInfo.airTravelerAccompaniedByInfantInd = traveler['AirTravelerAccompaniedByInfantInd']
+                passengerInfo.airTravelerTravelerNationality = traveler['AirTravelerTravelerNationality']
+                passengerInfo.airTravelerGender = traveler['AirTravelerGender']
+                passengerInfo.personNameNamePrefix = traveler['PersonNameNamePrefix']
+                passengerInfo.personNameGivenName = traveler['PersonNameGivenName']
+                passengerInfo.personNameSurname = traveler['PersonNameSurname']
+                passengerInfo.documentId = traveler['DocumentId']
+                passengerInfo.documentType = traveler['DocumentType']
+                passengerInfo.documentHolderNationality = traveler['DocumentHolderNationality']
+                passengerInfo.travelerRefNumberRPH = traveler['TravelerRefNumberRPH']
+
+                passengerInfo.ticketingTravelerRefNumber = Ticketing_RefDocNUM[i]['TicketingTravelerRefNumber']
+                passengerInfo.ticketingTicketDocumentNbr = Ticketing_RefDocNUM[i]['TicketingTicketDocumentNbr']
+                i = i + 1
+                passengerInfo.save()
+
+
 
 def data_handle(selected_operation_number):
     Agent_id = 'MOW07603'

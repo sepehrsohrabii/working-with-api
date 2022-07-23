@@ -4,25 +4,30 @@ from django.contrib.auth.models import User
 from accounts.models import UserInfo
 from django.contrib.auth import authenticate, login, logout
 from apihandler.views import home_page
+from django.urls import reverse
 
-def loginView (request):
+
+def loginView(request):
     if request.user.is_authenticated:
-        return redirect(request.POST.get('next'))
+        return redirect('home_page')
     else:
+        redirect_to = request.POST.get('next', '')
         if request.method == 'POST':
-            userName= request.POST.get('username')
+            userName = request.POST.get('username')
             password = request.POST.get('password')
             user = authenticate(request, username=userName, password=password)
             if user is not None and user.is_active:
                 login(request, user)
-                if 'next' in request.POST:
-                    return redirect(request.POST.get('next'))
+                if redirect_to != '':
+                    return HttpResponseRedirect(redirect_to)
                 else:
-                    return home_page(request)
-        else:
-            return render(request, './login.html')
+                    return redirect('home_page')
 
-def signupView (request):
+    return render(request, './login.html', locals())
+
+
+
+def signupView(request):
     if request.method == 'POST':
         firstName = request.POST.get('firstName')
         lastName = request.POST.get('lastName')

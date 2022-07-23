@@ -1,4 +1,4 @@
-<ns0:OTA_AirBookRQ xmlns:ns0="http://www.opentravel.org/OTA/2003/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opentravel.org/OTA/2003/05    OTA_AirBookRQ.xsd" EchoToken="0001" TimeStamp="2022-07-20T04:37:16" Target="Test" Version="2.001" SequenceNmbr="1" PrimaryLangID="En-us">
+<ns0:OTA_AirBookRQ xmlns:ns0="http://www.opentravel.org/OTA/2003/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opentravel.org/OTA/2003/05    OTA_AirBookRQ.xsd" EchoToken="0001" TimeStamp="2022-07-22T08:26:48" Target="Test" Version="2.001" SequenceNmbr="1" PrimaryLangID="En-us">
     <ns0:POS>
         <ns0:Source AirlineVendorID="IR" ISOCountry="IR" ISOCurrency="RUB">
             <ns0:RequestorID Type="5" ID="MOW07603" />
@@ -7,13 +7,13 @@
     <ns0:AirItinerary DirectionInd="OneWay">
 	            <ns0:OriginDestinationOptions>
                     <ns0:OriginDestinationOption>
-                        <ns0:FlightSegment FlightNumber="IR468" ResBookDesigCode="T" DepartureDateTime="2022-07-27T19:05:00.000+04:30" ArrivalDateTime="2022-07-27T20:35:00.000+03:30" Duration="01:30:00" StopQuantity="0" RPH="43868">
+                        <ns0:FlightSegment FlightNumber="IR3350" ResBookDesigCode="K" DepartureDateTime="2022-07-26T08:00:00.000+04:30" ArrivalDateTime="2022-07-26T09:30:00.000+03:30" Duration="00:30:00" StopQuantity="0" RPH="42615">
                             <ns0:DepartureAirport LocationCode="THR" />
                             <ns0:ArrivalAirport LocationCode="MHD" />
                             <ns0:OperatingAirline Code="IR" />
-                            <ns0:Equipment AirEquipType="Fokker 100" />
+                            <ns0:Equipment AirEquipType="A319" />
                             <ns0:BookingClassAvails>
-                                <ns0:BookingClassAvail ResBookDesigCode="T" ResBookDesigQuantity="1" />
+                                <ns0:BookingClassAvail ResBookDesigCode="K" ResBookDesigQuantity="1" />
                             </ns0:BookingClassAvails>
                         </ns0:FlightSegment>
                     </ns0:OriginDestinationOption>
@@ -29,8 +29,8 @@
 		<ns0:AirTraveler BirthDate="1995-05-05" PassengerTypeCode="ADT" AccompaniedByInfantInd="false" Gender="M" TravelerNationality="IR">
 			<ns0:PersonName>
 				<ns0:NamePrefix>Mr</ns0:NamePrefix>
-				<ns0:GivenName>sepehr</ns0:GivenName>
-				<ns0:Surname>sohrabi</ns0:Surname>
+				<ns0:GivenName>raha</ns0:GivenName>
+				<ns0:Surname>rahai</ns0:Surname>
 			</ns0:PersonName>
 			<ns0:TravelerRefNumber RPH="1" />
 			<ns0:Document DocID="1121234545" DocType="5" DocIssueCountry="IR" ExpireDate="2024-05-19" DocHolderNationality="IR" />

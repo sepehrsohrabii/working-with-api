@@ -105,7 +105,7 @@
     <div id="showresults" class="container my-5 px-0 pb-5">
           {% if flight_list %}
               {% for data in flight_list %}
-                  <form method="POST" action="{% if user.is_authenticated %}{% url 'booking_page' FlightNumber=data.FlightNumber %}{% else %}{% url 'loginView' %}{% endif %}">
+                  <form method="POST" action="{% if user.is_authenticated %}{% url 'booking_page' FlightNumber=data.FlightNumber %}{% else %}{% url 'loginView' %}?next={{ request.path }}{% endif %}">
                     {% csrf_token %}
                       <div class="container py-5">
                         <div class="ticket-system">
@@ -208,7 +208,7 @@
           {% endif %}
     </div>
 
-    <div class="container my-5 pt-5">
+    <div class="container my-5 py-5">
         <div class="row">
             <div class="col-md col-12 text-center px-5">
                 <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_qt4a6xmc.json"  background="transparent"  speed="1"  style="height: 150px;"  loop autoplay></lottie-player>
