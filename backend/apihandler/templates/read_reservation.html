@@ -37,13 +37,16 @@
                 <div class="d-flex">
                     <div>
                         <span class="text-muted">From</span>
-                        <h1 class="fw-bold">TEH</h1>
+                        <h1 class="fw-bold">{{DepartureAirportLocationCode}}</h1>
                         <h6 class="text-muted">Tehran</h6>
                     </div>
                     <div class="d-flex align-items-center mx-4"><i class="bi bi-arrow-right fs-1"></i></div>
+                    {% if Return_Status != None %}
+                        <div class="d-flex align-items-center mx-4"><i class="bi bi-arrow-right fs-1"></i></div>
+                    {% endif %}
                     <div>
                         <span class="text-muted">To</span>
-                        <h1 class="fw-bold">MHD</h1>
+                        <h1 class="fw-bold">{{ArrivalAirportLocationCode}}</h1>
                         <h6 class="text-muted">Mashhad</h6>
                     </div>
                 </div></div>
@@ -53,63 +56,123 @@
             <div class="col-3 align-self-center">
                 <div class="">
                     <span class="">Total Fare</span>
-                    <h3 class="color1">5874 RUB</h3>
+                    <h3 class="color1">{{TotalFareAmount}} {{TotalFareCurrencyCode}}</h3>
                 </div>
             </div>
         </div>
+        <div class="row justify-content-between mb-5">
+            <div class="col-3 align-self-center">
+                <div>
+                    <span class="text-muted">Booking ID</span>
+                    <h6 class="text-muted">{{BookingReferenceID}}</h6>
+                </div>
+            </div>
+            <div class="col-3 align-self-center">
+                <div class="">
+                    <span class="text-muted">Company Name</span>
+                    <h5>{{CompanyShortName}}</h5>
+                    <h6>{{CompanyCode}}</h6>
+                </div>
+            </div>
+            <div class="col-3 align-self-center">
+                <div class="mt-4">
+                    <span class="text-muted">Created Date & Time</span>
+                    <h6>{{CreatedDateTme}}</h6>
+                </div>
+            </div>
+        </div>
+        <!-- Flights Info -->
         <div class="row justify-content-between">
             <div class="col-3">
                 <div class="mt-5">
                     <span class="text-muted">Departure Date & Time</span>
-                    <h6>2022/09/15 - 15:30</h6>
+                    <h6>{{departureDate}} - {{departureTime}}</h6>
                 </div>
                 <div class="mt-3">
                     <span class="text-muted">Arrival Date & Time</span>
-                    <h6>2022/09/15 - 18:30</h6>
+                    <h6>{{arrivalDate}} - {{arrivalTime}}</h6>
                 </div>
                 <div class="mt-5">
                     <span class="text-muted">Departure Airport</span>
-                    <h6>Imam Khomeini Airport</h6>
+                    <h6>{{DepartureAirportLocationName}}</h6>
                 </div>
                 <div class="mt-3">
                     <span class="text-muted">Arrival Airport</span>
-                    <h6>Imam Khomeini Airport 2</h6>
+                    <h6>{{ArrivalAirportLocationName}}</h6>
                 </div>
             </div>
             <div class="col-3">
                 <div class="mt-5">
                     <span class="text-muted">Flight Number</span>
-                    <h6>FA34D8</h6>
+                    <h6>{{FlightNumber}}</h6>
                 </div>
                 <div class="mt-5">
                     <span class="text-muted">Air Equip Type</span>
-                    <h6>A319</h6>
-                </div>
-                <div class="mt-5">
-                    <span class="text-muted">Company Name</span>
-                    <h5>IranAir</h5>
-                    <h6>HOMARES OTA</h6>
+                    <h6>{{EquipmentAirEquipType}}</h6>
                 </div>
             </div>
             <div class="col-3">
-                <div class="mt-5">
-                    <span class="text-muted">Booking ID</span>
-                    <h3>Y37MJ4</h3>
-                </div>
-                <div class="mt-4">
+                <div class="mt-3">
                     <span class="text-muted">Adults</span>
                     <h6>1</h6>
                 </div>
-                <div class="mt-3">
+                <div class="mt-2">
                     <span class="text-muted">Children</span>
                     <h6>1</h6>
                 </div>
-                <div class="mt-3">
+                <div class="mt-2">
                     <span class="text-muted">Infants</span>
                     <h6>1</h6>
                 </div>
             </div>
         </div>
+        {% if Return_Status != None %}
+            <div class="row mt-5 mb-3"><h3 class="color1">#Return_Info</h3></div>
+            <div class="row justify-content-between">
+                <div class="col-3">
+                    <div class="mt-5">
+                        <span class="text-muted">Departure Date & Time</span>
+                        <h6>{{Return_DepartureDate}} - {{Return_DepartureTime}}</h6>
+                    </div>
+                    <div class="mt-3">
+                        <span class="text-muted">Arrival Date & Time</span>
+                        <h6>{{Return_ArrivalDate}} - {{Return_ArrivalTime}}</h6>
+                    </div>
+                    <div class="mt-5">
+                        <span class="text-muted">Departure Airport</span>
+                        <h6>{{Return_DepartureAirportLocationName}}</h6>
+                    </div>
+                    <div class="mt-3">
+                        <span class="text-muted">Arrival Airport</span>
+                        <h6>{{Return_ArrivalAirportLocationName}}</h6>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="mt-5">
+                        <span class="text-muted">Flight Number</span>
+                        <h6>{{Return_FlightNumber}}</h6>
+                    </div>
+                    <div class="mt-5">
+                        <span class="text-muted">Air Equip Type</span>
+                        <h6>{{Return_EquipmentAirEquipType}}</h6>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="mt-3">
+                        <span class="text-muted">Adults</span>
+                        <h6>1</h6>
+                    </div>
+                    <div class="mt-2">
+                        <span class="text-muted">Children</span>
+                        <h6>1</h6>
+                    </div>
+                    <div class="mt-2">
+                        <span class="text-muted">Infants</span>
+                        <h6>1</h6>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
         <!-- Divider -->
         <div class="row my-5">
             <div class="col-3">
@@ -118,76 +181,100 @@
             <div class="col-9 border-bottom">
             </div>
         </div>
-        <!-- Passengers -->
-        <div class="row justify-content-between">
-            <div class="col-3">
-                <div>
-                    <span class="text-muted">Full Name</span>
-                    <h3 class="fw-bold">Sepehr Sohrabi</h3>
+        <!-- Travellers Info -->
+        {% for traveler in Travelers_info %}
+            <div class="row justify-content-between">
+                <div class="col-3">
+                    <div>
+                        <span class="text-muted">Full Name</span>
+                        <h3 class="fw-bold">{{traveler.PersonNameNamePrefix}} {{traveler.PersonNameGivenName}} {{traveler.PersonNameSurname}}</h3>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div>
+                        <span class="text-muted">Ticket Number</span>
+                        <h3>
+                            {% for Ticketing_Ref in Ticketing_RefDocNUM %}
+                                {% if traveler.TravelerRefNumberRPH == Ticketing_Ref.TicketingTravelerRefNumber %}
+                                    {{Ticketing_Ref.TicketingTicketDocumentNbr}}
+                                {% endif %}
+                            {% endfor %}
+                        </h3>
+                    </div>
                 </div>
             </div>
-            <div class="col-3">
-                <div>
-                    <span class="text-muted">Ticket Number</span>
-                    <h3>0960110040346</h3>
+            <div class="row justify-content-between">
+                <div class="col-3">
+                    <div class="mt-4">
+                        <span class="text-muted">Doc ID</span>
+                        <h6>{{traveler.DocumentId}}</h6>
+                    </div>
+                    <div class="mt-3">
+                        <span class="text-muted">Nationality</span>
+                        <h6>{{traveler.DocumentHolderNationality}}</h6>
+                    </div>
+                    <div class="mt-3">
+                        <span class="text-muted">Gender</span>
+                        <h6>{{traveler.AirTravelerGender}}</h6>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="mt-4">
+                        <span class="text-muted">Birth Date</span>
+                        <h6>{{traveler.AirTravelerBirthDate}}</h6>
+                    </div>
+                    <div class="mt-3">
+                        <span class="text-muted">Passenger Type</span>
+                        <h6>{{traveler.AirTravelerPassengerTypeCode}}</h6>
+                    </div>
                 </div>
             </div>
-            <div class="col-4">
-                <div>
-                    <span class="text-muted">Total Fare</span>
-                    <h4>5000RUB</h4>
-                </div>
+        {% endfor %}
+        <!-- Divider -->
+        <div class="row my-5">
+            <div class="col-3">
+                <h4 class="text-muted" style="margin-bottom: -12px;">Price Info</h4>
+            </div>
+            <div class="col-9 border-bottom">
             </div>
         </div>
-        <div class="row justify-content-between">
-            <div class="col-3">
-                <div class="mt-4">
-                    <span class="text-muted">Doc ID</span>
-                    <h6>2711234567</h6>
+        <!-- Price Info -->
+        {% for PTC_FB in PTC_FBs %}
+            <div class="row justify-content-between">
+                <div class="col-3 align-self-center">
+                    <div>
+                        <span class="text-muted">Passenger Type Code</span>
+                        <h2 class="fw-bold">{{PTC_FB.PassengerTypeQuantity_Code}}</h2>
+                        <h6 class="text-muted">{{PTC_FB.PassengerTypeQuantity_Quantity}}</h6>
+                    </div>
                 </div>
-                <div class="mt-3">
-                    <span class="text-muted">Nationality</span>
-                    <h6>IR</h6>
+                <div class="col-3 align-self-center">
+
                 </div>
-                <div class="mt-3">
-                    <span class="text-muted">Gender</span>
-                    <h6>M</h6>
-                </div>
-            </div>
-            <div class="col-3">
-                <div class="mt-4">
-                    <span class="text-muted">Birth Date</span>
-                    <h6>1974-04-16</h6>
-                </div>
-                <div class="mt-3">
-                    <span class="text-muted">Passenger Type</span>
-                    <h6>Adult</h6>
-                </div>
-                <div class="mt-3">
-                    <span class="text-muted">Company Name</span>
-                    <h5>IranAir</h5>
-                    <h6>HOMARES OTA</h6>
+                <div class="col-3 align-self-center">
+                    <div class="">
+                        <span class="">Passenger Type Total Fare</span>
+                        <h3 class="color1">{{PTC_FB.PassengerFare_TotalFare_Amount}} {{PTC_FB.PassengerFare_TotalFare_CurrencyCode}}</h3>
+                    </div>
                 </div>
             </div>
-            <div class="col-4">
-                <div class="mt-4">
-                    <span class="text-muted">Base Fare</span>
-                    <h6>500RUB</h6>
+            <div class="row justify-content-between mb-5">
+                <div class="col-3 align-self-center">
+                    <div>
+                        <span class="text-muted">Passenger Type Base Fare</span>
+                        <h6 class="text-muted">{{PTC_FB.PassengerFare_BaseFare_Amount}} {{PTC_FB.PassengerFare_BaseFare_CurrencyCode}}</h6>
+                    </div>
                 </div>
-                <div class="mt-4">
-                    <span class="text-muted">Airport Service Charge</span>
-                    <h6>200RUB</h6>
-                </div>
-                <div class="mt-3">
-                    <span class="text-muted">Passenger Safety Oversight Services Fees</span>
-                    <h6>200RUB</h6>
-                </div>
-                <div class="mt-3">
-                    <span class="text-muted">Municipality Tax</span>
-                    <h6>200RUB</h6>
+                <div class="col-6 align-self-center">
+                    {% for tax in PTC_FB.Taxes %}
+                        <div>
+                            <span class="text-muted">{{tax.TaxName}}</span>
+                            <h6>{{tax.Tax_Amount}} {{tax.Tax_CurrencyCode}}</h6>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
-        </div>
+        {% endfor %}
         <!-- Divider -->
         <div class="row my-5">
             <div class="col-3">
@@ -201,25 +288,25 @@
             <div class="col-3">
                 <div>
                     <span class="text-muted">Full Name</span>
-                    <h3 class="fw-bold">Sepehr Sohrabi</h3>
+                    <h3 class="fw-bold">{{ContactPersonGivenName}} {{ContactPersonSurname}}</h3>
                 </div>
             </div>
             <div class="col-3">
                 <div>
                     <span class="text-muted">Mobile Number</span>
-                    <h6>09369678828</h6>
+                    <h6>{{ContactPersonMobile}}</h6>
                 </div>
             </div>
             <div class="col-3">
                 <div>
                     <span class="text-muted">Phone Number</span>
-                    <h6>013-33763094</h6>
+                    <h6>{{ContactPersonHomeTelephone}}</h6>
                 </div>
             </div>
             <div class="col-3">
                 <div>
                     <span class="text-muted">Email</span>
-                    <h6>admin@admin.com</h6>
+                    <h6>{{ContactPersonEmail}}</h6>
                 </div>
             </div>
         </div>

@@ -20,7 +20,7 @@ operation_three_RS = {}
 Travelers_info = []
 Ticketing_RefDocNUM = []
 Ticket = {}
-
+Ticket_List = []
 
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
@@ -124,9 +124,6 @@ def booking_page(request, FlightNumber):
         Telephone = request.POST.get('Telephone')
         HomeTelephone = request.POST.get('HomeTelephone')
         data_handle(selected_operation_number)
-        user = request.user
-        selected_operation_number = 5
-        data_handle(selected_operation_number)
         return redirect('read_reservation')
     else:
         selected_operation_number = 3
@@ -144,8 +141,12 @@ def booking_page(request, FlightNumber):
 
 @login_required(login_url='loginView')
 def read_reservation(request):
-    
-    return render(request, './read_reservation.html', Ticket)
+    Ticket_List.clear()
+    user = request.user
+    selected_operation_number = 5
+    data_handle(selected_operation_number)
+    Ticket2 = Ticket_List[0]
+    return render(request, './read_reservation.html', Ticket2)
 
 
 def source_table():
@@ -320,7 +321,6 @@ def write_on_xml(selected_operation_number):
         root[5][0][0][1].attrib['Amount'] = selected_flight[0]['TotalFare_Amount']
 
     elif selected_operation_number == 5:
-
         root[1].attrib['ID'] = BookingReferenceID
 
     tree.write(newpath)
@@ -330,6 +330,7 @@ def write_on_xml(selected_operation_number):
 
 
 def read_from_xml(selected_operation_number, respath):
+    global BookingReferenceID
     Operation, Request_Schema, Response_Schema, Resource = source_table()
     tree = ET.parse(respath)
     root = tree.getroot()
@@ -553,9 +554,8 @@ def read_from_xml(selected_operation_number, respath):
             Travelers = root[1][3]
             for Traveler in Travelers:
                 i = i + 1
-
-            global BookingReferenceID
             BookingReferenceID = root[1][i].attrib['ID']
+
         else:
             ErrorText = root[0][0].attrib['ShortText'] or 'None'
             ErrorCode = root[0][0].attrib['Code'] or 'None'
@@ -565,6 +565,7 @@ def read_from_xml(selected_operation_number, respath):
             })
 
     elif selected_operation_number == 5:
+
         if 'Success' in root[0].tag:
             CreatedDateTme = root[1].attrib['CreatedDateTme']
             DirectionInd = root[1][0].attrib['DirectionInd']
@@ -758,7 +759,7 @@ def read_from_xml(selected_operation_number, respath):
             BookingReferenceIDInstance = root[1][i].attrib['Instance']
             BookingReferenceID = root[1][i].attrib['ID']
             BookingReferenceID_Context = root[1][i].attrib['ID_Context']
-            
+
             Ticket = {
                 'CreatedDateTme': CreatedDateTme,
                 'DirectionInd': DirectionInd,
@@ -818,6 +819,7 @@ def read_from_xml(selected_operation_number, respath):
                 'BookingReferenceID_Context': BookingReferenceID_Context,
             }
 
+            Ticket_List.append(Ticket)
             bookedTicket = BookedTicket()
             bookedTicket.user = user
             bookedTicket.createdDateTime = Ticket['CreatedDateTme']

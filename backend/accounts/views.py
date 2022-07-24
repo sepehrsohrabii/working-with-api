@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from accounts.models import UserInfo
 from django.contrib.auth import authenticate, login, logout
 from apihandler.views import home_page
-from django.urls import reverse
 
 
 def loginView(request):
@@ -28,6 +27,7 @@ def loginView(request):
 
 
 def signupView(request):
+    redirect_to = request.POST.get('next', '')
     if request.method == 'POST':
         firstName = request.POST.get('firstName')
         lastName = request.POST.get('lastName')
@@ -49,7 +49,10 @@ def signupView(request):
             data.user = current_user
             data.phone = phoneNumber
             data.save()
-            return home_page(request)
+            if redirect_to != '':
+                return HttpResponseRedirect(redirect_to)
+            else:
+                return redirect('home_page')
 
     return render(request, './signup.html')
 
