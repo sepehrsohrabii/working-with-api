@@ -111,22 +111,31 @@
                         <div class="container box1 mb-5 p-5">
                             <h3>{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}</h3>
                             <div class="row">
-                                <div class="col-4">
+                                <div class="col-3">
                                     <label for="NamePrefix{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" class="form-label">Name Prefix</label>
                                     <select id="NamePrefix{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" class="form-select" name="NamePrefix{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" required>
                                         <option value="" disabled selected>Select NamePrefix</option>
                                         <option>Mr</option>
                                         <option>Mrs</option>
                                         <option>Ms</option>
+                                        <option>Master</option>
+                                        <option>Miss</option>
                                     </select>
                                 </div>
-                                <div class="col-4">
+                                <div class="col-3">
                                     <label for="GivenName{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" class="form-label">First Name</label>
                                     <input type="name" class="form-control" id="GivenName{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" name="GivenName{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" placeholder="First Name" required/>
                                 </div>
-                                <div class="col-4">
+                                <div class="col-3">
                                     <label for="SureName{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" class="form-label">Sure Name</label>
                                     <input type="name" class="form-control" id="SureName{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" name="SureName{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" placeholder="Last Name" required/>
+                                </div>
+                                <div class="col-3">
+                                    <label for="AccompaniedByInfantInd{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" class="form-label">Accompanied By Infant Ind</label>
+                                    <select id="AccompaniedByInfantInd{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" class="form-select" name="AccompaniedByInfantInd{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" required>
+                                        <option value="true">True</option>
+                                        <option value="false" selected>False</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="row mt-3">

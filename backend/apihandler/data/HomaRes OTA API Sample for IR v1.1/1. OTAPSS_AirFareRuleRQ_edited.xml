@@ -1,4 +1,4 @@
-<ns0:OTAPSS_AirFareRuleRQ xmlns:ns0="http://www.opentravel.org/OTA/2003/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opentravel.org/OTA/2003/05   OTAPSS_AirFareRuleRQ.xsd" EchoToken="0001" TimeStamp="2022-07-24T09:47:39" Target="Test" Version="2.001" SequenceNmbr="1" PrimaryLangID="En-us">
+<ns0:OTAPSS_AirFareRuleRQ xmlns:ns0="http://www.opentravel.org/OTA/2003/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opentravel.org/OTA/2003/05   OTAPSS_AirFareRuleRQ.xsd" EchoToken="0001" TimeStamp="2022-07-29T14:46:48" Target="Test" Version="2.001" SequenceNmbr="1" PrimaryLangID="En-us">
     <ns0:POS>
         <ns0:Source AirlineVendorID="IR" ISOCountry="IR" ISOCurrency="RUB">
             <ns0:RequestorID Type="5" ID="MOW07603" />
@@ -6,18 +6,20 @@
     </ns0:POS>
    <ns0:OriginDestinationOptions>
       <ns0:OriginDestinationOption>
-        <ns0:FlightSegment FlightNumber="IR3350" ResBookDesigCode="Y" DepartureDateTime="2022-07-26T08:00:00.000+04:30" ArrivalDateTime="2022-07-26T09:30:00.000+03:30" Duration="00:30:00" StopQuantity="0" RPH="42615">
+        <ns0:FlightSegment FlightNumber="IR468" ResBookDesigCode="K" DepartureDateTime="2022-08-24T19:05:00.000+04:30" ArrivalDateTime="2022-08-24T20:35:00.000+03:30" Duration="01:30:00" StopQuantity="0" RPH="43833">
            <ns0:DepartureAirport LocationCode="THR" />
            <ns0:ArrivalAirport LocationCode="MHD" />
            <ns0:OperatingAirline Code="IR" />
-           <ns0:Equipment AirEquipType="A319" />
+           <ns0:Equipment AirEquipType="Fokker 100" />
            <ns0:BookingClassAvails>
-              <ns0:BookingClassAvail ResBookDesigCode="Y" ResBookDesigQuantity="9" />
+              <ns0:BookingClassAvail ResBookDesigCode="K" ResBookDesigQuantity="3" />
            </ns0:BookingClassAvails>
         </ns0:FlightSegment>
       </ns0:OriginDestinationOption>
    </ns0:OriginDestinationOptions>
    <ns0:FareBasisCodes>
-      <ns0:FareBasisCode FlightSegmentRPH="43901" fareRPH="25873">T1451</ns0:FareBasisCode>
+      <ns0:FareBasisCode FlightSegmentRPH="43833" fareRPH="22785">K1451</ns0:FareBasisCode>
+   <ns0:FareBasisCode FlightSegmentRPH="43833" fareRPH="22785">K1451</ns0:FareBasisCode>
+   <ns0:FareBasisCode FlightSegmentRPH="43833" fareRPH="22785">K1451</ns0:FareBasisCode>
    </ns0:FareBasisCodes>
 </ns0:OTAPSS_AirFareRuleRQ>

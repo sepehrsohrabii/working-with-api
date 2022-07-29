@@ -1,0 +1,314 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block title %}Read Reservation{% endblock %}
+{% block main %}
+
+    <div class="container progress-box d-flex justify-content-center align-items-center p-4">
+        <a href="{% url 'home_page' %}">
+            <span class="material-icons-round fs-1 text-success me-2">travel_explore</span>
+        </a>
+        <label><a href="{% url 'home_page' %}">Low Fare Search</a></label>
+        <span class="linear-gradient mx-3 activated"></span>
+        <span class="material-icons-round fs-1 text-success me-2">assignment_ind</span>
+        <label>Book & Ticket</label>
+        <span class="linear-gradient mx-3 activated"></span>
+        <span class="material-icons fs-1 me-2 text-success">airplane_ticket</span>
+        <label>Read Reservation</label>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 box4 d-flex justify-content-center align-items-center mt-5">
+                <div class="text-center">
+                    <h4>Dear {{user.first_name}}!</h4>
+                    <h6>Have a good trip</h6>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3">
+                <lottie-player class="profilePic" src="https://assets4.lottiefiles.com/packages/lf20_gkuioes4.json"  background="transparent"  speed="1"  style="width: 150px; height: 150px;"  loop autoplay></lottie-player>
+            </div>
+        </div>
+    </div>
+{% for ticket in user_ticket %}
+    <div class="container bg-white p-5 rounded">
+        <!-- Ticket Info -->
+        <div class="row justify-content-between">
+            <div class="col-3 align-self-center">
+                <div class="d-flex">
+                    <div>
+                        <span class="text-muted">From</span>
+                        <h1 class="fw-bold">{{ticket.departureAirportLocationCode}}</h1>
+                        <h6 class="text-muted">{{ticket.departureAirportLocationName}}</h6>
+                    </div>
+                    <div class="d-flex align-items-center mx-4"><i class="bi bi-arrow-right fs-1"></i></div>
+                    {% if ticket.return_Status != None %}
+                        <div class="d-flex align-items-center mx-4"><i class="bi bi-arrow-right fs-1"></i></div>
+                    {% endif %}
+                    <div>
+                        <span class="text-muted">To</span>
+                        <h1 class="fw-bold">{{ticket.arrivalAirportLocationCode}}</h1>
+                        <h6 class="text-muted">{{ticket.arrivalAirportLocationName}}</h6>
+                    </div>
+                </div></div>
+            <div class="col-3 align-self-center">
+                <img src="{% static 'img/IranAir-Logo.svg' %}" width="200px">
+            </div>
+            <div class="col-3 align-self-center">
+                <div class="">
+                    <span class="">Total Fare</span>
+                    <h3 class="color1">{{ticket.totalFareAmount}} {{ticket.totalFareCurrencyCode}}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-between mb-5">
+            <div class="col-3 align-self-center">
+                <div>
+                    <span class="text-muted">Booking ID</span>
+                    <h6 class="text-muted">{{ticket.bookingReferenceID}}</h6>
+                </div>
+            </div>
+            <div class="col-3 align-self-center">
+                <div class="">
+                    <span class="text-muted">Company Name</span>
+                    <h5>{{ticket.companyShortName}}</h5>
+                    <h6>{{ticket.companyCode}}</h6>
+                </div>
+            </div>
+            <div class="col-3 align-self-center">
+                <div class="mt-4">
+                    <span class="text-muted">Created Date & Time</span>
+                    <h6>{{ticket.createdDateTme}}</h6>
+                </div>
+            </div>
+        </div>
+        <!-- Flights Info -->
+        <div class="row justify-content-between">
+            <div class="col-3">
+                <div class="mt-5">
+                    <span class="text-muted">Departure Date & Time</span>
+                    <h6>{{ticket.departureDate}} - {{ticket.departureTime}}</h6>
+                </div>
+                <div class="mt-3">
+                    <span class="text-muted">Arrival Date & Time</span>
+                    <h6>{{ticket.arrivalDate}} - {{ticket.arrivalTime}}</h6>
+                </div>
+                <div class="mt-5">
+                    <span class="text-muted">Departure Airport</span>
+                    <h6>{{ticket.departureAirportLocationName}}</h6>
+                </div>
+                <div class="mt-3">
+                    <span class="text-muted">Arrival Airport</span>
+                    <h6>{{ticket.arrivalAirportLocationName}}</h6>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="mt-5">
+                    <span class="text-muted">Flight Number</span>
+                    <h6>{{ticket.flightNumber}}</h6>
+                </div>
+                <div class="mt-5">
+                    <span class="text-muted">Air Equip Type</span>
+                    <h6>{{ticket.equipmentAirEquipType}}</h6>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="mt-3">
+                    <span class="text-muted">Adults</span>
+                    <h6>1</h6>
+                </div>
+                <div class="mt-2">
+                    <span class="text-muted">Children</span>
+                    <h6>1</h6>
+                </div>
+                <div class="mt-2">
+                    <span class="text-muted">Infants</span>
+                    <h6>1</h6>
+                </div>
+            </div>
+        </div>
+        {% if ticket.return_Status != None %}
+            <div class="row mt-5 mb-3"><h3 class="color1">#Return_Info</h3></div>
+            <div class="row justify-content-between">
+                <div class="col-3">
+                    <div class="mt-5">
+                        <span class="text-muted">Departure Date & Time</span>
+                        <h6>{{ticket.return_DepartureDate}} - {{ticket.return_DepartureTime}}</h6>
+                    </div>
+                    <div class="mt-3">
+                        <span class="text-muted">Arrival Date & Time</span>
+                        <h6>{{ticket.return_ArrivalDate}} - {{ticket.return_ArrivalTime}}</h6>
+                    </div>
+                    <div class="mt-5">
+                        <span class="text-muted">Departure Airport</span>
+                        <h6>{{ticket.return_DepartureAirportLocationName}}</h6>
+                    </div>
+                    <div class="mt-3">
+                        <span class="text-muted">Arrival Airport</span>
+                        <h6>{{ticket.return_ArrivalAirportLocationName}}</h6>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="mt-5">
+                        <span class="text-muted">Flight Number</span>
+                        <h6>{{ticket.return_FlightNumber}}</h6>
+                    </div>
+                    <div class="mt-5">
+                        <span class="text-muted">Air Equip Type</span>
+                        <h6>{{ticket.return_EquipmentAirEquipType}}</h6>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="mt-3">
+                        <span class="text-muted">Adults</span>
+                        <h6>1</h6>
+                    </div>
+                    <div class="mt-2">
+                        <span class="text-muted">Children</span>
+                        <h6>1</h6>
+                    </div>
+                    <div class="mt-2">
+                        <span class="text-muted">Infants</span>
+                        <h6>1</h6>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <!-- Divider -->
+        <div class="row my-5">
+            <div class="col-3">
+                <h4 class="text-muted" style="margin-bottom: -12px;">Passengers Info</h4>
+            </div>
+            <div class="col-9 border-bottom">
+            </div>
+        </div>
+        <!-- Travellers Info -->
+        {% for traveler in passenger_info %}
+            <div class="row justify-content-between">
+                <div class="col-3">
+                    <div>
+                        <span class="text-muted">Full Name</span>
+                        <h3 class="fw-bold">{{traveler.personNameNamePrefix}} {{traveler.personNameGivenName}} {{traveler.personNameSurname}}</h3>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div>
+                        <span class="text-muted">Ticket Number</span>
+                        <h3>
+                            {{traveler.ticketingTicketDocumentNbr}}
+                        </h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-between">
+                <div class="col-3">
+                    <div class="mt-4">
+                        <span class="text-muted">Doc ID</span>
+                        <h6>{{traveler.documentId}}</h6>
+                    </div>
+                    <div class="mt-3">
+                        <span class="text-muted">Nationality</span>
+                        <h6>{{traveler.documentHolderNationality}}</h6>
+                    </div>
+                    <div class="mt-3">
+                        <span class="text-muted">Gender</span>
+                        <h6>{{traveler.airTravelerGender}}</h6>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="mt-4">
+                        <span class="text-muted">Birth Date</span>
+                        <h6>{{traveler.airTravelerBirthDate}}</h6>
+                    </div>
+                    <div class="mt-3">
+                        <span class="text-muted">Passenger Type</span>
+                        <h6>{{traveler.airTravelerPassengerTypeCode}}</h6>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        <!-- Divider -->
+        <div class="row my-5">
+            <div class="col-3">
+                <h4 class="text-muted" style="margin-bottom: -12px;">Price Info</h4>
+            </div>
+            <div class="col-9 border-bottom">
+            </div>
+        </div>
+        <!-- Price Info -->
+        {% for PTC_FB in passenger_type %}
+            <div class="row justify-content-between">
+                <div class="col-3 align-self-center">
+                    <div>
+                        <span class="text-muted">Passenger Type Code</span>
+                        <h2 class="fw-bold">{{PTC_FB.passengerTypeQuantity_Code}}</h2>
+                        <h6 class="text-muted">{{PTC_FB.passengerTypeQuantity_Quantity}}</h6>
+                    </div>
+                </div>
+                <div class="col-3 align-self-center">
+
+                </div>
+                <div class="col-3 align-self-center">
+                    <div class="">
+                        <span class="">Passenger Type Total Fare</span>
+                        <h3 class="color1">{{PTC_FB.passengerFare_TotalFare_Amount}} {{PTC_FB.passengerFare_TotalFare_CurrencyCode}}</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-between mb-5">
+                <div class="col-3 align-self-center">
+                    <div>
+                        <span class="text-muted">Passenger Type Base Fare</span>
+                        <h6 class="text-muted">{{PTC_FB.passengerFare_BaseFare_Amount}} {{PTC_FB.passengerFare_BaseFare_CurrencyCode}}</h6>
+                    </div>
+                </div>
+                <div class="col-6 align-self-center">
+                    {% for tax in passenger_type_taxes %}
+                        {% if PTC_FB == tax.passengerType %}
+                            <div>
+                                <span class="text-muted">{{tax.taxName}}</span>
+                                <h6>{{tax.tax_Amount}} {{tax.tax_CurrencyCode}}</h6>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+        <!-- Divider -->
+        <div class="row my-5">
+            <div class="col-3">
+                <h4 class="text-muted" style="margin-bottom: -12px;">Contact Info</h4>
+            </div>
+            <div class="col-9 border-bottom">
+            </div>
+        </div>
+        <!-- Contact Info -->
+        <div class="row justify-content-between align-items-center">
+            <div class="col-3">
+                <div>
+                    <span class="text-muted">Full Name</span>
+                    <h3 class="fw-bold">{{ticket.contactPersonGivenName}} {{ticket.contactPersonSurname}}</h3>
+                </div>
+            </div>
+            <div class="col-3">
+                <div>
+                    <span class="text-muted">Mobile Number</span>
+                    <h6>{{ticket.contactPersonMobile}}</h6>
+                </div>
+            </div>
+            <div class="col-3">
+                <div>
+                    <span class="text-muted">Phone Number</span>
+                    <h6>{{ticket.contactPersonHomeTelephone}}</h6>
+                </div>
+            </div>
+            <div class="col-3">
+                <div>
+                    <span class="text-muted">Email</span>
+                    <h6>{{ticket.contactPersonEmail}}</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+{% endblock %}

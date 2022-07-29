@@ -2,6 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from accounts.models import UserInfo
+from search_data.models import BookedTicket, PassengerType, Tax, PassengerInfo, SearchData
 from django.contrib.auth import authenticate, login, logout
 from apihandler.views import home_page
 
@@ -23,7 +24,6 @@ def loginView(request):
                     return redirect('home_page')
 
     return render(request, './login.html', locals())
-
 
 
 def signupView(request):
@@ -56,11 +56,28 @@ def signupView(request):
 
     return render(request, './signup.html')
 
+
 def logoutView(request):
     logout(request)
     
     return redirect('/accounts/login/')
 
-def userProfile(request):
 
-    return render(request, './profile.html')
+def userProfile(request):
+    user_tickets = BookedTicket.objects.filter(user=request.user).order_by('-createdDateTime')
+    return render(request, './profile.html', {'user_tickets': user_tickets})
+
+def UserBookedTicketPage(request, bookingReferenceID):
+    passenger_type_taxes = []
+    user_ticket = BookedTicket.objects.filter(bookingReferenceID=bookingReferenceID)
+    passenger_info = PassengerInfo.objects.filter(ticket=user_ticket[0])
+    passenger_type = PassengerType.objects.filter(ticket=user_ticket[0])
+    for type in passenger_type:
+        tax = Tax.objects.filter(passengerType=type)
+        passenger_type_taxes.append(tax)
+    return render(request, './booked_ticket.html', {
+        'user_ticket': user_ticket,
+        'passenger_info': passenger_info,
+        'passenger_type': passenger_type,
+        'passenger_type_taxes': passenger_type_taxes,
+    })

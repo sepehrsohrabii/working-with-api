@@ -103,16 +103,15 @@ class Tax(models.Model):
     tax_Amount = models.IntegerField()
 
 
-
 class PassengerInfo(models.Model):
     id = models.AutoField(primary_key=True)
     ticket = models.ForeignKey(BookedTicket, on_delete=models.CASCADE, null=True, blank=True)
     airTravelerBirthDate = models.CharField(max_length=10)
     airTravelerPassengerTypeCode = models.CharField(max_length=10)
-    airTravelerAccompaniedByInfantInd = models.CharField(max_length=50)
+    airTravelerABIInd = models.CharField(max_length=10)
     airTravelerTravelerNationality = models.CharField(max_length=10)
     airTravelerGender = models.CharField(max_length=5)
-    personNameNamePrefix = models.CharField(max_length=5)
+    personNameNamePrefix = models.CharField(max_length=10)
     personNameGivenName = models.CharField(max_length=50)
     personNameSurname = models.CharField(max_length=50)
     documentId = models.CharField(max_length=50)

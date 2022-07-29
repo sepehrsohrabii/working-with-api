@@ -51,6 +51,41 @@
             <div class="col-9 border-bottom">
             </div>
         </div>
+        <div class="row mt-5">
+            <div class="carousel" data-flickity='{ "freeScroll": true, "contain": true, "prevNextButtons": false, "pageDots": false }'>
+                {% for user_ticket in user_tickets %}
+                    <form method="POST" action="{% url 'UserBookedTicketPage' bookingReferenceID=user_ticket.bookingReferenceID %}">
+                        {% csrf_token %}
+                        <div class="carousel-cell mx-4 text-bg-light p-4 rounded">
+                            <div class="d-flex align-items-center">
+                                <div class="col-5">
+                                    <h4>{{ user_ticket.departureAirportLocationCode }}</h4>
+                                    <p>{{ user_ticket.departureAirportLocationName }}</p>
+                                </div>
+                                <div class="col-2 text-center">
+                                    <div class="d-flex align-items-center justify-content-center"><i class="bi bi-arrow-right fs-4"></i></div>
+                                    {% if user_ticket.return_Status != None %}
+                                        <div class="d-flex align-items-center"><i class="bi bi-arrow-right fs-4"></i></div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-5 text-end">
+                                    <h4>{{ user_ticket.arrivalAirportLocationCode }}</h4>
+                                    <p>{{ user_ticket.arrivalAirportLocationName }}</p>
+                                </div>
+                            </div>
+                            <p class="text-muted mt-3">Created Date Time</p>
+                            <p>{{ user_ticket.createdDateTime }}</p>
+
+                            <p class="text-muted mt-2">Departure Date</p>
+                            <p>{{ user_ticket.departureDate }}</p>
+
+                            <button type="submit" class="btn button1 border-none px-4 py-2 w-100 mt-4">Ticket Info</button>
+                        </div>
+                    </form>
+
+                {% endfor %}
+            </div>
+        </div>
     </div>
 {% endblock %}
 

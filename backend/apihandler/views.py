@@ -22,15 +22,6 @@ Ticketing_RefDocNUM = []
 Ticket = {}
 Ticket_List = []
 
-def get_client_ip(request):
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[0]
-    else:
-        ip = request.META.get('REMOTE_ADDR')
-    return ip
-
-
 def home_page(request):
     selected_operation_number = 2
     global origin
@@ -42,8 +33,12 @@ def home_page(request):
     global INFNumber
     global Cabin
     global user
-    origin = request.POST.get("origin") or 'None'  # get flight origin from template input
-    destination = request.POST.get("destination") or 'None'  # get flight destination from template input
+    origin = request.POST.get("origin") or 'None'
+    if origin != 'None':# get flight origin from template input
+        origin = origin.split(' ')[0]
+    destination = request.POST.get("destination") or 'None'
+    if destination != 'None':
+        destination = destination.split(' ')[0]
     departureTime = request.POST.get(
         "departureTime") or datetime.now().isoformat()  # get flight departureTime from template input
     ADTNumber = request.POST.get("ADTNumber") or '1'  # get number of people from template input
@@ -87,6 +82,9 @@ def booking_page(request, FlightNumber):
                 NamePrefix_str = str(
                     "NamePrefix" + str(passenger_Quantity) + str(passenger['PassengerTypeQuantity_Code']))
                 NamePrefix = request.POST.get(NamePrefix_str)
+                AccompaniedByInfantInd_str = str(
+                    "AccompaniedByInfantInd" + str(passenger_Quantity) + str(passenger['PassengerTypeQuantity_Code']))
+                AccompaniedByInfantInd = request.POST.get(AccompaniedByInfantInd_str)
                 GivenName_str = str(
                     "GivenName" + str(passenger_Quantity) + str(passenger['PassengerTypeQuantity_Code']))
                 GivenName = request.POST.get(GivenName_str)
@@ -111,6 +109,7 @@ def booking_page(request, FlightNumber):
                     'TravelerNationality': TravelerNationality,
                     'DocID': DocID,
                     'TypeCode': str(passenger['PassengerTypeQuantity_Code']),
+                    'AccompaniedByInfantInd': AccompaniedByInfantInd,
                 })
 
         global ContactGivenName
@@ -124,16 +123,17 @@ def booking_page(request, FlightNumber):
         Telephone = request.POST.get('Telephone')
         HomeTelephone = request.POST.get('HomeTelephone')
         data_handle(selected_operation_number)
-        return redirect('read_reservation')
-    else:
-        selected_operation_number = 3
-        selected_flight.clear()
-        for Flight in flight_list:
-            if Flight['FlightNumber'] == FlightNumber:
-                selected_flight.append(Flight)
-                flight_list.clear()
+        if len(Error) == 0:
+            return redirect('read_reservation')
 
-        data_handle(selected_operation_number)
+    selected_operation_number = 3
+    selected_flight.clear()
+    for Flight in flight_list:
+        if Flight['FlightNumber'] == FlightNumber:
+            selected_flight.append(Flight)
+            flight_list.clear()
+
+    data_handle(selected_operation_number)
 
     return render(request, './booking.html',
                   {'selected_flight': selected_flight, 'Error': Error, 'operation_three_RS': operation_three_RS})
@@ -293,7 +293,7 @@ def write_on_xml(selected_operation_number):
                 root[3].append(deepcopy(root[3][i - 1]))
             root[3][i].attrib['BirthDate'] = passenger['BirthDate']
             root[3][i].attrib['PassengerTypeCode'] = passenger['TypeCode']
-            root[3][i].attrib['AccompaniedByInfantInd'] = "false"
+            root[3][i].attrib['AccompaniedByInfantInd'] = passenger['AccompaniedByInfantInd']
             root[3][i].attrib['Gender'] = passenger['Gender']
             root[3][i].attrib['TravelerNationality'] = passenger['TravelerNationality']
             root[3][i][0][0].text = passenger['NamePrefix']
@@ -909,7 +909,8 @@ def read_from_xml(selected_operation_number, respath):
                 passengerInfo.ticket = bookedTicket
                 passengerInfo.airTravelerBirthDate = traveler['AirTravelerBirthDate']
                 passengerInfo.airTravelerPassengerTypeCode = traveler['AirTravelerPassengerTypeCode']
-                passengerInfo.airTravelerAccompaniedByInfantInd = traveler['AirTravelerAccompaniedByInfantInd']
+                passengerInfo.airTravelerABIInd = traveler['AirTravelerAccompaniedByInfantInd']
+                print(passengerInfo.airTravelerABIInd)
                 passengerInfo.airTravelerTravelerNationality = traveler['AirTravelerTravelerNationality']
                 passengerInfo.airTravelerGender = traveler['AirTravelerGender']
                 passengerInfo.personNameNamePrefix = traveler['PersonNameNamePrefix']

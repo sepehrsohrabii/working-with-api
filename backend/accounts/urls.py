@@ -6,4 +6,5 @@ urlpatterns = [
     path('signup/', views.signupView, name='signupView'),
     path('logout/', views.logoutView, name='logoutView'),
     path('profile/', views.userProfile, name='userProfile'),
+    path('Ticket-<bookingReferenceID>', views.UserBookedTicketPage, name='UserBookedTicketPage'),
 ]
