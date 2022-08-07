@@ -19,6 +19,7 @@ class SearchData(models.Model):
 class BookedTicket(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    echoToken = models.CharField(max_length=10)
     createdDateTime = models.DateTimeField()
     directionInd = models.CharField(max_length=20)
     status = models.CharField(max_length=20)
@@ -29,6 +30,7 @@ class BookedTicket(models.Model):
     departureTime = models.TimeField()
     arrivalDate = models.DateField()
     arrivalTime = models.TimeField()
+    stopQuantity = models.CharField(max_length=5, blank=True, null=True, default='0')
     RPH = models.CharField(max_length=20)
     departureAirportLocationCode = models.CharField(max_length=5)
     departureAirportLocationName = models.CharField(max_length=30)
@@ -75,6 +77,7 @@ class BookedTicket(models.Model):
     bookingReferenceID = models.CharField(max_length=30)
     bookingReferenceID_Context = models.CharField(max_length=30)
 
+    fareRuleText = models.TextField(blank=True, null=True)
 
 class PassengerType(models.Model):
     id = models.AutoField(primary_key=True)

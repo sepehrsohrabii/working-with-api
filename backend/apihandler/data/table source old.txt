@@ -2,8 +2,8 @@ Ping, OTA_PingRQ.xsd OTA_PingRS.xsd /services/ping
 Low Fare Search, OTA_AirLowFareSearchRQ.xsd OTA_AirLowFareSearchRS.xsd /availability/lowfaresearch
 Fare Rule, OTAPSS_AirFareRuleRQ.xsd OTAPSS_AirFareRuleRS.xsd /availability/fareRuleInformation
 Book & Ticket, OTA_AirBookRQ.xsd OTA_AirBookRS.xsd /booking/create
-Read Reservation, OTA_AirBook_ReadRQ.xsd OTA_AirBookRS.xsd /booking/read
-Cancel Fee Query, OTA_AirBookModifyRQ.xsd OTAPSS_AirBookModifyChargeRS.xsd /modifybooking/fees
-Cancel Booking, OTA_AirBookCancelRQ.xsd OTA_AirBookCancelRS.xsd /modifybooking/cnxbkg
+Read Reservation, OTA_AirBook_ReadRQ.xsd OTA_AirBook_ReadRS.xsd /booking/read
+Cancel Fee Query, OTA_AirBookModifyFeesRQ.xsd OTAPSS_AirBookModifyFeesRS.xsd /modifybooking/fees
+Cancel Booking, OTA_AirBookModifyRQ.xsd OTA_AirBookRS.xsd /modifybooking/cnxbkg
 Split Booking, OTA_AirBookModifyRQ.xsd OTA_AirBookRS.xsd /modifybooking/splitbkg
 Edit Booking Contact, OTA_AirBookModifyRQ.xsd OTA_AirBookRS.xsd /modifybooking/editBookingContact

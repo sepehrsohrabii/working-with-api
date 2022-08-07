@@ -18,6 +18,7 @@ $(document).ready(function(){
 
   });
 });
+
  $(function () {
    var bindDatePicker = function() {
 		$(".date").datetimepicker({

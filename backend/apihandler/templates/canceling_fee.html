@@ -1,0 +1,90 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block title %}Read Reservation{% endblock %}
+{% block main %}
+
+    <div class="container progress-box d-flex justify-content-center align-items-center p-4">
+        <i class="bi bi-x-circle me-3 fw-bold fs-2"></i>
+        <h3>Canceling Fee</h3>
+    </div>
+
+        {% for error in Error %}
+            {% if error.ErrorText != 'None' %}
+            <div class="alert alert-danger text-center mt-3" role="alert">
+                {{ error.ErrorText }} - {{ error.ErrorCode}}
+            </div>
+            {% endif %}
+        {% endfor %}
+
+
+    <div class="container bg-white p-5 rounded mt-5">
+        <!-- Canceling Fee Info -->
+        <div class="row justify-content-between mb-5">
+            <div class="col-3 align-self-center">
+                <div>
+                    <span class="text-muted">Booking Reference ID</span>
+                    <h4 class="">{{Cancel_Fee_RS.Fee_BookingReferenceID}}</h4>
+                </div>
+            </div>
+            <div class="col-9 align-self-center">
+                <div class="">
+                    <span class="text-muted">Fee Amount</span>
+                    <h4>{{Cancel_Fee_RS.Fee_Amount}} {{Cancel_Fee_RS.Fee_CurrencyCode}}</h4>
+                </div>
+            </div>
+        </div>
+        <!-- Divider -->
+        <div class="row my-5">
+            <div class="col-3">
+                <h4 class="text-muted" style="margin-bottom: -12px;">Canceling Taxes</h4>
+            </div>
+            <div class="col-9 border-bottom">
+            </div>
+        </div>
+        <!-- Taxes Info -->
+        <div class="row justify-content-between mb-5">
+            {% for tax in Cancel_Fee_RS.Fee_Tax_List %}
+                <div>
+                    <span class="text-muted">{{tax.Fee_Tax_Code}}</span>
+                    <h6>{{tax.Fee_Tax_Amount}} {{tax.Fee_Tax_CurrencyCode}}</h6>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+
+    <!-- Cancel Button Modal -->
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col px-0">
+                <button type="button" class="btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#cancelModal">
+                  Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Cancel Modal -->
+    <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="cancelModalLabel">Cancel Ticket <span class="text-danger">{{Cancel_Fee_RS.Fee_BookingReferenceID}}</span></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Are you sure you want to cancel this ticket?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No I'm Not</button>
+              <form method="POST" action="">
+                  {% csrf_token %}
+                  <input value="DELETE" type="hidden" name="DELETE" id="DELETE">
+                  <button type="submit" class="btn btn-primary">Yes Cancel Ticket</button>
+              </form>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}

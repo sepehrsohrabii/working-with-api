@@ -20,7 +20,7 @@ body {
 .color1 {
   color: var(--color1);
 }
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6, p {
   margin-bottom: 0px;
 }
 h1{
@@ -89,6 +89,9 @@ h1{
         margin-top: -50px;
         padding-left: 100px;
     }
+    .fs-small {
+        font-size: 10px;
+    }
   }
 .mt-6 {
       margin-top: 200px !important;
@@ -104,7 +107,12 @@ a:hover, a:focus {
 .button1 {
   background-color: var(--color3);
   color: white!important;
-  border: none;
+  border-color: var(--color3);
+}
+.button1:hover {
+  color: var(--color3) !important;
+  background-color: white!important;
+  border-color: var(--color3);
 }
 .img-default {
     object-fit: cover;
@@ -662,4 +670,30 @@ header > nav {
 .profilePic {
   margin-top: -75px;
   margin-left: 50px;
+}
+
+datalist {
+  position: absolute;
+  background-color: white;
+  border: none;
+  border-radius: 0 0 5px 5px;
+  border-top: none;
+  width: 100%;
+  padding: 5px;
+  max-height: 10rem;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+option {
+  background-color: white;
+  padding: 4px;
+  color: black;
+  font-size: 14px;
+  margin-bottom: 1px;
+  cursor: pointer;
+}
+
+option:hover,  .active{
+  background-color: var(--color4);
 }

@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from accounts.models import UserInfo
 from search_data.models import BookedTicket, PassengerType, Tax, PassengerInfo, SearchData
 from django.contrib.auth import authenticate, login, logout
-from apihandler.views import home_page
 
 
 def loginView(request):

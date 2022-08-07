@@ -17,6 +17,12 @@ body {
     --color3: #0FABBC;
     --color4: #E4F9FF;
 }
+.bg3 {
+    background-color: var(--color1);
+}
+.bg4 {
+    background-color: var(--color2);
+}
 .color1 {
   color: var(--color1);
 }
@@ -162,6 +168,15 @@ a:hover, a:focus {
   background-color: #E4F9FF;
   height: 200px;
   margin-top: 100px;
+}
+.box5 {
+  border-radius: 16px;
+  height: 200px;
+  margin-top: 100px;
+}
+.box6 {
+  border-radius: 16px;
+  height: 200px;
 }
 .progress-box {
     margin-top: 7%;

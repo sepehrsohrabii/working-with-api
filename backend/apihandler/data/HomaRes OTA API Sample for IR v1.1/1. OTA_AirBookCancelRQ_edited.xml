@@ -1,0 +1,44 @@
+<ns0:OTA_AirBookModifyRQ xmlns:ns0="http://www.opentravel.org/OTA/2003/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opentravel.org/OTA/2003/05    OTA_AirBookModifyRQ.xsd" EchoToken="10001" TimeStamp="2022-08-06T17:22:20" Target="Test" Version="2.001" SequenceNmbr="1" PrimaryLangID="En-us">
+	<ns0:POS>
+	   <ns0:Source AirlineVendorID="IR" ISOCountry="IR" ISOCurrency="RUB">
+	       <ns0:RequestorID Type="5" ID="MOW07603" />
+	   </ns0:Source>
+	</ns0:POS>
+    <ns0:AirBookModifyRQ ModificationType="1">
+      <ns0:Fulfillment>
+           <ns0:PaymentDetails>
+                <ns0:PaymentDetail PaymentType="2">
+	               <ns0:DirectBill DirectBill_ID="MOW07603">
+	                  <ns0:CompanyName CompanyShortName="PERSINO" Code="MOW07603" AgentType="GLBL_SALE_AGNT" />
+	               </ns0:DirectBill>
+                    <ns0:PaymentAmount CurrencyCode="RUB" DecimalPlaces="0" Amount="00.00" />
+                </ns0:PaymentDetail>
+            </ns0:PaymentDetails>
+      </ns0:Fulfillment>
+   </ns0:AirBookModifyRQ>
+    <ns0:AirReservation>
+        <ns0:AirItinerary DirectionInd="OneWay">
+            <ns0:OriginDestinationOptions>
+               <ns0:OriginDestinationOption>
+                  <ns0:FlightSegment Status="39" FlightNumber="IR468" FareBasisCode="T1451" ResBookDesigCode="T" DepartureDateTime="2022-09-14T19:05:00" ArrivalDateTime="2022-09-14T20:35:00" StopQuantity="0" RPH="1269836">
+                     <ns0:DepartureAirport LocationCode="THR" LocationName="Mehrabad Airport" />
+                     <ns0:ArrivalAirport LocationCode="MHD" LocationName="Mashad Airport" />
+                     <ns0:OperatingAirline Code="IR" />
+                     <ns0:Equipment AirEquipType="Fokker 100" />
+                  </ns0:FlightSegment>
+               </ns0:OriginDestinationOption>
+            </ns0:OriginDestinationOptions>
+        </ns0:AirItinerary>
+        <ns0:Fulfillment>
+             <ns0:PaymentDetails>
+                <ns0:PaymentDetail PaymentType="2">
+                   <ns0:DirectBill DirectBill_ID="MOW07603">
+                      <ns0:CompanyName CompanyShortName="PERSINO" Code="MOW07603" AgentType="GLBL_SALE_AGNT" />
+                   </ns0:DirectBill>
+                   <ns0:PaymentAmount CurrencyCode="RUB" DecimalPlaces="0" Amount="2276" />
+                </ns0:PaymentDetail>
+             </ns0:PaymentDetails>
+        </ns0:Fulfillment>
+        <ns0:BookingReferenceID Status="39" Instance="0" ID="SPKRRQ" ID_Context="BookingRef" />
+    </ns0:AirReservation>
+</ns0:OTA_AirBookModifyRQ>

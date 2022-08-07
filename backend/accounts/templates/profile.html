@@ -54,9 +54,9 @@
         <div class="row mt-5">
             <div class="carousel" data-flickity='{ "freeScroll": true, "contain": true, "prevNextButtons": false, "pageDots": false }'>
                 {% for user_ticket in user_tickets %}
-                    <form method="POST" action="{% url 'UserBookedTicketPage' bookingReferenceID=user_ticket.bookingReferenceID %}">
-                        {% csrf_token %}
-                        <div class="carousel-cell mx-4 text-bg-light p-4 rounded">
+                    <div class="carousel-cell mx-4 text-bg-light p-4 rounded">
+                        <form method="POST" action="{% url 'UserBookedTicketPage' bookingReferenceID=user_ticket.bookingReferenceID %}">
+                            {% csrf_token %}
                             <div class="d-flex align-items-center">
                                 <div class="col-5">
                                     <h4>{{ user_ticket.departureAirportLocationCode }}</h4>
@@ -73,16 +73,19 @@
                                     <p>{{ user_ticket.arrivalAirportLocationName }}</p>
                                 </div>
                             </div>
+                            <p class="text-muted mt-3">Booking Reference ID</p>
+                            <p>{{ user_ticket.bookingReferenceID }}</p>
                             <p class="text-muted mt-3">Created Date Time</p>
                             <p>{{ user_ticket.createdDateTime }}</p>
-
                             <p class="text-muted mt-2">Departure Date</p>
                             <p>{{ user_ticket.departureDate }}</p>
-
                             <button type="submit" class="btn button1 border-none px-4 py-2 w-100 mt-4">Ticket Info</button>
-                        </div>
-                    </form>
-
+                        </form>
+                        <form method="POST" action="{% url 'canceling_fee' bookingReferenceID=user_ticket.bookingReferenceID %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-danger px-4 py-2 w-100 mt-3">Cancel Ticket</button>
+                        </form>
+                    </div>
                 {% endfor %}
             </div>
         </div>

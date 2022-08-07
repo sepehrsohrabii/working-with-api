@@ -19,7 +19,7 @@
                 </PaymentDetail>
             </PaymentDetails>
       </Fulfillment>
-    </AirBookModifyRQ>
+   </AirBookModifyRQ>
     <AirReservation>
      <AirItinerary DirectionInd="OneWay">
 	    <OriginDestinationOptions>

@@ -1,0 +1,23 @@
+<ns0:OTA_AirBookModifyRQ xmlns:ns0="http://www.opentravel.org/OTA/2003/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opentravel.org/OTA/2003/05  OTA_AirBookRQ.xsd" EchoToken="0001" TimeStamp="2022-08-02T17:48:04" Target="Production" Version="2.001" SequenceNmbr="1" PrimaryLangID="En-us">
+<ns0:POS>
+   <ns0:Source AirlineVendorID="IR" ISOCountry="IR" ISOCurrency="RUB">
+       <ns0:RequestorID Type="5" ID="MOW07603" />
+   </ns0:Source>
+</ns0:POS>
+<ns0:AirBookModifyRQ ModificationType="1" />
+<ns0:AirReservation>
+   <ns0:AirItinerary DirectionInd="OneWay">
+        <ns0:OriginDestinationOptions>
+           <ns0:OriginDestinationOption>
+              <ns0:FlightSegment Status="39" FlightNumber="IR468" FareBasisCode="T1451" ResBookDesigCode="T" DepartureDateTime="2022-07-31T19:05:00" ArrivalDateTime="2022-07-31T20:35:00" StopQuantity="0" RPH="1267939">
+                 <ns0:DepartureAirport LocationCode="THR" LocationName="Mehrabad Airport" />
+                 <ns0:ArrivalAirport LocationCode="MHD" LocationName="Mashad Airport" />
+                 <ns0:OperatingAirline Code="IR" />
+                 <ns0:Equipment AirEquipType="A320" />
+              </ns0:FlightSegment>
+           </ns0:OriginDestinationOption>
+        </ns0:OriginDestinationOptions>
+   </ns0:AirItinerary>
+   <ns0:BookingReferenceID Status="39" Instance="0" ID="XKZK5K" ID_Context="BookingRef" />
+</ns0:AirReservation>
+</ns0:OTA_AirBookModifyRQ>
