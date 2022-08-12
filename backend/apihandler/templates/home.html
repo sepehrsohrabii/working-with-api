@@ -2,20 +2,22 @@
 {% load static %}
 {% block title %}Persino{% endblock %}
 {% block main %}
-    <div class="container vh-100 d-flex align-items-center">
-        <div class="row w-100">
-            <div class="textBox1 col-md col-12 text-start order-md-1 order-2" style="">
-                <h5 class="with-line" style="transform: translate(0px, 0px);"> Persino</h5>
-                <h1 class="my-3">Fly With</br><span class="color1">Cheapest</span> Flight</h1>
-                <h3 class="fw-bold">Search and Find</h3>
-                <p class="w-75 my-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris in tortor ex. Mauris sodales vulputate pharetra. </p>
-            </div>
-            <div class="col-md col-12 order-md-2 order-1 overflow-hidden w-100">
-                <div class="overflow-hidden w-100">
-                    <lottie-player class="lottie1 overflow-hidden" src="https://assets1.lottiefiles.com/packages/lf20_bbyxgwhr.json"  background="transparent"  speed="1"  loop autoplay></lottie-player>
-                </div>
-            </div>
-        </div>
+    <div id="gradient">
+      <div class="container vh-100 d-flex align-items-center">
+          <div class="row w-100">
+              <div class="textBox1 col-md col-12 text-start order-md-1 order-2" style="">
+                  <h5 class="with-line" style="transform: translate(0px, 0px);"> Persino</h5>
+                  <h1 class="my-3">Fly With</br><span class="color1">Cheapest</span> Flight</h1>
+                  <h3 class="fw-bold">Search and Find</h3>
+                  <p class="w-75 my-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris in tortor ex. Mauris sodales vulputate pharetra. </p>
+              </div>
+              <div class="col-md col-12 order-md-2 order-1 overflow-hidden w-100">
+                  <div class="overflow-hidden w-100">
+                      <lottie-player class="lottie1 overflow-hidden" src="https://assets1.lottiefiles.com/packages/lf20_bbyxgwhr.json"  background="transparent"  speed="1"  loop autoplay></lottie-player>
+                  </div>
+              </div>
+          </div>
+      </div>
     </div>
     <div class="container px-5">
         <form class="container searchForm_Box p-5" method="POST" id="post-form">
@@ -502,11 +504,11 @@
                           <div class="top">
                             <div class="printer" {% if data.return_date %} style="height: 375px !important;" {% endif %}/>
                             </div>
-                            <div class="receipts-wrapper py-3">
+                            <div class="receipts-wrapper py-md-3">
                                 <div class="receipts">
                                   <div class="receipt col-8" {% if data.return_date %} style="height:360px !important;" {% endif %}>
                                     <div class="row">
-                                        <div class="col">
+                                        <div class="col text-md-left text-center border">
                                           <h3 class="fw-light mb-3">{{data.origin}}</h3>
                                           <h6 class="text-secondary">Tehran</h6>
                                           <h6 class="text-secondary">{{data.departureDate}}</h6>
@@ -519,8 +521,8 @@
                                           {% endif %}
 
                                         </div>
-                                        <div class="col text-center">
-                                          <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_d8skfitr.json"  background="transparent"  speed="1"  style="width: 300px; height: 50px;"  loop  autoplay></lottie-player>
+                                        <div class="col text-center my-4 py-4">
+                                          <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_d8skfitr.json"  background="transparent"  speed="1"  style="height: 50px;"  loop  autoplay></lottie-player>
                                           
                                           {% if data.return_date %}
                                             <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_d8skfitr.json"  background="transparent"  speed="1"  style="width: 300px; height: 50px; transform: rotate(180deg); margin-top: -30px;"  loop  autoplay></lottie-player>
@@ -533,7 +535,7 @@
                                           {% endif %}
                                           <img class="mt-4" src="{% static 'img/IranAir-Logo.svg' %}" alt="Iran Air Logo" width="120px"/>
                                         </div>
-                                        <div class="col text-end">
+                                        <div class="col text-md-end text-center">
                                           <h3 class="fw-light mb-3">{{data.destination}}</h3>
                                           <h6 class="text-secondary">Mashhad</h6>
                                           <h6 class="text-secondary">{{data.ArrivalDate}}</h6>
@@ -546,7 +548,7 @@
                                           {% endif %}
                                         </div>
                                     </div>
-                                      <div class="row mt-4 justify-content-between">
+                                      <div class="row mt-md-4 mt-5 justify-content-between">
                                         <div class="col align-self-center">
                                           <h6 class="">Flight No.</h6>
                                           <h6 class="text-secondary">{{data.FlightNumber}}</h6>

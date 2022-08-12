@@ -1,13 +1,14 @@
-from django.shortcuts import redirect, render
-from django.contrib.auth.decorators import login_required
-import requests
+import random
 import re
-from datetime import datetime
 import xml.etree.ElementTree as ET
 from copy import deepcopy
-from search_data.models import BookedTicket, SearchData, PassengerType, Tax, PassengerInfo
+from datetime import datetime
+
+import requests
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-import random
+from django.shortcuts import redirect, render
+from search_data.models import BookedTicket, SearchData, PassengerType, Tax, PassengerInfo
 
 context = {}
 flight_list = []
@@ -23,6 +24,7 @@ Ticketing_RefDocNUM = []
 Ticket = {}
 Ticket_List = []
 
+
 def home_page(request):
     selected_operation_number = 2
     global origin
@@ -37,7 +39,7 @@ def home_page(request):
     global EchoToken
 
     origin = request.POST.get("origin") or 'None'
-    if origin != 'None':# get flight origin from template input
+    if origin != 'None':  # get flight origin from template input
         origin = origin.split(' ')[0]
     destination = request.POST.get("destination") or 'None'
     if destination != 'None':
@@ -61,7 +63,6 @@ def home_page(request):
 
         EchoToken = random.randint(10000, 99999)
         data_handle(selected_operation_number)
-
 
     # send data to template
     operation_two_data = {
@@ -157,6 +158,7 @@ def read_reservation(request):
     Ticket2 = Ticket_List[0]
     return render(request, './read_reservation.html', Ticket2)
 
+
 @login_required(login_url='loginView')
 def canceling_fee(request, bookingReferenceID):
     global canceling_fee_ticket
@@ -172,6 +174,7 @@ def canceling_fee(request, bookingReferenceID):
         'Cancel_Fee_RS': Cancel_Fee_RS,
         'Error': Error,
     })
+
 
 @login_required(login_url='loginView')
 def split_booking(request, bookingReferenceID, documentId):
@@ -228,8 +231,8 @@ def write_on_xml(selected_operation_number):
     root.attrib['Target'] = 'Test'  # Test or Production
     root.attrib['TimeStamp'] = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S')
 
-    #root.attrib['EchoToken'] = '50987'
-    #root.attrib['EchoToken'] = '11231'
+    # root.attrib['EchoToken'] = '50987'
+    # root.attrib['EchoToken'] = '11231'
 
     if selected_operation_number == 1:
 
@@ -378,8 +381,10 @@ def write_on_xml(selected_operation_number):
         root[2][0][0][0][0].attrib['FlightNumber'] = canceling_fee_ticket.flightNumber
         root[2][0][0][0][0].attrib['FareBasisCode'] = canceling_fee_ticket.fareBasisCode
         root[2][0][0][0][0].attrib['ResBookDesigCode'] = canceling_fee_ticket.resBookDesigCode
-        root[2][0][0][0][0].attrib['DepartureDateTime'] = str(canceling_fee_ticket.departureDate) + 'T' + str(canceling_fee_ticket.departureTime)
-        root[2][0][0][0][0].attrib['ArrivalDateTime'] = str(canceling_fee_ticket.arrivalDate) + 'T' + str(canceling_fee_ticket.arrivalTime)
+        root[2][0][0][0][0].attrib['DepartureDateTime'] = str(canceling_fee_ticket.departureDate) + 'T' + str(
+            canceling_fee_ticket.departureTime)
+        root[2][0][0][0][0].attrib['ArrivalDateTime'] = str(canceling_fee_ticket.arrivalDate) + 'T' + str(
+            canceling_fee_ticket.arrivalTime)
         root[2][0][0][0][0].attrib['StopQuantity'] = canceling_fee_ticket.stopQuantity
         root[2][0][0][0][0].attrib['RPH'] = canceling_fee_ticket.RPH
         root[2][0][0][0][0][0].attrib['LocationCode'] = canceling_fee_ticket.departureAirportLocationCode
@@ -395,9 +400,11 @@ def write_on_xml(selected_operation_number):
             root[2][0][0][0][1].attrib['FareBasisCode'] = canceling_fee_ticket.return_FareBasisCode
             root[2][0][0][0][1].attrib['ResBookDesigCode'] = canceling_fee_ticket.return_ResBookDesigCode
             root[2][0][0][0][1].attrib[
-                'DepartureDateTime'] = str(canceling_fee_ticket.return_DepartureDate) + 'T' + str(canceling_fee_ticket.return_DepartureTime)
+                'DepartureDateTime'] = str(canceling_fee_ticket.return_DepartureDate) + 'T' + str(
+                canceling_fee_ticket.return_DepartureTime)
             root[2][0][0][0][1].attrib[
-                'ArrivalDateTime'] = str(canceling_fee_ticket.return_ArrivalDate) + 'T' + str(canceling_fee_ticket.return_ArrivalTime)
+                'ArrivalDateTime'] = str(canceling_fee_ticket.return_ArrivalDate) + 'T' + str(
+                canceling_fee_ticket.return_ArrivalTime)
             root[2][0][0][0][1].attrib[
                 'StopQuantity'] = canceling_fee_ticket.return_StopQuantity
             root[2][0][0][0][1].attrib['RPH'] = canceling_fee_ticket.return_RPH
@@ -430,8 +437,10 @@ def write_on_xml(selected_operation_number):
         root[2][0][0][0][0].attrib['FlightNumber'] = canceling_fee_ticket.flightNumber
         root[2][0][0][0][0].attrib['FareBasisCode'] = canceling_fee_ticket.fareBasisCode
         root[2][0][0][0][0].attrib['ResBookDesigCode'] = canceling_fee_ticket.resBookDesigCode
-        root[2][0][0][0][0].attrib['DepartureDateTime'] = str(canceling_fee_ticket.departureDate) + 'T' + str(canceling_fee_ticket.departureTime)
-        root[2][0][0][0][0].attrib['ArrivalDateTime'] = str(canceling_fee_ticket.arrivalDate) + 'T' + str(canceling_fee_ticket.arrivalTime)
+        root[2][0][0][0][0].attrib['DepartureDateTime'] = str(canceling_fee_ticket.departureDate) + 'T' + str(
+            canceling_fee_ticket.departureTime)
+        root[2][0][0][0][0].attrib['ArrivalDateTime'] = str(canceling_fee_ticket.arrivalDate) + 'T' + str(
+            canceling_fee_ticket.arrivalTime)
         root[2][0][0][0][0].attrib['StopQuantity'] = canceling_fee_ticket.stopQuantity
         root[2][0][0][0][0].attrib['RPH'] = canceling_fee_ticket.RPH
         root[2][0][0][0][0][0].attrib['LocationCode'] = canceling_fee_ticket.departureAirportLocationCode
@@ -441,8 +450,6 @@ def write_on_xml(selected_operation_number):
         root[2][0][0][0][0][2].attrib['Code'] = canceling_fee_ticket.operatingAirlineCode
         root[2][0][0][0][0][3].attrib['AirEquipType'] = canceling_fee_ticket.equipmentAirEquipType
 
-
-
         if canceling_fee_ticket.directionInd == 'Return':
             root[2][0][0].append(deepcopy(root[2][0][0][0]))
             root[2][0][0][0][1].attrib['Status'] = canceling_fee_ticket.return_Status
@@ -450,9 +457,11 @@ def write_on_xml(selected_operation_number):
             root[2][0][0][0][1].attrib['FareBasisCode'] = canceling_fee_ticket.return_FareBasisCode
             root[2][0][0][0][1].attrib['ResBookDesigCode'] = canceling_fee_ticket.return_ResBookDesigCode
             root[2][0][0][0][1].attrib[
-                'DepartureDateTime'] = str(canceling_fee_ticket.return_DepartureDate) + 'T' + str(canceling_fee_ticket.return_DepartureTime)
+                'DepartureDateTime'] = str(canceling_fee_ticket.return_DepartureDate) + 'T' + str(
+                canceling_fee_ticket.return_DepartureTime)
             root[2][0][0][0][1].attrib[
-                'ArrivalDateTime'] = str(canceling_fee_ticket.return_ArrivalDate) + 'T' + str(canceling_fee_ticket.return_ArrivalTime)
+                'ArrivalDateTime'] = str(canceling_fee_ticket.return_ArrivalDate) + 'T' + str(
+                canceling_fee_ticket.return_ArrivalTime)
             root[2][0][0][0][1].attrib[
                 'StopQuantity'] = canceling_fee_ticket.return_StopQuantity
             root[2][0][0][0][1].attrib['RPH'] = canceling_fee_ticket.return_RPH
@@ -735,7 +744,7 @@ def read_from_xml(selected_operation_number, respath):
         if 'Success' in root[0].tag:
             CreatedDateTme = root[1].attrib['CreatedDateTme']
             DirectionInd = root[1][0].attrib['DirectionInd']
-        
+
             FlightSegment = root[1][0][0][0][0]
             Status = FlightSegment.attrib['Status']
             FlightNumber = FlightSegment.attrib['FlightNumber']
@@ -759,7 +768,7 @@ def read_from_xml(selected_operation_number, respath):
             ArrivalAirportLocationName = FlightSegment[1].attrib['LocationName']
             OperatingAirlineCode = FlightSegment[2].attrib['Code']
             EquipmentAirEquipType = FlightSegment[3].attrib['AirEquipType']
-            
+
             Return_FlightSegment = ''
             Return_Status = ''
             Return_FlightNumber = ''
@@ -783,7 +792,7 @@ def read_from_xml(selected_operation_number, respath):
             Return_ArrivalAirportLocationName = ''
             Return_OperatingAirlineCode = ''
             Return_EquipmentAirEquipType = ''
-            
+
             if DirectionInd == 'Return':
                 Return_FlightSegment = root[1][0][0][0][1]
                 Return_Status = FlightSegment.attrib['Status']
@@ -808,7 +817,7 @@ def read_from_xml(selected_operation_number, respath):
                 Return_ArrivalAirportLocationName = FlightSegment[1].attrib['LocationName']
                 Return_OperatingAirlineCode = FlightSegment[2].attrib['Code']
                 Return_EquipmentAirEquipType = FlightSegment[3].attrib['AirEquipType']
-            
+
             CompanyShortName = root[1][1][0].attrib['CompanyShortName']
             CompanyCode = root[1][1][0].attrib['Code']
 
@@ -920,8 +929,7 @@ def read_from_xml(selected_operation_number, respath):
                     'TicketingTicketDocumentNbr': TicketingTicketDocumentNbr,
                 })
 
-
-            BookingReferenceIDStatus = root[1][i].attrib['Status']    
+            BookingReferenceIDStatus = root[1][i].attrib['Status']
             BookingReferenceIDInstance = root[1][i].attrib['Instance']
             BookingReferenceID = root[1][i].attrib['ID']
             BookingReferenceID_Context = root[1][i].attrib['ID_Context']
@@ -1147,7 +1155,6 @@ def read_from_xml(selected_operation_number, respath):
         pass
     elif selected_operation_number == 9:
         pass
-
 
 
 def data_handle(selected_operation_number):
