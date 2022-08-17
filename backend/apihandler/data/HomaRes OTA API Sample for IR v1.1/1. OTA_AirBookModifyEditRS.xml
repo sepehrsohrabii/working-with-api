@@ -1,0 +1,15 @@
+<OTA_AirBookRS EchoToken="50987" TimeStamp="2020-11-09T19:13:30.780Z" Target="Test" Version="4.001" SequenceNmbr="1" PrimaryLangID="En-us" xmlns="http://www.opentravel.org/OTA/2003/05">
+   <Success/>
+   <AirReservation>
+      <ContactPerson>
+         <PersonName>
+            <GivenName>SAEID</GivenName>
+            <Surname>NAZKASRAEI</Surname>
+         </PersonName>
+         <Telephone PhoneNumber="(98)2232343212"/>
+         <HomeTelephone PhoneNumber="(98)2132343212"/>
+         <Email>saeid.naz@hres.com</Email>
+      </ContactPerson>
+      <BookingReferenceID Status="39" Instance="0" ID="ITIL1W" ID_Context="BookingRef"/>
+   </AirReservation>
+</OTA_AirBookRS>

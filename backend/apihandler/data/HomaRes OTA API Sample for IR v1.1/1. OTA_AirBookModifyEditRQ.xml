@@ -1,0 +1,25 @@
+<OTA_AirBookModifyRQ xmlns="http://www.opentravel.org/OTA/2003/05"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.opentravel.org/OTA/2003/05 
+  OTA_AirBookModifyRQ.xsd" EchoToken="50987" TimeStamp="2017-03-14T14:54:10+10:00"
+  Target="Test" Version="4.001" SequenceNmbr="1"  PrimaryLangID="En-us">
+	<POS>
+	   <Source AirlineVendorID="IR" ISOCountry="IR" ISOCurrency="IRR">
+	       <RequestorID Type="5" ID="THRTA023"/>
+	   </Source>
+	</POS>
+	<AirBookModifyRQ ModificationType="20">
+	   <ContactPerson>
+         <PersonName>
+            <GivenName>SAEID</GivenName>
+            <Surname>NAZKASRAEI</Surname>
+         </PersonName>
+         <Telephone PhoneNumber="(98)2232343212"/>
+         <HomeTelephone PhoneNumber="(98)2132343212"/>
+         <Email>saeid.naz@hres.com</Email>
+        </ContactPerson>
+    </AirBookModifyRQ>
+    <AirReservation>
+        <BookingReferenceID Status="39" Instance="0" ID="ITIL1W" ID_Context="BookingRef"/>
+    </AirReservation>
+</OTA_AirBookModifyRQ>

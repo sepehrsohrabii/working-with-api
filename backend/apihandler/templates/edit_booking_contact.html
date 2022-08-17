@@ -1,6 +1,6 @@
 {% extends 'main.html' %}
 {% load static %}
-{% block title %}Booked Ticket{% endblock %}
+{% block title %}Edit Contact Information{% endblock %}
 {% block main %}
 
 <div class="container">
@@ -8,7 +8,7 @@
 		<div class="col-12 box4 d-flex justify-content-center align-items-center mt-5">
 			<div class="text-center">
 				<h4>Dear {{user.first_name}}!</h4>
-				<h6>Have a good trip</h6>
+				<h6>Edit Contact Information</h6>
 			</div>
 		</div>
 	</div>
@@ -20,7 +20,7 @@
 		</div>
 	</div>
 </div>
-{% for ticket in user_ticket %}
+
 <div class="container bg-white p-5 rounded">
 	<!-- Ticket Info -->
 	<div class="row justify-content-between">
@@ -268,41 +268,59 @@
 		</div>
 	</div>
 	{% endfor %}
-	<!-- Divider -->
-	<div class="row my-5">
-		<div class="col-3">
-			<h4 class="text-muted" style="margin-bottom: -12px;">Contact Info</h4>
+</div>
+
+<!-- Edit Contact Info Form -->
+<form class="g-3 mt-5" method="POST">
+	{% csrf_token %}
+	<div class="container mb-5 box3 p-5">
+		<div class="row">
+			<h4>Contact info</h4>
 		</div>
-		<div class="col-9 border-bottom">
+		<div class="row">
+			<div class="col">
+				<label for="ContactGivenName" class="form-label">First Name</label>
+				<input type="name" class="form-control" id="ContactGivenName" name="ContactGivenName"
+				       placeholder="First Name" required/>
+			</div>
+			<div class="col">
+				<label for="ContactSureName" class="form-label">Sure Name</label>
+				<input type="name" class="form-control" id="ContactSureName" name="ContactSureName"
+				       placeholder="Last Name" required/>
+			</div>
+			<div class="col">
+				<label for="Email" class="form-label">Email</label>
+				<input type="email" class="form-control" id="Email" name="Email" placeholder="Email" required/>
+			</div>
+			<div class="col">
+				<label for="Telephone" class="form-label">Mobile Number</label>
+				<input type="text" class="form-control" id="Telephone" name="Telephone" placeholder="Mobile Number"
+				       required/>
+			</div>
+			<div class="col">
+				<label for="HomeTelephone" class="form-label">Home Number</label>
+				<input type="text" class="form-control" id="HomeTelephone" name="HomeTelephone"
+				       placeholder="Home Number" required/>
+			</div>
+		</div>
+		<div class="row justify-content-end mt-4">
+			<div class="col-md-6 col-12 text-end">
+				<a href="{% url 'home_page' %}" class="btn btn-outline-secondary py-2 px-5">Back</a>
+				<button type="submit" class="btn btn-success py-2 px-5" value="submit" name="submit">Submit
+				</button>
+			</div>
 		</div>
 	</div>
-	<!-- Contact Info -->
-	<div class="row justify-content-between align-items-center">
-		<div class="col-3">
-			<div>
-				<span class="text-muted">Full Name</span>
-				<h3 class="fw-bold">{{ticket.contactPersonGivenName}} {{ticket.contactPersonSurname}}</h3>
-			</div>
-		</div>
-		<div class="col-3">
-			<div>
-				<span class="text-muted">Mobile Number</span>
-				<h6>{{ticket.contactPersonMobile}}</h6>
-			</div>
-		</div>
-		<div class="col-3">
-			<div>
-				<span class="text-muted">Phone Number</span>
-				<h6>{{ticket.contactPersonHomeTelephone}}</h6>
-			</div>
-		</div>
-		<div class="col-3">
-			<div>
-				<span class="text-muted">Email</span>
-				<h6>{{ticket.contactPersonEmail}}</h6>
-			</div>
-		</div>
+</form>
+
+{% for Error in Error %}
+{% if 'None' not in Error.ErrorText %}
+<div class="container px-0 pb-5">
+	<div class="alert alert-danger d-flex justify-content-between align-items-center" role="alert">
+		<p class="mt-0 mb-0">{{Error.ErrorText}} // Code: {{Error.ErrorCode}}</p>
 	</div>
 </div>
+{% endif %}
 {% endfor %}
+
 {% endblock %}

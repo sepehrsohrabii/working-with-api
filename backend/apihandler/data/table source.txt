@@ -5,5 +5,5 @@ Book & Ticket, OTA_AirBookRQ.xsd OTA_AirBookRS.xsd /booking/create
 Read Reservation, OTA_AirBook_ReadRQ.xsd OTA_AirBookRS.xsd /booking/read
 Cancel Fee Query, OTA_AirBookModifyRQ.xsd OTAPSS_AirBookModifyChargeRS.xsd /modifybooking/fees
 Cancel Booking, OTA_AirBookCancelRQ.xsd OTA_AirBookCancelRS.xsd /modifybooking/cnxbkg
-Split Booking, OTA_AirBookModifyRQ.xsd OTA_AirBookRS.xsd /modifybooking/splitbkg
-Edit Booking Contact, OTA_AirBookModifyRQ.xsd OTA_AirBookRS.xsd /modifybooking/editBookingContact
+Split Booking, OTA_AirBookSplitRQ.xsd OTA_AirBookSplitRS.xsd /modifybooking/splitbkg
+Edit Booking Contact, OTA_AirBook_EditContactRQ.xsd OTA_AirBook_EditContactRS.xsd /modifybooking/editBookingContact

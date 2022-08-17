@@ -2,94 +2,108 @@
 {% load static %}
 {% block title %}{{ user.first_name }} Persino Profile{% endblock %}
 {% block main %}
-    <div class="container">
-        <div class="row">
-            <div class="col-12 box4 d-flex justify-content-center align-items-center">
-                <h4>Hi {{user.first_name}}!</h4>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-3">
-                <lottie-player class="profilePic" src="https://assets2.lottiefiles.com/packages/lf20_kousotsb.json"  background="transparent"  speed="1"  style="width: 150px; height: 150px;"  loop autoplay></lottie-player>
-            </div>
-        </div>
-    </div>
-    <div class="container mt-5">
-        <div class="row g-3">
-            <div class="col-md col-12">
-                <div class="form-floating">
-                    <input class="form-control" placeholder="First Name..." id="firstName" name="firstName">
-                    <label for="firstName">First Name</label>
-                </div>
-            </div>
-            <div class="col-md col-12">
-                <div class="form-floating">
-                    <input class="form-control" placeholder="Last Name..." id="lastName" name="lastName">
-                    <label for="lastName">Last Name</label>
-                </div>
-            </div>
-            <div class="col-md col-12">
-                <div class="form-floating">
-                    <input class="form-control" placeholder="Phone Number..." id="phoneNumber" name="phoneNumber">
-                    <label for="phoneNumber">Phone Number</label>
-                </div>
-            </div>
-            <div class="col-md col-12">
-                <div class="form-floating">
-                    <input class="form-control" placeholder="ID Number..." id="idNumber" name="idNumber">
-                    <label for="idNumber">ID Number</label>
-                </div>
-            </div>
-            <div class="col-md col-12">
-                <button type="submit" class="btn btn-outline-warning p-3 w-100">Save My Info</button>
-            </div>
-        </div>
-        <div class="row mt-5">
-            <div class="col-3">
-                <h3 style="margin-bottom: -15px;">Your Tickets</h3>
-            </div>
-            <div class="col-9 border-bottom">
-            </div>
-        </div>
-        <div class="row mt-5">
-            <div class="carousel" data-flickity='{ "freeScroll": true, "contain": true, "prevNextButtons": false, "pageDots": false }'>
-                {% for user_ticket in user_tickets %}
-                    <div class="carousel-cell mx-4 text-bg-light p-4 rounded">
-                        <form method="POST" action="{% url 'UserBookedTicketPage' bookingReferenceID=user_ticket.bookingReferenceID %}">
-                            {% csrf_token %}
-                            <div class="d-flex align-items-center">
-                                <div class="col-5">
-                                    <h4>{{ user_ticket.departureAirportLocationCode }}</h4>
-                                    <p>{{ user_ticket.departureAirportLocationName }}</p>
-                                </div>
-                                <div class="col-2 text-center">
-                                    <div class="d-flex align-items-center justify-content-center"><i class="bi bi-arrow-right fs-4"></i></div>
-                                    {% if user_ticket.return_Status != None %}
-                                        <div class="d-flex align-items-center"><i class="bi bi-arrow-right fs-4"></i></div>
-                                    {% endif %}
-                                </div>
-                                <div class="col-5 text-end">
-                                    <h4>{{ user_ticket.arrivalAirportLocationCode }}</h4>
-                                    <p>{{ user_ticket.arrivalAirportLocationName }}</p>
-                                </div>
-                            </div>
-                            <p class="text-muted mt-3">Booking Reference ID</p>
-                            <p>{{ user_ticket.bookingReferenceID }}</p>
-                            <p class="text-muted mt-3">Created Date Time</p>
-                            <p>{{ user_ticket.createdDateTime }}</p>
-                            <p class="text-muted mt-2">Departure Date</p>
-                            <p>{{ user_ticket.departureDate }}</p>
-                            <button type="submit" class="btn button1 border-none px-4 py-2 w-100 mt-4">Ticket Info</button>
-                        </form>
-                        <form method="POST" action="{% url 'canceling_fee' bookingReferenceID=user_ticket.bookingReferenceID %}">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-outline-danger px-4 py-2 w-100 mt-3">Cancel Ticket</button>
-                        </form>
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
+<div class="container">
+	<div class="row">
+		<div class="col-12 box4 d-flex justify-content-center align-items-center">
+			<h4>Hi {{user.first_name}}!</h4>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-3">
+			<lottie-player class="profilePic" src="https://assets2.lottiefiles.com/packages/lf20_kousotsb.json"
+			               background="transparent" speed="1" style="width: 150px; height: 150px;" loop
+			               autoplay></lottie-player>
+		</div>
+	</div>
+</div>
+<div class="container mt-5">
+	<div class="row g-3">
+		<div class="col-md col-12">
+			<div class="form-floating">
+				<input class="form-control" placeholder="First Name..." id="firstName" name="firstName">
+				<label for="firstName">First Name</label>
+			</div>
+		</div>
+		<div class="col-md col-12">
+			<div class="form-floating">
+				<input class="form-control" placeholder="Last Name..." id="lastName" name="lastName">
+				<label for="lastName">Last Name</label>
+			</div>
+		</div>
+		<div class="col-md col-12">
+			<div class="form-floating">
+				<input class="form-control" placeholder="Phone Number..." id="phoneNumber" name="phoneNumber">
+				<label for="phoneNumber">Phone Number</label>
+			</div>
+		</div>
+		<div class="col-md col-12">
+			<div class="form-floating">
+				<input class="form-control" placeholder="ID Number..." id="idNumber" name="idNumber">
+				<label for="idNumber">ID Number</label>
+			</div>
+		</div>
+		<div class="col-md col-12">
+			<button type="submit" class="btn btn-outline-warning p-3 w-100">Save My Info</button>
+		</div>
+	</div>
+	<div class="row mt-5">
+		<div class="col-3">
+			<h3 style="margin-bottom: -15px;">Your Tickets</h3>
+		</div>
+		<div class="col-9 border-bottom">
+		</div>
+	</div>
+	<div class="row mt-5">
+		<div class="carousel"
+		     data-flickity='{ "freeScroll": true, "contain": true, "prevNextButtons": false, "pageDots": false }'>
+			{% for user_ticket in user_tickets %}
+			<div class="carousel-cell mx-4 text-bg-light p-4 rounded">
+				<form method="POST"
+				      action="{% url 'UserBookedTicketPage' bookingReferenceID=user_ticket.bookingReferenceID %}">
+					{% csrf_token %}
+					<div class="d-flex align-items-center">
+						<div class="col-5">
+							<h4>{{ user_ticket.departureAirportLocationCode }}</h4>
+							<p>{{ user_ticket.departureAirportLocationName }}</p>
+						</div>
+						<div class="col-2 text-center">
+							<div class="d-flex align-items-center justify-content-center"><i
+									class="bi bi-arrow-right fs-4"></i></div>
+							{% if user_ticket.return_Status != None %}
+							<div class="d-flex align-items-center"><i class="bi bi-arrow-right fs-4"></i></div>
+							{% endif %}
+						</div>
+						<div class="col-5 text-end">
+							<h4>{{ user_ticket.arrivalAirportLocationCode }}</h4>
+							<p>{{ user_ticket.arrivalAirportLocationName }}</p>
+						</div>
+					</div>
+					<p class="text-muted mt-3">Booking Reference ID</p>
+					<p>{{ user_ticket.bookingReferenceID }}</p>
+					<p class="text-muted mt-3">Created Date Time</p>
+					<p>{{ user_ticket.createdDateTime }}</p>
+					<p class="text-muted mt-2">Departure Date</p>
+					<p>{{ user_ticket.departureDate }}</p>
+					<p class="text-muted mt-2">Ticket Status</p>
+					<p>{{ user_ticket.ticketStatus }}</p>
+					<button type="submit" class="btn button1 border-none px-4 py-2 w-100 mt-4">Ticket Info</button>
+				</form>
+				<form method="POST"
+				      action="{% url 'canceling_fee' bookingReferenceID=user_ticket.bookingReferenceID %}">
+					{% csrf_token %}
+					<button type="submit" class="btn btn-outline-danger px-4 py-2 w-100 mt-3">Cancel Ticket</button>
+				</form>
+				<form method="POST"
+				      action="{% url 'edit_booking_contact' bookingReferenceID=user_ticket.bookingReferenceID %}">
+					{% csrf_token %}
+					<button type="submit" class="btn btn-outline-warning px-4 py-2 w-100 mt-3">Edit Contact Info
+					</button>
+				</form>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
 {% endblock %}
 
 {% block script %}

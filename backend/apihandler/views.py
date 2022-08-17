@@ -171,7 +171,7 @@ def canceling_fee(request, bookingReferenceID):
         data_handle(selected_operation_number)
         return redirect('userProfile')
     return render(request, './canceling_fee.html', {
-        'Cancel_Fee_RS': Cancel_Fee_RS,
+        'Cancel_Fee_RS': cancel_fee_rs,
         'Error': Error,
     })
 
@@ -188,7 +188,42 @@ def split_booking(request, bookingReferenceID, documentId):
         data_handle(selected_operation_number)
         return redirect('userProfile')
     return render(request, './split_booking.html', {
-        'Cancel_Fee_RS': Cancel_Fee_RS,
+        'Error': Error,
+    })
+
+
+@login_required(login_url='loginView')
+def edit_booking_contact(request, bookingReferenceID):
+    global edit_booking_contact_ticket
+    Error.clear()
+    edit_booking_contact_ticket = BookedTicket.objects.get(bookingReferenceID=bookingReferenceID)
+    passenger_type_taxes = []
+    passenger_info = PassengerInfo.objects.filter(ticket=edit_booking_contact_ticket)
+    passenger_type = PassengerType.objects.filter(ticket=edit_booking_contact_ticket)
+    for type in passenger_type:
+        tax = Tax.objects.filter(passengerType=type)
+        passenger_type_taxes.append(tax)
+    submit = request.POST.get('submit')
+    if submit:
+        global EditContactGivenName
+        global EditContactSureName
+        global EditEmail
+        global EditTelephone
+        global EditHomeTelephone
+        EditContactGivenName = request.POST.get('ContactGivenName')
+        EditContactSureName = request.POST.get('ContactSureName')
+        EditEmail = request.POST.get('Email')
+        EditTelephone = request.POST.get('Telephone')
+        EditHomeTelephone = request.POST.get('HomeTelephone')
+        selected_operation_number = 9
+        data_handle(selected_operation_number)
+        if len(Error) == 0:
+            return redirect('UserBookedTicketPage', bookingReferenceID=edit_booking_contact_ticket.bookingReferenceID)
+    return render(request, './edit_booking_contact.html', {
+        'ticket': edit_booking_contact_ticket,
+        'passenger_info': passenger_info,
+        'passenger_type': passenger_type,
+        'passenger_type_taxes': passenger_type_taxes,
         'Error': Error,
     })
 
@@ -218,7 +253,7 @@ def write_on_xml(selected_operation_number):
     Agent_id = 'MOW07603'
     Operation, Request_Schema, Response_Schema, Resource = source_table()
     selected_operation = Operation[selected_operation_number - 1]
-    # print('you select %s' % selected_operation)
+    print('you select %s' % selected_operation)
     selected_Request_Schema = Request_Schema[selected_operation_number - 1]
     path = '/home/sepehr/Desktop/working-with-api/backend/apihandler/data/HomaRes OTA API Sample for IR v1.1/1. {}.xml'.format(
         selected_Request_Schema[:-4])
@@ -235,7 +270,6 @@ def write_on_xml(selected_operation_number):
     # root.attrib['EchoToken'] = '11231'
 
     if selected_operation_number == 1:
-
         root[1].text = pingRQ
 
     elif selected_operation_number == 2:
@@ -486,11 +520,19 @@ def write_on_xml(selected_operation_number):
         root[2][2].attrib['ID'] = canceling_fee_ticket.bookingReferenceID
         root[2][2].attrib['ID_Context'] = canceling_fee_ticket.bookingReferenceID_Context
 
-
-    elif selected_operation_number == 8:
-        pass
     elif selected_operation_number == 9:
-        pass
+        root.attrib['EchoToken'] = edit_booking_contact_ticket.echoToken
+        root[1].attrib['ModificationType'] = "20"
+        root[1][0][0][0].text = EditContactGivenName
+        root[1][0][0][1].text = EditContactSureName
+        root[1][0][1].attrib['PhoneNumber'] = EditTelephone
+        root[1][0][2].attrib['PhoneNumber'] = EditHomeTelephone
+        root[1][0][3].text = EditEmail
+
+        root[2][0].attrib['Status'] = edit_booking_contact_ticket.bookingReferenceIDStatus
+        root[2][0].attrib['Instance'] = edit_booking_contact_ticket.bookingReferenceIDInstance
+        root[2][0].attrib['ID'] = edit_booking_contact_ticket.bookingReferenceID
+        root[2][0].attrib['ID_Context'] = edit_booking_contact_ticket.bookingReferenceID_Context
 
     tree.write(newpath)
     with open(newpath) as file:
@@ -501,7 +543,7 @@ def write_on_xml(selected_operation_number):
 def read_from_xml(selected_operation_number, respath):
     global BookingReferenceID
     global FareRule
-    global Cancel_Fee_RS
+
     Operation, Request_Schema, Response_Schema, Resource = source_table()
     tree = ET.parse(respath)
     root = tree.getroot()
@@ -998,6 +1040,7 @@ def read_from_xml(selected_operation_number, respath):
 
             Ticket_List.append(Ticket)
             bookedTicket = BookedTicket()
+            bookedTicket.ticketStatus = 'Booked'
             bookedTicket.user = user
             bookedTicket.echoToken = Ticket['EchoToken']
             bookedTicket.createdDateTime = Ticket['CreatedDateTme']
@@ -1107,6 +1150,7 @@ def read_from_xml(selected_operation_number, respath):
                 passengerInfo.save()
 
     elif selected_operation_number == 6:
+        global cancel_fee_rs
         Fee_Tax_List = []
         if 'Success' in root[0].tag:
             Fee_Tax_List.clear()
@@ -1126,7 +1170,7 @@ def read_from_xml(selected_operation_number, respath):
                     'Fee_Tax_CurrencyCode': Fee_Tax_CurrencyCode,
                     'Fee_Tax_DecimalPlaces': Fee_Tax_DecimalPlaces,
                 })
-            Cancel_Fee_RS = {
+            cancel_fee_rs = {
                 'Fee_BookingReferenceID': Fee_BookingReferenceID,
                 'Fee_Amount': Fee_Amount,
                 'Fee_CurrencyCode': Fee_CurrencyCode,
@@ -1143,7 +1187,8 @@ def read_from_xml(selected_operation_number, respath):
             })
     elif selected_operation_number == 7:
         if 'Success' in root[0].tag:
-            canceling_fee_ticket.delete()
+            canceling_fee_ticket.ticketStatus = 'Canceled'
+            canceling_fee_ticket.save()
         else:
             ErrorText = root[0][0].attrib['ShortText'] or 'None'
             ErrorCode = root[0][0].attrib['Code'] or 'None'
@@ -1151,10 +1196,21 @@ def read_from_xml(selected_operation_number, respath):
                 'ErrorText': ErrorText,
                 'ErrorCode': ErrorCode
             })
-    elif selected_operation_number == 8:
-        pass
     elif selected_operation_number == 9:
-        pass
+        if 'Success' in root[0].tag:
+            edit_booking_contact_ticket.contactPersonGivenName = root[1][0][0][0].text
+            edit_booking_contact_ticket.contactPersonSurname = root[1][0][0][1].text
+            edit_booking_contact_ticket.contactPersonMobile = root[1][0][1].attrib['PhoneNumber']
+            edit_booking_contact_ticket.contactPersonHomeTelephone = root[1][0][2].attrib['PhoneNumber']
+            edit_booking_contact_ticket.contactPersonEmail = root[1][0][3].text
+            edit_booking_contact_ticket.save()
+        else:
+            ErrorText = root[0][0].attrib['ShortText'] or 'None'
+            ErrorCode = root[0][0].attrib['Code'] or 'None'
+            Error.append({
+                'ErrorText': ErrorText,
+                'ErrorCode': ErrorCode
+            })
 
 
 def data_handle(selected_operation_number):

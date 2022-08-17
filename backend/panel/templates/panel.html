@@ -3,167 +3,144 @@
 {% block title %}Admin Panel{% endblock %}
 {% block main %}
 <div class="container">
-    <div class="row">
-        <div class="col box4 d-flex flex-column justify-content-center align-items-center">
-            <h2 class="fw-bold mb-2 color1">Admin Panel</h2>
-            <h4>Hi Admin!</h4>
-        </div>
-        <div class="col-5 d-flex box5 bg2 text-start align-self-center ms-3 justify-content-center">
-            <div class="align-self-center">
-                <h3 class="fw-bold mb-2">{{total_search_number}}</h3>
-                <h4>Searches Number</h4>
-            </div>
-        </div>
-    </div>
-    <div class="row mt-3">
-        <div class="col-3 d-flex box6 bg4 text-start align-self-center justify-content-center">
-            <div class="align-self-center">
-                <h3 class="fw-bold mb-2">{{total_ticket_number}}</h3>
-                <h4>Tickets Number</h4>
-            </div>
-        </div>
-        <div class="col d-flex box6 bg3 text-start align-self-center mx-3 justify-content-center">
-            <div class="align-self-center">
-                <h3 class="fw-bold mb-2">{{total_passenger_number}}</h3>
-                <h4>Passengers Number</h4>
-            </div>
-        </div>
-        <div class="col-3 d-flex box6 bg1 text-start align-self-center justify-content-center">
-            <div class="align-self-center">
-                <h3 class="fw-bold mb-2">{{total_ticket_price}} RUB</h3>
-                <h4>Total Tickets Price</h4>
-            </div>
-        </div>
-    </div>
+	<div class="row">
+		<div class="col box4 d-flex flex-column justify-content-center align-items-center">
+			<h2 class="fw-bold mb-2 color1">Admin Panel</h2>
+			<h4>Hi Admin!</h4>
+		</div>
+		<div class="col-5 d-flex box5 bg2 text-start align-self-center ms-3 justify-content-center">
+			<div class="align-self-center">
+				<h3 class="fw-bold mb-2">{{total_search_number}}</h3>
+				<h4>Searches Number</h4>
+			</div>
+		</div>
+	</div>
+	<div class="row mt-3">
+		<div class="col-3 d-flex box6 bg4 text-start align-self-center justify-content-center">
+			<div class="align-self-center">
+				<h3 class="fw-bold mb-2">{{total_ticket_number}}</h3>
+				<h4>Tickets Number</h4>
+			</div>
+		</div>
+		<div class="col d-flex box6 bg3 text-start align-self-center mx-3 justify-content-center">
+			<div class="align-self-center">
+				<h3 class="fw-bold mb-2">{{total_passenger_number}}</h3>
+				<h4>Passengers Number</h4>
+			</div>
+		</div>
+		<div class="col-3 d-flex box6 bg1 text-start align-self-center justify-content-center">
+			<div class="align-self-center">
+				<h3 class="fw-bold mb-2">{{total_ticket_price}} RUB</h3>
+				<h4>Total Tickets Price</h4>
+			</div>
+		</div>
+	</div>
 </div>
 <div class="container mt-5">
-        <div class="row">
-            <div class="col-3">
-                <h3 style="margin-bottom: -15px;">Your Tickets</h3>
-            </div>
-            <div class="col border-bottom">
-            </div>
-            <div class="col-3 ms-4">
-                <form method="POST" id="get-form" class="d-flex" style="margin-bottom: -15px;">
-                    {% csrf_token %}
-                    <input class="form-control me-3" placeholder="Search..." id="search_input" name="search_input"/>
-                    <button class="btn btn-danger fw-bold px-4 text-white" type="submit">
-                        <i class="fa fa-search"></i>
-                        Search
-                    </button>
-                </form>
-            </div>
-        </div>
-        <div class="row mt-5">
-            <div class="col">
-                <div id="panelLoader">
-                    <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_h7uimaj6.json"
-                                   background="transparent"  speed="1"  style="width: 300px; height: 300px; margin: auto;"  loop autoplay></lottie-player>
-                </div>
-                <div id="panelShowresults" class="carousel" data-flickity='{ "freeScroll": true, "contain": true, "prevNextButtons": false, "pageDots": false }'>
-                    {% for user_ticket in user_tickets %}
-                        <div class="carousel-cell mx-4 text-bg-light p-4 rounded">
-                            <form method="POST" action="{% url 'UserBookedTicketPage' bookingReferenceID=user_ticket.bookingReferenceID %}">
-                                {% csrf_token %}
-                                <div class="d-flex align-items-center">
-                                    <div class="col-5">
-                                        <h4>{{ user_ticket.departureAirportLocationCode }}</h4>
-                                        <p>{{ user_ticket.departureAirportLocationName }}</p>
-                                    </div>
-                                    <div class="col-2 text-center">
-                                        <div class="d-flex align-items-center justify-content-center"><i class="bi bi-arrow-right fs-4"></i></div>
-                                        {% if user_ticket.return_Status != None %}
-                                            <div class="d-flex align-items-center"><i class="bi bi-arrow-right fs-4"></i></div>
-                                        {% endif %}
-                                    </div>
-                                    <div class="col-5 text-end">
-                                        <h4>{{ user_ticket.arrivalAirportLocationCode }}</h4>
-                                        <p>{{ user_ticket.arrivalAirportLocationName }}</p>
-                                    </div>
-                                </div>
-                                <p class="text-muted mt-3">User</p>
-                                {% if user_ticket.user.first_name %}
-                                    <p>{{ user_ticket.user.first_name }} {{ user_ticket.user.last_name }}</p>
-                                {% else %}
-                                    <p>{{ user_ticket.user.username }}</p>
-                                {% endif %}
-                                <p class="text-muted mt-2">Booking Reference ID</p>
-                                <p>{{ user_ticket.bookingReferenceID }}</p>
-                                <p class="text-muted mt-2">Created Date Time</p>
-                                <p>{{ user_ticket.createdDateTime }}</p>
-                                <p class="text-muted mt-2">Departure Date</p>
-                                <p>{{ user_ticket.departureDate }}</p>
-                                <button type="submit" class="btn button1 border-none px-4 py-2 w-100 mt-4">Ticket Info</button>
-                            </form>
-                            <form method="POST" action="{% url 'canceling_fee' bookingReferenceID=user_ticket.bookingReferenceID %}">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-outline-danger px-4 py-2 w-100 mt-3">Cancel Ticket</button>
-                            </form>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
+	<div class="row">
+		<div class="col-3">
+			<h3 style="margin-bottom: -15px;">Your Tickets</h3>
+		</div>
+		<div class="col border-bottom">
+		</div>
+		<div class="col-3 ms-4">
+			<form method="POST" id="get-form" class="d-flex" style="margin-bottom: -15px;">
+				{% csrf_token %}
+				<input class="form-control me-3" placeholder="Search..." id="search_input" name="search_input"/>
+				<button class="btn btn-danger fw-bold px-4 text-white" type="submit">
+					<i class="fa fa-search"></i>
+					Search
+				</button>
+			</form>
+		</div>
+	</div>
+	<div class="row mt-5">
+		<div class="col">
+			<div id="panelLoader">
+				<lottie-player src="https://assets10.lottiefiles.com/packages/lf20_h7uimaj6.json"
+				               background="transparent" speed="1" style="width: 300px; height: 300px; margin: auto;"
+				               loop autoplay></lottie-player>
+			</div>
+			<div id="panelShowresults" class="carousel"
+			     data-flickity='{ "freeScroll": true, "contain": true, "prevNextButtons": false, "pageDots": false }'>
+				{% for user_ticket in user_tickets %}
+				<div class="carousel-cell mx-4 text-bg-light p-4 rounded">
+					<form method="POST"
+					      action="{% url 'UserBookedTicketPage' bookingReferenceID=user_ticket.bookingReferenceID %}">
+						{% csrf_token %}
+						<div class="d-flex align-items-center">
+							<div class="col-5">
+								<h4>{{ user_ticket.departureAirportLocationCode }}</h4>
+								<p>{{ user_ticket.departureAirportLocationName }}</p>
+							</div>
+							<div class="col-2 text-center">
+								<div class="d-flex align-items-center justify-content-center"><i
+										class="bi bi-arrow-right fs-4"></i></div>
+								{% if user_ticket.return_Status != None %}
+								<div class="d-flex align-items-center"><i class="bi bi-arrow-right fs-4"></i></div>
+								{% endif %}
+							</div>
+							<div class="col-5 text-end">
+								<h4>{{ user_ticket.arrivalAirportLocationCode }}</h4>
+								<p>{{ user_ticket.arrivalAirportLocationName }}</p>
+							</div>
+						</div>
+						<p class="text-muted mt-3">User</p>
+						{% if user_ticket.user.first_name %}
+						<p>{{ user_ticket.user.first_name }} {{ user_ticket.user.last_name }}</p>
+						{% else %}
+						<p>{{ user_ticket.user.username }}</p>
+						{% endif %}
+						<p class="text-muted mt-2">Booking Reference ID</p>
+						<p>{{ user_ticket.bookingReferenceID }}</p>
+						<p class="text-muted mt-2">Created Date Time</p>
+						<p>{{ user_ticket.createdDateTime }}</p>
+						<p class="text-muted mt-2">Departure Date</p>
+						<p>{{ user_ticket.departureDate }}</p>
+						<p class="text-muted mt-2">Ticket Status</p>
+						<p>{{ user_ticket.ticketStatus }}</p>
+						<button type="submit" class="btn button1 border-none px-4 py-2 w-100 mt-4">Ticket Info</button>
+					</form>
+					<form method="POST"
+					      action="{% url 'canceling_fee' bookingReferenceID=user_ticket.bookingReferenceID %}">
+						{% csrf_token %}
+						<button type="submit" class="btn btn-outline-danger px-4 py-2 w-100 mt-3">Cancel Ticket</button>
+					</form>
+					<form method="POST"
+					      action="{% url 'edit_booking_contact' bookingReferenceID=user_ticket.bookingReferenceID %}">
+						{% csrf_token %}
+						<button type="submit" class="btn btn-outline-warning px-4 py-2 w-100 mt-3">Edit Contact Info
+						</button>
+					</form>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
 
 
-        </div>
-    </div>
+	</div>
+</div>
 <div class="container">
-    <div class="row mt-5">
-        <div class="col-3">
-            <h3 style="margin-bottom: -15px;">Searched Flights</h3>
-        </div>
-        <div class="col-9 border-bottom">
-        </div>
-    </div>
-    <div class="row mt-5">
-            {% for data in searched_data %}
-            <div class="alert alert-secondary" role="alert">
-                {{ data.origin }} to {{ data.destination }} on {{ data.departureDateTime }} - Adults: {{ data.adultNum}}, Children: {{ data.childNum }}, Infants: {{ data.infantNum }}
-            </div>
-            {% endfor %}
-    </div>
+	<div class="row mt-5">
+		<div class="col-3">
+			<h3 style="margin-bottom: -15px;">Searched Flights</h3>
+		</div>
+		<div class="col-9 border-bottom">
+		</div>
+	</div>
+	<div class="row mt-5">
+		{% for data in searched_data %}
+		<div class="alert alert-secondary" role="alert">
+			{{ data.origin }} to {{ data.destination }} on {{ data.departureDateTime }} - Adults: {{ data.adultNum}},
+			Children: {{ data.childNum }}, Infants: {{ data.infantNum }}
+		</div>
+		{% endfor %}
+	</div>
 </div>
 
 
 {% endblock %}
 {% block script %}
 
-        $('#panelLoader').fadeOut();
-        // Submit post on submit
-        $('#get-form').on('submit', function(event){
-            event.preventDefault();
-            create_post();
-        });
-        // AJAX for posting
-        function create_post() {
-            $.ajax({
-                url : "", // the endpoint
-                type : "POST", // http method
-                beforeSend: function () {
-                    $('#panelLoader').fadeIn();
-                    $('.carousel').flickity('destroy');
-                    $('#panelShowresults').fadeOut();
-                    },
-                data : {
-                    search_input : $('#search_input').val(),
-                    csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
-                }, // data sent with the post request
-
-                // handle a successful response
-                success : function(json) {
-                    $('#panelLoader').fadeOut();
-                    $('#panelShowresults').fadeIn();
-                    var result = $('<div />').append(json).find('#panelShowresults').html();
-                    $('#panelShowresults').html(result);
-                    $('.carousel').flickity({
-                        freeScroll: true,
-                        contain: true,
-                        // disable previous & next buttons and dots
-                        prevNextButtons: false,
-                        pageDots: false
-                    });
-                },
-            });
-        };
 
 {% endblock %}

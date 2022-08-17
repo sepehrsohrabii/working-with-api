@@ -1,5 +1,5 @@
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
 
 
 class SearchData(models.Model):
@@ -17,6 +17,11 @@ class SearchData(models.Model):
 
 
 class BookedTicket(models.Model):
+    STATUS = (
+        ('Booked', 'Booked'),
+        ('Canceled', 'Canceled'),
+    )
+    ticketStatus = models.CharField(max_length=50, choices=STATUS)
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     echoToken = models.CharField(max_length=10)
@@ -79,6 +84,7 @@ class BookedTicket(models.Model):
 
     fareRuleText = models.TextField(blank=True, null=True)
 
+
 class PassengerType(models.Model):
     id = models.AutoField(primary_key=True)
     ticket = models.ForeignKey(BookedTicket, on_delete=models.CASCADE, null=True, blank=True)
@@ -124,5 +130,3 @@ class PassengerInfo(models.Model):
 
     ticketingTravelerRefNumber = models.CharField(max_length=50)
     ticketingTicketDocumentNbr = models.CharField(max_length=50)
-
-
