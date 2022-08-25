@@ -389,6 +389,9 @@ a:focus {
   color: #7c3e66 !important;
   text-decoration: inherit !important;
 }
+.border1 {
+	border: 2px solid red;
+}
 .button1 {
   background-color: var(--color3);
   color: white !important;
@@ -860,3 +863,7 @@ option:hover,
 .active {
   background-color: var(--color4);
 }
+.carousel-cell {
+  width: 300px; /* full width */
+  height: 680px;
+ }

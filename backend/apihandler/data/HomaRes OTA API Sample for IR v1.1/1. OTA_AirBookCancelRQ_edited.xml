@@ -1,4 +1,4 @@
-<ns0:OTA_AirBookModifyRQ xmlns:ns0="http://www.opentravel.org/OTA/2003/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opentravel.org/OTA/2003/05    OTA_AirBookModifyRQ.xsd" EchoToken="10001" TimeStamp="2022-08-16T18:08:25" Target="Test" Version="2.001" SequenceNmbr="1" PrimaryLangID="En-us">
+<ns0:OTA_AirBookModifyRQ xmlns:ns0="http://www.opentravel.org/OTA/2003/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opentravel.org/OTA/2003/05    OTA_AirBookModifyRQ.xsd" EchoToken="67508" TimeStamp="2022-08-25T20:37:32" Target="Test" Version="2.001" SequenceNmbr="1" PrimaryLangID="En-us">
 	<ns0:POS>
 	   <ns0:Source AirlineVendorID="IR" ISOCountry="IR" ISOCurrency="RUB">
 	       <ns0:RequestorID Type="5" ID="MOW07603" />
@@ -20,7 +20,7 @@
         <ns0:AirItinerary DirectionInd="OneWay">
             <ns0:OriginDestinationOptions>
                <ns0:OriginDestinationOption>
-                  <ns0:FlightSegment Status="39" FlightNumber="IR468" FareBasisCode="K1451" ResBookDesigCode="K" DepartureDateTime="2022-08-24T19:05:00" ArrivalDateTime="2022-08-24T20:35:00" StopQuantity="0" RPH="1267945">
+                  <ns0:FlightSegment Status="39" FlightNumber="IR468" FareBasisCode="N1451" ResBookDesigCode="N" DepartureDateTime="2022-08-31T19:05:00" ArrivalDateTime="2022-08-31T20:35:00" StopQuantity="0" RPH="1289453">
                      <ns0:DepartureAirport LocationCode="THR" LocationName="Mehrabad Airport" />
                      <ns0:ArrivalAirport LocationCode="MHD" LocationName="Mashad Airport" />
                      <ns0:OperatingAirline Code="IR" />
@@ -35,10 +35,10 @@
                    <ns0:DirectBill DirectBill_ID="MOW07603">
                       <ns0:CompanyName CompanyShortName="PERSINO" Code="MOW07603" AgentType="GLBL_SALE_AGNT" />
                    </ns0:DirectBill>
-                   <ns0:PaymentAmount CurrencyCode="RUB" DecimalPlaces="0" Amount="5961" />
+                   <ns0:PaymentAmount CurrencyCode="RUB" DecimalPlaces="0" Amount="3736" />
                 </ns0:PaymentDetail>
              </ns0:PaymentDetails>
         </ns0:Fulfillment>
-        <ns0:BookingReferenceID Status="39" Instance="0" ID="SA2TQB" ID_Context="BookingRef" />
+        <ns0:BookingReferenceID Status="39" Instance="0" ID="C6IRFE" ID_Context="BookingRef" />
     </ns0:AirReservation>
 </ns0:OTA_AirBookModifyRQ>

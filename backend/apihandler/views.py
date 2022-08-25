@@ -23,6 +23,7 @@ Travelers_info = []
 Ticketing_RefDocNUM = []
 Ticket = {}
 Ticket_List = []
+cancel_fee_rs = {}
 
 
 def home_page(request):
@@ -165,6 +166,7 @@ def canceling_fee(request, bookingReferenceID):
     Error.clear()
     canceling_fee_ticket = BookedTicket.objects.get(bookingReferenceID=bookingReferenceID)
     selected_operation_number = 6
+    EchoToken = random.randint(10000, 99999)
     data_handle(selected_operation_number)
     if request.POST.get('DELETE') == 'DELETE':
         selected_operation_number = 7
@@ -177,19 +179,37 @@ def canceling_fee(request, bookingReferenceID):
 
 
 @login_required(login_url='loginView')
-def split_booking(request, bookingReferenceID, documentId):
+def split_booking(request):
+    global Splited_BookingReferenceID
     global split_booking_ticket
     global split_booking_person
+    global total_passengers
     Error.clear()
-    split_booking_ticket = BookedTicket.objects.get(bookingReferenceID=bookingReferenceID)
-    split_booking_person = PassengerInfo.objects.get(documentId=documentId)
-    if request.POST.get('DELETE') == 'DELETE':
-        selected_operation_number = 8
+
+    total_passengers = PassengerInfo.objects.all()
+
+    split_bookingReferenceID = request.POST.get('split_bookingReferenceID')
+    split_booking_ticket = BookedTicket.objects.get(bookingReferenceID=split_bookingReferenceID)
+    splitSelectInput = request.POST.get('splitSelectInput')
+    documentId = splitSelectInput.split(':')[0]
+    firstName = splitSelectInput.split(':')[1]
+    lastName = splitSelectInput.split(':')[2]
+    split_booking_person = PassengerInfo.objects.filter(personNameGivenName=firstName, personNameSurname=lastName,
+                                                        documentId=documentId)[0]
+    selected_operation_number = 8
+    data_handle(selected_operation_number)
+    if len(Error) == 0:
+        for passenger in PassengerInfo.objects.all():
+            if passenger.ticket == split_booking_ticket:
+                passenger.delete()
+        split_booking_ticket.delete()
+        BookingReferenceID = split_bookingReferenceID
+        selected_operation_number = 5
         data_handle(selected_operation_number)
-        return redirect('userProfile')
-    return render(request, './split_booking.html', {
-        'Error': Error,
-    })
+        selected_operation_number = 5
+        data_handle(selected_operation_number)
+
+    return redirect('userProfile')
 
 
 @login_required(login_url='loginView')
@@ -519,6 +539,95 @@ def write_on_xml(selected_operation_number):
         root[2][2].attrib['Instance'] = canceling_fee_ticket.bookingReferenceIDInstance
         root[2][2].attrib['ID'] = canceling_fee_ticket.bookingReferenceID
         root[2][2].attrib['ID_Context'] = canceling_fee_ticket.bookingReferenceID_Context
+
+    elif selected_operation_number == 8:
+        root.attrib['EchoToken'] = split_booking_ticket.echoToken
+        root[1].attrib['ModificationType'] = '6'
+        root[1][0][0].attrib['BirthDate'] = split_booking_person.airTravelerBirthDate
+        root[1][0][0].attrib['PassengerTypeCode'] = split_booking_person.airTravelerPassengerTypeCode
+        root[1][0][0].attrib['AccompaniedByInfantInd'] = split_booking_person.airTravelerABIInd
+        root[1][0][0].attrib['TravelerNationality'] = split_booking_person.airTravelerTravelerNationality
+        root[1][0][0].attrib['Gender'] = split_booking_person.airTravelerGender
+        root[1][0][0][0][0].text = split_booking_person.personNameNamePrefix
+        root[1][0][0][0][1].text = split_booking_person.personNameGivenName
+        root[1][0][0][0][2].text = split_booking_person.personNameSurname
+        root[1][0][0][1].attrib['DocID'] = split_booking_person.documentId
+        root[1][0][0][1].attrib['DocType'] = split_booking_person.documentType
+        root[1][0][0][1].attrib['DocHolderNationality'] = split_booking_person.documentHolderNationality
+        root[1][0][0][2].attrib['RPH'] = split_booking_person.travelerRefNumberRPH
+
+        root[2][0].attrib['DirectionInd'] = "OneWay"
+        root[2][0][0][0][0].attrib['Status'] = split_booking_ticket.status
+        root[2][0][0][0][0].attrib['FlightNumber'] = split_booking_ticket.flightNumber
+        root[2][0][0][0][0].attrib['ResBookDesigCode'] = split_booking_ticket.resBookDesigCode
+        root[2][0][0][0][0].attrib['FareBasisCode'] = split_booking_ticket.fareBasisCode
+        root[2][0][0][0][0].attrib['DepartureDateTime'] = str(split_booking_ticket.departureDate) + 'T' + \
+                                                          str(split_booking_ticket.departureTime)
+        root[2][0][0][0][0].attrib['ArrivalDateTime'] = str(split_booking_ticket.arrivalDate) + 'T' + \
+                                                        str(split_booking_ticket.arrivalTime)
+        root[2][0][0][0][0].attrib['StopQuantity'] = split_booking_ticket.stopQuantity
+        root[2][0][0][0][0].attrib['RPH'] = split_booking_ticket.RPH
+        root[2][0][0][0][0][0].attrib['LocationCode'] = split_booking_ticket.departureAirportLocationCode
+        root[2][0][0][0][0][0].attrib['LocationName'] = split_booking_ticket.departureAirportLocationName
+        root[2][0][0][0][0][1].attrib['LocationCode'] = split_booking_ticket.arrivalAirportLocationCode
+        root[2][0][0][0][0][1].attrib['LocationName'] = split_booking_ticket.arrivalAirportLocationName
+        root[2][0][0][0][0][2].attrib['Code'] = split_booking_ticket.operatingAirlineCode
+        root[2][0][0][0][0][3].attrib['AirEquipType'] = split_booking_ticket.equipmentAirEquipType
+
+        if split_booking_ticket.directionInd == 'Return':
+            root[2][0].attrib['DirectionInd'] = 'Return'
+            root[2][0][0][0].append(deepcopy(root[2][0][0][0][0]))
+            root[2][0][0][0][1].attrib['Status'] = split_booking_ticket.return_Status
+            root[2][0][0][0][1].attrib['FlightNumber'] = split_booking_ticket.return_FlightNumber
+            root[2][0][0][0][1].attrib['FareBasisCode'] = split_booking_ticket.return_FareBasisCode
+            root[2][0][0][0][1].attrib['ResBookDesigCode'] = split_booking_ticket.return_ResBookDesigCode
+            root[2][0][0][0][1].attrib['DepartureDateTime'] = str(split_booking_ticket.return_DepartureDate) + 'T' + \
+                                                              str(split_booking_ticket.return_DepartureTime)
+            root[2][0][0][0][1].attrib['ArrivalDateTime'] = str(split_booking_ticket.return_ArrivalDate) + 'T' + \
+                                                            str(split_booking_ticket.return_ArrivalTime)
+            root[2][0][0][0][1].attrib['StopQuantity'] = split_booking_ticket.return_StopQuantity
+            root[2][0][0][0][1].attrib['RPH'] = split_booking_ticket.return_RPH
+
+            root[2][0][0][0][1][0].attrib['LocationCode'] = split_booking_ticket.return_DepartureAirportLocationCode
+            root[2][0][0][0][1][0].attrib['LocationName'] = split_booking_ticket.return_DepartureAirportLocationName
+            root[2][0][0][0][1][1].attrib['LocationCode'] = split_booking_ticket.return_ArrivalAirportLocationCode
+            root[2][0][0][0][1][1].attrib['LocationName'] = split_booking_ticket.return_ArrivalAirportLocationName
+            root[2][0][0][0][1][2].attrib['Code'] = split_booking_ticket.return_OperatingAirlineCode
+            root[2][0][0][0][1][3].attrib['AirEquipType'] = split_booking_ticket.return_EquipmentAirEquipType
+
+        i = 0
+        for passenger in total_passengers:
+            if passenger.ticket == split_booking_ticket:
+                if 0 < i != len(root[2][1]):  ####### working on here #######
+                    root[2][1].append(deepcopy(root[2][1][i - 1]))
+                root[2][1][i].attrib['BirthDate'] = passenger.airTravelerBirthDate
+                root[2][1][i].attrib['PassengerTypeCode'] = passenger.airTravelerPassengerTypeCode
+                root[2][1][i].attrib['AccompaniedByInfantInd'] = passenger.airTravelerABIInd
+                root[2][1][i].attrib['Gender'] = passenger.airTravelerGender
+                root[2][1][i].attrib['TravelerNationality'] = passenger.airTravelerTravelerNationality
+                root[2][1][i][0][0].text = passenger.personNameNamePrefix
+                root[2][1][i][0][1].text = passenger.personNameGivenName
+                root[2][1][i][0][2].text = passenger.personNameSurname
+                root[2][1][i][1].attrib['DocID'] = passenger.documentId
+                root[2][1][i][1].attrib['DocType'] = passenger.documentType
+                root[2][1][i][1].attrib['DocHolderNationality'] = passenger.documentHolderNationality
+                root[2][1][i][2].attrib['RPH'] = passenger.travelerRefNumberRPH
+                i = i + 1
+
+        root[2][2][0][0].attrib['PaymentType'] = split_booking_ticket.paymentType
+        root[2][2][0][0][0].attrib['DirectBill_ID'] = split_booking_ticket.directBill_ID
+        root[2][2][0][0][0][0].attrib['CompanyShortName'] = split_booking_ticket.companyShortName
+        root[2][2][0][0][0][0].attrib['Code'] = split_booking_ticket.companyCode
+        root[2][2][0][0][0][0].attrib['AgentType'] = split_booking_ticket.companyAgentType
+
+        root[2][2][0][0][1].attrib['CurrencyCode'] = split_booking_ticket.paymentAmountCurrencyCode
+        root[2][2][0][0][1].attrib['DecimalPlaces'] = split_booking_ticket.paymentAmountDecimalPlaces
+        root[2][2][0][0][1].attrib['Amount'] = split_booking_ticket.paymentAmountAmount
+
+        root[2][3].attrib['Status'] = split_booking_ticket.bookingReferenceIDStatus
+        root[2][3].attrib['Instance'] = split_booking_ticket.bookingReferenceIDInstance
+        root[2][3].attrib['ID'] = split_booking_ticket.bookingReferenceID
+        root[2][3].attrib['ID_Context'] = split_booking_ticket.bookingReferenceID_Context
 
     elif selected_operation_number == 9:
         root.attrib['EchoToken'] = edit_booking_contact_ticket.echoToken
@@ -1150,7 +1259,7 @@ def read_from_xml(selected_operation_number, respath):
                 passengerInfo.save()
 
     elif selected_operation_number == 6:
-        global cancel_fee_rs
+        # global cancel_fee_rs
         Fee_Tax_List = []
         if 'Success' in root[0].tag:
             Fee_Tax_List.clear()
@@ -1189,6 +1298,17 @@ def read_from_xml(selected_operation_number, respath):
         if 'Success' in root[0].tag:
             canceling_fee_ticket.ticketStatus = 'Canceled'
             canceling_fee_ticket.save()
+        else:
+            ErrorText = root[0][0].attrib['ShortText'] or 'None'
+            ErrorCode = root[0][0].attrib['Code'] or 'None'
+            Error.append({
+                'ErrorText': ErrorText,
+                'ErrorCode': ErrorCode
+            })
+    elif selected_operation_number == 8:
+        if 'Success' in root[0].tag:
+            Splited_BookingReferenceID = root[1][7].attrib['ID']
+
         else:
             ErrorText = root[0][0].attrib['ShortText'] or 'None'
             ErrorCode = root[0][0].attrib['Code'] or 'None'

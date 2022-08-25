@@ -1,9 +1,10 @@
+from accounts.models import UserInfo
+from apihandler.views import split_booking
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
-from django.contrib.auth.models import User
-from accounts.models import UserInfo
-from search_data.models import BookedTicket, PassengerType, Tax, PassengerInfo, SearchData
-from django.contrib.auth import authenticate, login, logout
+from search_data.models import BookedTicket, PassengerType, Tax, PassengerInfo
 
 
 def loginView(request):
@@ -31,7 +32,7 @@ def signupView(request):
         firstName = request.POST.get('firstName')
         lastName = request.POST.get('lastName')
         email = request.POST.get('email')
-        userName= email
+        userName = email
         phoneNumber = request.POST.get('phoneNumber')
         password = request.POST.get('password')
 
@@ -58,13 +59,20 @@ def signupView(request):
 
 def logoutView(request):
     logout(request)
-    
+
     return redirect('/accounts/login/')
 
 
 def userProfile(request):
     user_tickets = BookedTicket.objects.filter(user=request.user).order_by('-createdDateTime')
-    return render(request, './profile.html', {'user_tickets': user_tickets})
+    ticket_passengers = PassengerInfo.objects.all()
+    if request.method == 'POST' and request.POST.get('split_bookingReferenceID'):
+        split_booking(request)
+    return render(request, './profile.html', {
+        'user_tickets': user_tickets,
+        'ticket_passengers': ticket_passengers,
+    })
+
 
 def UserBookedTicketPage(request, bookingReferenceID):
     passenger_type_taxes = []
