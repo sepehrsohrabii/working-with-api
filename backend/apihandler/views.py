@@ -24,6 +24,8 @@ Ticketing_RefDocNUM = []
 Ticket = {}
 Ticket_List = []
 cancel_fee_rs = {}
+split_bookingReferenceID = ''
+Split_BookID = []
 
 
 def home_page(request):
@@ -180,10 +182,11 @@ def canceling_fee(request, bookingReferenceID):
 
 @login_required(login_url='loginView')
 def split_booking(request):
-    global Splited_BookingReferenceID
     global split_booking_ticket
     global split_booking_person
     global total_passengers
+    global Splited_bookingReferenceID
+    global BookingReferenceID
     Error.clear()
 
     total_passengers = PassengerInfo.objects.all()
@@ -204,12 +207,19 @@ def split_booking(request):
                 passenger.delete()
         split_booking_ticket.delete()
         BookingReferenceID = split_bookingReferenceID
+        Split_BookID.append(split_bookingReferenceID)
+        print(BookingReferenceID)
+        Ticket_List.clear()
         selected_operation_number = 5
         data_handle(selected_operation_number)
+        BookingReferenceID = Split_BookID[0]
+        print(BookingReferenceID)
+        Ticket_List.clear()
         selected_operation_number = 5
         data_handle(selected_operation_number)
-
-    return redirect('userProfile')
+        print(Split_BookID)
+        Split_BookID.clear()
+    return redirect('userProfile'), BookingReferenceID
 
 
 @login_required(login_url='loginView')
@@ -270,10 +280,11 @@ def source_table():
 
 
 def write_on_xml(selected_operation_number):
+    global BookingReferenceID
     Agent_id = 'MOW07603'
     Operation, Request_Schema, Response_Schema, Resource = source_table()
     selected_operation = Operation[selected_operation_number - 1]
-    print('you select %s' % selected_operation)
+    # print('you select %s' % selected_operation)
     selected_Request_Schema = Request_Schema[selected_operation_number - 1]
     path = '/home/sepehr/Desktop/working-with-api/backend/apihandler/data/HomaRes OTA API Sample for IR v1.1/1. {}.xml'.format(
         selected_Request_Schema[:-4])
@@ -286,13 +297,11 @@ def write_on_xml(selected_operation_number):
     root.attrib['Target'] = 'Test'  # Test or Production
     root.attrib['TimeStamp'] = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S')
 
-    # root.attrib['EchoToken'] = '50987'
-    # root.attrib['EchoToken'] = '11231'
-
     if selected_operation_number == 1:
         root[1].text = pingRQ
 
     elif selected_operation_number == 2:
+        EchoToken = random.randint(10000, 99999)
         root.attrib['EchoToken'] = str(EchoToken)
         if return_date == 'None':
             root[1][0].text = departureTime
@@ -319,6 +328,7 @@ def write_on_xml(selected_operation_number):
             root[4][0][2].attrib['Quantity'] = INFNumber
 
     elif selected_operation_number == 3:
+        EchoToken = random.randint(10000, 99999)
         root.attrib['EchoToken'] = str(EchoToken)
         root[1][0][0].attrib['FlightNumber'] = selected_flight[0]['FlightNumber']
         root[1][0][0].attrib['ResBookDesigCode'] = selected_flight[0]['ResBookDesigCode']
@@ -346,6 +356,7 @@ def write_on_xml(selected_operation_number):
             n = n + 1
 
     elif selected_operation_number == 4:
+        EchoToken = random.randint(10000, 99999)
         root.attrib['EchoToken'] = str(EchoToken)
         root[1].attrib['DirectionInd'] = "OneWay"
         root[1][0][0][0].attrib['FlightNumber'] = selected_flight[0]['FlightNumber']
@@ -392,7 +403,7 @@ def write_on_xml(selected_operation_number):
 
         i = 0
         for passenger in passengers:
-            if i > 0:
+            if 0 < i and len(root[3]) == i:
                 root[3].append(deepcopy(root[3][i - 1]))
             root[3][i].attrib['BirthDate'] = passenger['BirthDate']
             root[3][i].attrib['PassengerTypeCode'] = passenger['TypeCode']
@@ -424,8 +435,10 @@ def write_on_xml(selected_operation_number):
         root[5][0][0][1].attrib['Amount'] = selected_flight[0]['TotalFare_Amount']
 
     elif selected_operation_number == 5:
+        EchoToken = random.randint(10000, 99999)
         root.attrib['EchoToken'] = str(EchoToken)
         root[1].attrib['ID'] = BookingReferenceID
+        print('write_on_xml5: ', BookingReferenceID)
 
     elif selected_operation_number == 6:
         root.attrib['EchoToken'] = canceling_fee_ticket.echoToken
@@ -473,7 +486,6 @@ def write_on_xml(selected_operation_number):
         root[2][1].attrib['Instance'] = canceling_fee_ticket.bookingReferenceIDInstance
         root[2][1].attrib['ID'] = canceling_fee_ticket.bookingReferenceID
         root[2][1].attrib['ID_Context'] = canceling_fee_ticket.bookingReferenceID_Context
-
 
     elif selected_operation_number == 7:
         root.attrib['EchoToken'] = canceling_fee_ticket.echoToken
@@ -598,7 +610,7 @@ def write_on_xml(selected_operation_number):
         i = 0
         for passenger in total_passengers:
             if passenger.ticket == split_booking_ticket:
-                if 0 < i != len(root[2][1]):  ####### working on here #######
+                if 0 < i and len(root[2][1]) == i:
                     root[2][1].append(deepcopy(root[2][1][i - 1]))
                 root[2][1][i].attrib['BirthDate'] = passenger.airTravelerBirthDate
                 root[2][1][i].attrib['PassengerTypeCode'] = passenger.airTravelerPassengerTypeCode
@@ -650,9 +662,8 @@ def write_on_xml(selected_operation_number):
 
 
 def read_from_xml(selected_operation_number, respath):
-    global BookingReferenceID
     global FareRule
-
+    global BookingReferenceID
     Operation, Request_Schema, Response_Schema, Resource = source_table()
     tree = ET.parse(respath)
     root = tree.getroot()
@@ -891,11 +902,9 @@ def read_from_xml(selected_operation_number, respath):
             })
 
     elif selected_operation_number == 5:
-
         if 'Success' in root[0].tag:
             CreatedDateTme = root[1].attrib['CreatedDateTme']
             DirectionInd = root[1][0].attrib['DirectionInd']
-
             FlightSegment = root[1][0][0][0][0]
             Status = FlightSegment.attrib['Status']
             FlightNumber = FlightSegment.attrib['FlightNumber']
@@ -919,7 +928,6 @@ def read_from_xml(selected_operation_number, respath):
             ArrivalAirportLocationName = FlightSegment[1].attrib['LocationName']
             OperatingAirlineCode = FlightSegment[2].attrib['Code']
             EquipmentAirEquipType = FlightSegment[3].attrib['AirEquipType']
-
             Return_FlightSegment = ''
             Return_Status = ''
             Return_FlightNumber = ''
@@ -1083,6 +1091,7 @@ def read_from_xml(selected_operation_number, respath):
             BookingReferenceIDStatus = root[1][i].attrib['Status']
             BookingReferenceIDInstance = root[1][i].attrib['Instance']
             BookingReferenceID = root[1][i].attrib['ID']
+            print('BookingReferenceID: ', BookingReferenceID)
             BookingReferenceID_Context = root[1][i].attrib['ID_Context']
 
             Ticket = {
@@ -1144,10 +1153,11 @@ def read_from_xml(selected_operation_number, respath):
                 'BookingReferenceIDInstance': BookingReferenceIDInstance,
                 'BookingReferenceID': BookingReferenceID,
                 'BookingReferenceID_Context': BookingReferenceID_Context,
-                'FareRuleText': FareRule['FareRuleText'],
+                'FareRuleText': FareRule['FareRuleText'] or '',
             }
-
+            print('Ticket: ', Ticket)
             Ticket_List.append(Ticket)
+
             bookedTicket = BookedTicket()
             bookedTicket.ticketStatus = 'Booked'
             bookedTicket.user = user
@@ -1209,6 +1219,7 @@ def read_from_xml(selected_operation_number, respath):
             bookedTicket.bookingReferenceID = Ticket['BookingReferenceID']
             bookedTicket.bookingReferenceID_Context = Ticket['BookingReferenceID_Context']
             bookedTicket.fareRuleText = Ticket['FareRuleText']
+            print('bookedTicket: ', bookedTicket)
             bookedTicket.save()
             for PTC_FB in Ticket['PTC_FBs']:
                 passengerType = PassengerType()
@@ -1242,7 +1253,7 @@ def read_from_xml(selected_operation_number, respath):
                 passengerInfo.airTravelerBirthDate = traveler['AirTravelerBirthDate']
                 passengerInfo.airTravelerPassengerTypeCode = traveler['AirTravelerPassengerTypeCode']
                 passengerInfo.airTravelerABIInd = traveler['AirTravelerAccompaniedByInfantInd']
-                print(passengerInfo.airTravelerABIInd)
+                # print(passengerInfo.airTravelerABIInd)
                 passengerInfo.airTravelerTravelerNationality = traveler['AirTravelerTravelerNationality']
                 passengerInfo.airTravelerGender = traveler['AirTravelerGender']
                 passengerInfo.personNameNamePrefix = traveler['PersonNameNamePrefix']
@@ -1257,6 +1268,7 @@ def read_from_xml(selected_operation_number, respath):
                 passengerInfo.ticketingTicketDocumentNbr = Ticketing_RefDocNUM[i]['TicketingTicketDocumentNbr']
                 i = i + 1
                 passengerInfo.save()
+
 
     elif selected_operation_number == 6:
         # global cancel_fee_rs
@@ -1307,8 +1319,9 @@ def read_from_xml(selected_operation_number, respath):
             })
     elif selected_operation_number == 8:
         if 'Success' in root[0].tag:
-            Splited_BookingReferenceID = root[1][7].attrib['ID']
-
+            Splited_bookingReferenceID = root[1][7].attrib['ID']
+            Split_BookID.append(Splited_bookingReferenceID)
+            print(Splited_bookingReferenceID)
         else:
             ErrorText = root[0][0].attrib['ShortText'] or 'None'
             ErrorCode = root[0][0].attrib['Code'] or 'None'
