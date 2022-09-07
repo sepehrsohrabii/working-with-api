@@ -1,0 +1,23 @@
+<ns0:OTAPSS_AirFareRuleRQ xmlns:ns0="http://www.opentravel.org/OTA/2003/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opentravel.org/OTA/2003/05   OTAPSS_AirFareRuleRQ.xsd" EchoToken="81622" TimeStamp="2022-09-02T18:44:06" Target="Test" Version="2.001" SequenceNmbr="1" PrimaryLangID="En-us">
+    <ns0:POS>
+        <ns0:Source AirlineVendorID="IR" ISOCountry="IR" ISOCurrency="RUB">
+            <ns0:RequestorID Type="5" ID="MOW07603" />
+        </ns0:Source>
+    </ns0:POS>
+   <ns0:OriginDestinationOptions>
+      <ns0:OriginDestinationOption>
+        <ns0:FlightSegment FlightNumber="IR470" ResBookDesigCode="Y" DepartureDateTime="2022-09-04T16:00:00.000+04:30" ArrivalDateTime="2022-09-04T18:30:00.000+03:00" Duration="04:00:00" StopQuantity="0" RPH="46123">
+           <ns0:DepartureAirport LocationCode="IKA" />
+           <ns0:ArrivalAirport LocationCode="IST" />
+           <ns0:OperatingAirline Code="IR" />
+           <ns0:Equipment AirEquipType="A320" />
+           <ns0:BookingClassAvails>
+              <ns0:BookingClassAvail ResBookDesigCode="Y" ResBookDesigQuantity="9" />
+           </ns0:BookingClassAvails>
+        </ns0:FlightSegment>
+      </ns0:OriginDestinationOption>
+   </ns0:OriginDestinationOptions>
+   <ns0:FareBasisCodes>
+      <ns0:FareBasisCode FlightSegmentRPH="46123" fareRPH="25324">YIRTR22W</ns0:FareBasisCode>
+   </ns0:FareBasisCodes>
+</ns0:OTAPSS_AirFareRuleRQ>

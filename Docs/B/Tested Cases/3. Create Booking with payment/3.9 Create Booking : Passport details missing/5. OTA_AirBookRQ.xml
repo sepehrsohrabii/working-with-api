@@ -1,0 +1,58 @@
+<ns0:OTA_AirBookRQ xmlns:ns0="http://www.opentravel.org/OTA/2003/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opentravel.org/OTA/2003/05    OTA_AirBookRQ.xsd" EchoToken="78185" TimeStamp="2022-09-02T18:39:01" Target="Test" Version="2.001" SequenceNmbr="1" PrimaryLangID="En-us">
+    <ns0:POS>
+        <ns0:Source AirlineVendorID="IR" ISOCountry="IR" ISOCurrency="RUB">
+            <ns0:RequestorID Type="5" ID="MOW07603" />
+        </ns0:Source>
+    </ns0:POS>
+    <ns0:AirItinerary DirectionInd="OneWay">
+	            <ns0:OriginDestinationOptions>
+                    <ns0:OriginDestinationOption>
+                        <ns0:FlightSegment FlightNumber="IR468" ResBookDesigCode="F" DepartureDateTime="2022-09-15T19:05:00.000+04:30" ArrivalDateTime="2022-09-15T20:35:00.000+03:30" Duration="02:30:00" StopQuantity="0" RPH="43928">
+                            <ns0:DepartureAirport LocationCode="THR" />
+                            <ns0:ArrivalAirport LocationCode="MHD" />
+                            <ns0:OperatingAirline Code="IR" />
+                            <ns0:Equipment AirEquipType="A320" />
+                            <ns0:BookingClassAvails>
+                                <ns0:BookingClassAvail ResBookDesigCode="F" ResBookDesigQuantity="5" />
+                            </ns0:BookingClassAvails>
+                        </ns0:FlightSegment>
+                    </ns0:OriginDestinationOption>
+                </ns0:OriginDestinationOptions>
+	</ns0:AirItinerary>
+	<ns0:PriceInfo>
+        <ns0:ItinTotalFare>
+             <ns0:BaseFare CurrencyCode="RUB" DecimalPlaces="0" Amount="315" />
+             <ns0:TotalFare CurrencyCode="RUB" DecimalPlaces="0" Amount="368" />
+        </ns0:ItinTotalFare>
+	</ns0:PriceInfo>
+	<ns0:TravelerInfo>
+		<ns0:AirTraveler BirthDate="1995-05-05" PassengerTypeCode="ADT" AccompaniedByInfantInd="false" Gender="M" TravelerNationality="TR">
+			<ns0:PersonName>
+				<ns0:NamePrefix>Mr</ns0:NamePrefix>
+				<ns0:GivenName>Sepehr</ns0:GivenName>
+				<ns0:Surname>Sohrabpour</ns0:Surname>
+			</ns0:PersonName>
+			<ns0:TravelerRefNumber RPH="1" />
+			<ns0:Document DocID="" DocType="2" DocIssueCountry="TR" ExpireDate="2025-02-02" DocHolderNationality="TR" />
+		</ns0:AirTraveler>
+	</ns0:TravelerInfo>
+	<ns0:ContactPerson>
+            <ns0:PersonName>
+                <ns0:GivenName>sepehr</ns0:GivenName>
+                <ns0:Surname>sohrabi</ns0:Surname>
+            </ns0:PersonName>
+		  <ns0:Telephone PhoneNumber="(98)2232343212" />
+		  <ns0:HomeTelephone PhoneNumber="(98)2232343212" />
+        <ns0:Email>sepehr0sohrabi@gmail.com</ns0:Email>
+    </ns0:ContactPerson>
+    <ns0:Fulfillment>
+        <ns0:PaymentDetails>
+            <ns0:PaymentDetail PaymentType="2">
+                <ns0:DirectBill DirectBill_ID="MOW07603">
+                    <ns0:CompanyName CompanyShortName="PERSINO" Code="MOW07603" />
+                </ns0:DirectBill>
+                <ns0:PaymentAmount CurrencyCode="RUB" DecimalPlaces="0" Amount="368" />
+            </ns0:PaymentDetail>
+        </ns0:PaymentDetails>
+    </ns0:Fulfillment>
+</ns0:OTA_AirBookRQ>

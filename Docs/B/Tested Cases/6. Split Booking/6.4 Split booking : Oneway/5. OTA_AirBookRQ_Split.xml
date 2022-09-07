@@ -1,0 +1,65 @@
+<ns0:OTA_AirBookModifyRQ xmlns:ns0="http://www.opentravel.org/OTA/2003/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opentravel.org/OTA/2003/05    OTA_AirBookModifyRQ.xsd" EchoToken="69608" TimeStamp="2022-09-03T15:50:18" Target="Test" Version="2.001" SequenceNmbr="1" PrimaryLangID="En-us">
+	<ns0:POS>
+	   <ns0:Source AirlineVendorID="IR" ISOCountry="IR" ISOCurrency="RUB">
+	       <ns0:RequestorID Type="5" ID="MOW07603" />
+	   </ns0:Source>
+	</ns0:POS>
+	<ns0:AirBookModifyRQ ModificationType="6">
+		<ns0:TravelerInfo>
+			<ns0:AirTraveler BirthDate="2018-01-01" PassengerTypeCode="CHD" AccompaniedByInfantInd="false" TravelerNationality="IR" Gender="M">
+			  <ns0:PersonName>
+				 <ns0:NamePrefix>Master</ns0:NamePrefix>
+				 <ns0:GivenName>Sahand</ns0:GivenName>
+				 <ns0:Surname>Nezami</ns0:Surname>
+			  </ns0:PersonName>
+			  <ns0:Document DocID="1121234547" DocType="5" DocHolderNationality="IR" />
+			  <ns0:TravelerRefNumber RPH="2" />
+			</ns0:AirTraveler>
+		</ns0:TravelerInfo>
+	</ns0:AirBookModifyRQ>
+	<ns0:AirReservation>
+		 <ns0:AirItinerary DirectionInd="OneWay">
+			 <ns0:OriginDestinationOptions>
+				<ns0:OriginDestinationOption>
+				   <ns0:FlightSegment Status="39" FlightNumber="IR630" FareBasisCode="S1451" ResBookDesigCode="S" DepartureDateTime="2022-09-11T17:00:00" ArrivalDateTime="2022-09-11T17:50:00" StopQuantity="0" RPH="1305392">
+					  <ns0:DepartureAirport LocationCode="THR" LocationName="Mehrabad Airport" />
+					  <ns0:ArrivalAirport LocationCode="IFN" LocationName="Shahid Beheshti International Airport" />
+					  <ns0:OperatingAirline Code="IR" />
+					  <ns0:Equipment AirEquipType="A320" />
+				   </ns0:FlightSegment>
+				</ns0:OriginDestinationOption>
+			 </ns0:OriginDestinationOptions>
+		 </ns0:AirItinerary>
+		 <ns0:TravelerInfo>
+			<ns0:AirTraveler BirthDate="1991-01-01" PassengerTypeCode="ADT" AccompaniedByInfantInd="false" TravelerNationality="IR" Gender="M">
+			   <ns0:PersonName>
+				  <ns0:NamePrefix>Mr</ns0:NamePrefix>
+				  <ns0:GivenName>Sepehr</ns0:GivenName>
+				  <ns0:Surname>Nezami</ns0:Surname>
+			   </ns0:PersonName>
+			   <ns0:Document DocID="1121234545" DocType="5" DocHolderNationality="IR" />
+			   <ns0:TravelerRefNumber RPH="1" />
+			</ns0:AirTraveler>
+			<ns0:AirTraveler BirthDate="2018-01-01" PassengerTypeCode="CHD" AccompaniedByInfantInd="false" TravelerNationality="IR" Gender="M">
+			   <ns0:PersonName>
+				  <ns0:NamePrefix>Master</ns0:NamePrefix>
+				  <ns0:GivenName>Sahand</ns0:GivenName>
+				  <ns0:Surname>Nezami</ns0:Surname>
+			   </ns0:PersonName>
+			   <ns0:Document DocID="1121234547" DocType="5" DocHolderNationality="IR" />
+			   <ns0:TravelerRefNumber RPH="2" />
+			</ns0:AirTraveler>
+		 </ns0:TravelerInfo>
+		 <ns0:Fulfillment>
+			<ns0:PaymentDetails>
+			   <ns0:PaymentDetail PaymentType="2">
+				  <ns0:DirectBill DirectBill_ID="MOW07603">
+					 <ns0:CompanyName CompanyShortName="PERSINO" Code="MOW07603" AgentType="GLBL_SALE_AGNT" />
+				  </ns0:DirectBill>
+				  <ns0:PaymentAmount CurrencyCode="RUB" DecimalPlaces="0" Amount="3231" />
+			   </ns0:PaymentDetail>
+			</ns0:PaymentDetails>
+		 </ns0:Fulfillment>
+		 <ns0:BookingReferenceID Status="39" Instance="0" ID="7MQLQG" ID_Context="BookingRef" />
+	</ns0:AirReservation>
+</ns0:OTA_AirBookModifyRQ>

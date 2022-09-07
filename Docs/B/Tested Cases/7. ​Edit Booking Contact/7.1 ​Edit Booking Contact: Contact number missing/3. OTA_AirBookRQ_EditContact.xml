@@ -1,0 +1,21 @@
+<ns0:OTA_AirBookModifyRQ xmlns:ns0="http://www.opentravel.org/OTA/2003/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opentravel.org/OTA/2003/05    OTA_AirBookModifyRQ.xsd" EchoToken="69608" TimeStamp="2022-09-03T15:52:12" Target="Test" Version="4.001" SequenceNmbr="1" PrimaryLangID="En-us">
+	<ns0:POS>
+	   <ns0:Source AirlineVendorID="IR" ISOCountry="IR" ISOCurrency="RUB">
+	       <ns0:RequestorID Type="5" ID="MOW07603" />
+	   </ns0:Source>
+	</ns0:POS>
+	<ns0:AirBookModifyRQ ModificationType="20">
+	   <ns0:ContactPerson>
+         <ns0:PersonName>
+            <ns0:GivenName>sepehr</ns0:GivenName>
+            <ns0:Surname>sohrabi</ns0:Surname>
+         </ns0:PersonName>
+         <ns0:Telephone PhoneNumber="" />
+         <ns0:HomeTelephone PhoneNumber="(98)2232343212" />
+         <ns0:Email>sepehr0sohrabi@gmail.com</ns0:Email>
+        </ns0:ContactPerson>
+    </ns0:AirBookModifyRQ>
+    <ns0:AirReservation>
+        <ns0:BookingReferenceID Status="39" Instance="0" ID="7MQLQG" ID_Context="BookingRef" />
+    </ns0:AirReservation>
+</ns0:OTA_AirBookModifyRQ>

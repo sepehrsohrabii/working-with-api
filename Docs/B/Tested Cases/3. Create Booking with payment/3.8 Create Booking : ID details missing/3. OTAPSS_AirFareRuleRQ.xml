@@ -1,0 +1,23 @@
+<ns0:OTAPSS_AirFareRuleRQ xmlns:ns0="http://www.opentravel.org/OTA/2003/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opentravel.org/OTA/2003/05   OTAPSS_AirFareRuleRQ.xsd" EchoToken="29429" TimeStamp="2022-09-02T18:21:37" Target="Test" Version="2.001" SequenceNmbr="1" PrimaryLangID="En-us">
+    <ns0:POS>
+        <ns0:Source AirlineVendorID="IR" ISOCountry="IR" ISOCurrency="RUB">
+            <ns0:RequestorID Type="5" ID="MOW07603" />
+        </ns0:Source>
+    </ns0:POS>
+   <ns0:OriginDestinationOptions>
+      <ns0:OriginDestinationOption>
+        <ns0:FlightSegment FlightNumber="IR468" ResBookDesigCode="F" DepartureDateTime="2022-09-14T19:05:00.000+04:30" ArrivalDateTime="2022-09-14T20:35:00.000+03:30" Duration="02:30:00" StopQuantity="0" RPH="43837">
+           <ns0:DepartureAirport LocationCode="THR" />
+           <ns0:ArrivalAirport LocationCode="MHD" />
+           <ns0:OperatingAirline Code="IR" />
+           <ns0:Equipment AirEquipType="Fokker 100" />
+           <ns0:BookingClassAvails>
+              <ns0:BookingClassAvail ResBookDesigCode="F" ResBookDesigQuantity="4" />
+           </ns0:BookingClassAvails>
+        </ns0:FlightSegment>
+      </ns0:OriginDestinationOption>
+   </ns0:OriginDestinationOptions>
+   <ns0:FareBasisCodes>
+      <ns0:FareBasisCode FlightSegmentRPH="43837" fareRPH="28042">F1410</ns0:FareBasisCode>
+   </ns0:FareBasisCodes>
+</ns0:OTAPSS_AirFareRuleRQ>

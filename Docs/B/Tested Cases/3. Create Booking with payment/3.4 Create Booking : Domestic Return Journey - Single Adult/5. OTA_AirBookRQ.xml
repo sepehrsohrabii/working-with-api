@@ -1,0 +1,69 @@
+<ns0:OTA_AirBookRQ xmlns:ns0="http://www.opentravel.org/OTA/2003/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opentravel.org/OTA/2003/05    OTA_AirBookRQ.xsd" EchoToken="73499" TimeStamp="2022-08-31T14:58:58" Target="Test" Version="2.001" SequenceNmbr="1" PrimaryLangID="En-us">
+    <ns0:POS>
+        <ns0:Source AirlineVendorID="IR" ISOCountry="IR" ISOCurrency="RUB">
+            <ns0:RequestorID Type="5" ID="MOW07603" />
+        </ns0:Source>
+    </ns0:POS>
+    <ns0:AirItinerary DirectionInd="Return">
+	            <ns0:OriginDestinationOptions>
+                    <ns0:OriginDestinationOption>
+                        <ns0:FlightSegment FlightNumber="IR3350" ResBookDesigCode="T" DepartureDateTime="2022-09-13T08:00:00.000+04:30" ArrivalDateTime="2022-09-13T09:30:00.000+03:30" Duration="01:30:00" StopQuantity="0" RPH="42613">
+                            <ns0:DepartureAirport LocationCode="THR" />
+                            <ns0:ArrivalAirport LocationCode="MHD" />
+                            <ns0:OperatingAirline Code="IR" />
+                            <ns0:Equipment AirEquipType="A319" />
+                            <ns0:BookingClassAvails>
+                                <ns0:BookingClassAvail ResBookDesigCode="T" ResBookDesigQuantity="1" />
+                            </ns0:BookingClassAvails>
+                        </ns0:FlightSegment>
+                    </ns0:OriginDestinationOption>
+                <ns0:OriginDestinationOption>
+                        <ns0:FlightSegment FlightNumber="IR469" ResBookDesigCode="T" DepartureDateTime="2022-09-15T21:00:00.000+03:30" ArrivalDateTime="2022-09-15T23:30:00.000+04:30" Duration="01:30:00" StopQuantity="0" RPH="44039">
+                            <ns0:DepartureAirport LocationCode="MHD" />
+                            <ns0:ArrivalAirport LocationCode="THR" />
+                            <ns0:OperatingAirline Code="IR" />
+                            <ns0:Equipment AirEquipType="A320" />
+                            <ns0:BookingClassAvails>
+                                <ns0:BookingClassAvail ResBookDesigCode="T" ResBookDesigQuantity="1" />
+                            </ns0:BookingClassAvails>
+                        </ns0:FlightSegment>
+                    </ns0:OriginDestinationOption>
+                </ns0:OriginDestinationOptions>
+	</ns0:AirItinerary>
+	<ns0:PriceInfo>
+        <ns0:ItinTotalFare>
+             <ns0:BaseFare CurrencyCode="RUB" DecimalPlaces="0" Amount="4230" />
+             <ns0:TotalFare CurrencyCode="RUB" DecimalPlaces="0" Amount="4552" />
+        </ns0:ItinTotalFare>
+	</ns0:PriceInfo>
+	<ns0:TravelerInfo>
+		<ns0:AirTraveler BirthDate="1995-05-05" PassengerTypeCode="ADT" AccompaniedByInfantInd="false" Gender="M" TravelerNationality="IR">
+			<ns0:PersonName>
+				<ns0:NamePrefix>Mr</ns0:NamePrefix>
+				<ns0:GivenName>Sepehr</ns0:GivenName>
+				<ns0:Surname>Sahrai</ns0:Surname>
+			</ns0:PersonName>
+			<ns0:TravelerRefNumber RPH="1" />
+			<ns0:Document DocID="1121234545" DocType="5" DocIssueCountry="IR" ExpireDate="2029-12-31" DocHolderNationality="IR" />
+		</ns0:AirTraveler>
+	</ns0:TravelerInfo>
+	<ns0:ContactPerson>
+            <ns0:PersonName>
+                <ns0:GivenName>sepehr</ns0:GivenName>
+                <ns0:Surname>sohrabi</ns0:Surname>
+            </ns0:PersonName>
+		  <ns0:Telephone PhoneNumber="(98)2232343313" />
+		  <ns0:HomeTelephone PhoneNumber="(98)2232343313" />
+        <ns0:Email>sepehr0sohrabi@gmail.com</ns0:Email>
+    </ns0:ContactPerson>
+    <ns0:Fulfillment>
+        <ns0:PaymentDetails>
+            <ns0:PaymentDetail PaymentType="2">
+                <ns0:DirectBill DirectBill_ID="MOW07603">
+                    <ns0:CompanyName CompanyShortName="PERSINO" Code="MOW07603" />
+                </ns0:DirectBill>
+                <ns0:PaymentAmount CurrencyCode="RUB" DecimalPlaces="0" Amount="4552" />
+            </ns0:PaymentDetail>
+        </ns0:PaymentDetails>
+    </ns0:Fulfillment>
+</ns0:OTA_AirBookRQ>

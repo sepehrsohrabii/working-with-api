@@ -1,0 +1,31 @@
+<ns0:OTA_AirBookModifyRQ xmlns:ns0="http://www.opentravel.org/OTA/2003/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opentravel.org/OTA/2003/05  OTA_AirBookRQ.xsd" EchoToken="40874" TimeStamp="2022-09-03T15:34:30" Target="Test" Version="2.001" SequenceNmbr="1" PrimaryLangID="En-us">
+<ns0:POS>
+   <ns0:Source AirlineVendorID="IR" ISOCountry="IR" ISOCurrency="RUB">
+       <ns0:RequestorID Type="5" ID="MOW07603" />
+   </ns0:Source>
+</ns0:POS>
+<ns0:AirBookModifyRQ ModificationType="1" />
+<ns0:AirReservation>
+   <ns0:AirItinerary DirectionInd="Return">
+        <ns0:OriginDestinationOptions>
+           <ns0:OriginDestinationOption>
+              <ns0:FlightSegment Status="39" FlightNumber="IR630" FareBasisCode="N1451" ResBookDesigCode="N" DepartureDateTime="2022-09-11T17:00:00" ArrivalDateTime="2022-09-11T17:50:00" StopQuantity="0" RPH="1305385">
+                 <ns0:DepartureAirport LocationCode="THR" LocationName="Mehrabad Airport" />
+                 <ns0:ArrivalAirport LocationCode="IFN" LocationName="Shahid Beheshti International Airport" />
+                 <ns0:OperatingAirline Code="IR" />
+                 <ns0:Equipment AirEquipType="A320" />
+              </ns0:FlightSegment>
+           </ns0:OriginDestinationOption>
+        <ns0:OriginDestinationOption>
+              <ns0:FlightSegment Status="39" FlightNumber="IR631" FareBasisCode="N1451" ResBookDesigCode="N" DepartureDateTime="2022-09-12T18:30:00" ArrivalDateTime="2022-09-12T20:30:00" StopQuantity="0" RPH="1305386">
+                 <ns0:DepartureAirport LocationCode="IFN" LocationName="Shahid Beheshti International Airport" />
+                 <ns0:ArrivalAirport LocationCode="THR" LocationName="Mehrabad Airport" />
+                 <ns0:OperatingAirline Code="IR" />
+                 <ns0:Equipment AirEquipType="A320" />
+              </ns0:FlightSegment>
+           </ns0:OriginDestinationOption>
+        </ns0:OriginDestinationOptions>
+   </ns0:AirItinerary>
+   <ns0:BookingReferenceID Status="39" Instance="0" ID="BHOBUT" ID_Context="BookingRef" />
+</ns0:AirReservation>
+</ns0:OTA_AirBookModifyRQ>
