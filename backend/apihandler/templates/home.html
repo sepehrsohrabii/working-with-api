@@ -497,7 +497,7 @@
     <div id="showresults" class="container my-5 px-0 pb-5">
           {% if flight_list %}
               {% for data in flight_list %}
-                  <form method="POST" action="{% if user.is_authenticated %}{% url 'booking_page' FlightNumber=data.FlightNumber %}{% else %}{% url 'loginView' %}?next={{ request.path }}{% endif %}">
+                  <form method="POST" action="{% if user.is_authenticated %}{% url 'booking_page' FlightNumber=data.FlightNumber Token=data.EchoToken %}{% else %}{% url 'loginView' %}?next={{ request.path }}{% endif %}">
                     {% csrf_token %}
                       <div class="container py-5">
                         <div class="ticket-system">
@@ -508,7 +508,7 @@
                                 <div class="receipts">
                                   <div class="receipt col-8" {% if data.return_date %} style="height:360px !important;" {% endif %}>
                                     <div class="row">
-                                        <div class="col text-md-left text-center border">
+                                        <div class="col text-md-start text-center">
                                           <h3 class="fw-light mb-3">{{data.origin}}</h3>
                                           <h6 class="text-secondary">Tehran</h6>
                                           <h6 class="text-secondary">{{data.departureDate}}</h6>
@@ -521,7 +521,7 @@
                                           {% endif %}
 
                                         </div>
-                                        <div class="col text-center my-4 py-4">
+                                        <div class="col text-center my-4 py-4 my-md-0 py-md-0">
                                           <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_d8skfitr.json"  background="transparent"  speed="1"  style="height: 50px;"  loop  autoplay></lottie-player>
                                           
                                           {% if data.return_date %}

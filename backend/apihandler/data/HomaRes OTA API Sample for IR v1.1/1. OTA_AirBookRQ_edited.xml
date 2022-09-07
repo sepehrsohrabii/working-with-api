@@ -1,4 +1,4 @@
-<ns0:OTA_AirBookRQ xmlns:ns0="http://www.opentravel.org/OTA/2003/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opentravel.org/OTA/2003/05    OTA_AirBookRQ.xsd" EchoToken="15900" TimeStamp="2022-08-28T10:29:57" Target="Test" Version="2.001" SequenceNmbr="1" PrimaryLangID="En-us">
+<ns0:OTA_AirBookRQ xmlns:ns0="http://www.opentravel.org/OTA/2003/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opentravel.org/OTA/2003/05    OTA_AirBookRQ.xsd" EchoToken="60812" TimeStamp="2022-09-06T18:49:41" Target="Test" Version="2.001" SequenceNmbr="1" PrimaryLangID="En-us">
     <ns0:POS>
         <ns0:Source AirlineVendorID="IR" ISOCountry="IR" ISOCurrency="RUB">
             <ns0:RequestorID Type="5" ID="MOW07603" />
@@ -7,13 +7,13 @@
     <ns0:AirItinerary DirectionInd="OneWay">
 	            <ns0:OriginDestinationOptions>
                     <ns0:OriginDestinationOption>
-                        <ns0:FlightSegment FlightNumber="IR468" ResBookDesigCode="S" DepartureDateTime="2022-09-07T19:05:00.000+04:30" ArrivalDateTime="2022-09-07T20:35:00.000+04:30" Duration="02:30:00" StopQuantity="0" RPH="43861">
+                        <ns0:FlightSegment FlightNumber="IR3350" ResBookDesigCode="S" DepartureDateTime="2022-09-13T08:00:00.000+04:30" ArrivalDateTime="2022-09-13T09:30:00.000+03:30" Duration="01:30:00" StopQuantity="0" RPH="42613">
                             <ns0:DepartureAirport LocationCode="THR" />
                             <ns0:ArrivalAirport LocationCode="MHD" />
                             <ns0:OperatingAirline Code="IR" />
-                            <ns0:Equipment AirEquipType="Fokker 100" />
+                            <ns0:Equipment AirEquipType="A319" />
                             <ns0:BookingClassAvails>
-                                <ns0:BookingClassAvail ResBookDesigCode="S" ResBookDesigQuantity="2" />
+                                <ns0:BookingClassAvail ResBookDesigCode="S" ResBookDesigQuantity="1" />
                             </ns0:BookingClassAvails>
                         </ns0:FlightSegment>
                     </ns0:OriginDestinationOption>
@@ -21,28 +21,19 @@
 	</ns0:AirItinerary>
 	<ns0:PriceInfo>
         <ns0:ItinTotalFare>
-             <ns0:BaseFare CurrencyCode="RUB" DecimalPlaces="0" Amount="5380" />
-             <ns0:TotalFare CurrencyCode="RUB" DecimalPlaces="0" Amount="5770" />
+             <ns0:BaseFare CurrencyCode="RUB" DecimalPlaces="0" Amount="2690" />
+             <ns0:TotalFare CurrencyCode="RUB" DecimalPlaces="0" Amount="2885" />
         </ns0:ItinTotalFare>
 	</ns0:PriceInfo>
 	<ns0:TravelerInfo>
-		<ns0:AirTraveler BirthDate="1995-05-05" PassengerTypeCode="ADT" AccompaniedByInfantInd="false" Gender="M" TravelerNationality="IR">
+		<ns0:AirTraveler BirthDate="1992-01-01" PassengerTypeCode="ADT" AccompaniedByInfantInd="false" Gender="M" TravelerNationality="IR">
 			<ns0:PersonName>
 				<ns0:NamePrefix>Mr</ns0:NamePrefix>
-				<ns0:GivenName>Ali</ns0:GivenName>
-				<ns0:Surname>Famili</ns0:Surname>
+				<ns0:GivenName>Sepehr</ns0:GivenName>
+				<ns0:Surname>Sahandpoor</ns0:Surname>
 			</ns0:PersonName>
 			<ns0:TravelerRefNumber RPH="1" />
-			<ns0:Document DocID="1121234129" DocType="5" DocIssueCountry="IR" ExpireDate="2024-05-19" DocHolderNationality="IR" />
-		</ns0:AirTraveler>
-	<ns0:AirTraveler BirthDate="1991-01-01" PassengerTypeCode="ADT" AccompaniedByInfantInd="false" Gender="M" TravelerNationality="IR">
-			<ns0:PersonName>
-				<ns0:NamePrefix>Mr</ns0:NamePrefix>
-				<ns0:GivenName>Ahmad</ns0:GivenName>
-				<ns0:Surname>Famili</ns0:Surname>
-			</ns0:PersonName>
-			<ns0:TravelerRefNumber RPH="1" />
-			<ns0:Document DocID="1121234364" DocType="5" DocIssueCountry="IR" ExpireDate="2024-05-19" DocHolderNationality="IR" />
+			<ns0:Document DocID="1121234547" DocType="5" DocIssueCountry="IR" ExpireDate="2028-02-02" DocHolderNationality="IR" />
 		</ns0:AirTraveler>
 	</ns0:TravelerInfo>
 	<ns0:ContactPerson>
@@ -51,7 +42,7 @@
                 <ns0:Surname>sohrabi</ns0:Surname>
             </ns0:PersonName>
 		  <ns0:Telephone PhoneNumber="(98)2232343212" />
-		  <ns0:HomeTelephone PhoneNumber="(98)2232343212" />
+		  <ns0:HomeTelephone PhoneNumber="(98)2232343211" />
         <ns0:Email>sepehr0sohrabi@gmail.com</ns0:Email>
     </ns0:ContactPerson>
     <ns0:Fulfillment>
@@ -60,7 +51,7 @@
                 <ns0:DirectBill DirectBill_ID="MOW07603">
                     <ns0:CompanyName CompanyShortName="PERSINO" Code="MOW07603" />
                 </ns0:DirectBill>
-                <ns0:PaymentAmount CurrencyCode="RUB" DecimalPlaces="0" Amount="5770" />
+                <ns0:PaymentAmount CurrencyCode="RUB" DecimalPlaces="0" Amount="2885" />
             </ns0:PaymentDetail>
         </ns0:PaymentDetails>
     </ns0:Fulfillment>

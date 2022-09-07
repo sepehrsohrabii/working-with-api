@@ -1,6 +1,6 @@
 {% extends 'main.html' %}
 {% load static %}
-{% block title %}Read Reservation{% endblock %}
+{% block title %}Cancel Ticket{% endblock %}
 {% block main %}
 
 <div class="container progress-box d-flex justify-content-center align-items-center p-4">
@@ -61,11 +61,18 @@
 <!-- Cancel Button Modal -->
 <div class="container mt-5">
 	<div class="row">
-		<div class="col px-0">
-			<button type="button" class="btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#cancelModal">
-				Cancel
+		<div class="col px-0 pe-3">
+			<a type="button" class="btn btn-secondary w-100 text-white py-3 fw-bold" href="{% url 'userProfile' %}">
+				Profile Page
+			</a>
+		</div>
+		<div class="col px-0 ps-3">
+			<button type="button" class="btn btn-danger w-100 py-3 fw-bold" data-bs-toggle="modal"
+			        data-bs-target="#cancelModal">
+				Cancel Ticket
 			</button>
 		</div>
+
 	</div>
 </div>
 

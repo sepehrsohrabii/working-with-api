@@ -159,6 +159,35 @@
                                     </select>
                                 </div>
                                 <div class="col">
+                                    <label for="DocType{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" class="form-label">DocType</label>
+                                    <select id="DocType{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" class="form-select" name="DocType{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" required>
+                                        <option value="" disabled selected>VISA / PASSPORT / ID CARD</option>
+                                        <option value="1">VISA</option>
+                                        <option value="2">PASSPORT</option>
+                                        <option value="5">ID CARD</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col">
+                                    <label for="ExpireDate{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" class="form-label">Doc Expire Date</label>
+                                    <input type="date" class="form-control" id="ExpireDate{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" name="ExpireDate{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" placeholder="Doc Expire Date" required/>
+                                </div>
+                                <div class="col">
+                                    <label for="DocIssueCountry{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" class="form-label">DocIssueCountry</label>
+                                    <select id="DocIssueCountry{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" class="form-select" name="DocIssueCountry{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" required>
+                                        <option value="" disabled selected>DocIssueCountry</option>
+                                        <option>IR</option>
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <label for="DocHolderNationality{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" class="form-label">DocHolderNationality</label>
+                                    <select id="DocHolderNationality{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" class="form-select" name="DocHolderNationality{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" required>
+                                        <option value="" disabled selected>DocHolderNationality</option>
+                                        <option>IR</option>
+                                    </select>
+                                </div>
+                                <div class="col">
                                     <label for="DocID{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" class="form-label">Doc ID</label>
                                     <input type="text" class="form-control" id="DocID{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" name="DocID{{passengerQuantity}}{{passengerCode.PassengerTypeQuantity_Code}}" placeholder="DocID" required/>
                                 </div>

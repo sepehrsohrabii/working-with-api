@@ -1,4 +1,4 @@
-<ns0:OTA_AirBookModifyRQ xmlns:ns0="http://www.opentravel.org/OTA/2003/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opentravel.org/OTA/2003/05  OTA_AirBookRQ.xsd" EchoToken="67508" TimeStamp="2022-08-25T20:37:30" Target="Test" Version="2.001" SequenceNmbr="1" PrimaryLangID="En-us">
+<ns0:OTA_AirBookModifyRQ xmlns:ns0="http://www.opentravel.org/OTA/2003/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opentravel.org/OTA/2003/05  OTA_AirBookRQ.xsd" EchoToken="38384" TimeStamp="2022-09-03T15:37:28" Target="Test" Version="2.001" SequenceNmbr="1" PrimaryLangID="En-us">
 <ns0:POS>
    <ns0:Source AirlineVendorID="IR" ISOCountry="IR" ISOCurrency="RUB">
        <ns0:RequestorID Type="5" ID="MOW07603" />
@@ -9,15 +9,15 @@
    <ns0:AirItinerary DirectionInd="OneWay">
         <ns0:OriginDestinationOptions>
            <ns0:OriginDestinationOption>
-              <ns0:FlightSegment Status="39" FlightNumber="IR468" FareBasisCode="N1451" ResBookDesigCode="N" DepartureDateTime="2022-08-31T19:05:00" ArrivalDateTime="2022-08-31T20:35:00" StopQuantity="0" RPH="1289453">
-                 <ns0:DepartureAirport LocationCode="THR" LocationName="Mehrabad Airport" />
-                 <ns0:ArrivalAirport LocationCode="MHD" LocationName="Mashad Airport" />
+              <ns0:FlightSegment Status="39" FlightNumber="IR719" FareBasisCode="LIRTR22W" ResBookDesigCode="L" DepartureDateTime="2022-09-04T16:00:00" ArrivalDateTime="2022-09-04T18:30:00" StopQuantity="0" RPH="1305388">
+                 <ns0:DepartureAirport LocationCode="IKA" LocationName="Imam Khomeini Airport" />
+                 <ns0:ArrivalAirport LocationCode="IST" LocationName="Istanbul" />
                  <ns0:OperatingAirline Code="IR" />
-                 <ns0:Equipment AirEquipType="Fokker 100" />
+                 <ns0:Equipment AirEquipType="A320" />
               </ns0:FlightSegment>
            </ns0:OriginDestinationOption>
         </ns0:OriginDestinationOptions>
    </ns0:AirItinerary>
-   <ns0:BookingReferenceID Status="39" Instance="0" ID="C6IRFE" ID_Context="BookingRef" />
+   <ns0:BookingReferenceID Status="39" Instance="0" ID="7OLZZO" ID_Context="BookingRef" />
 </ns0:AirReservation>
 </ns0:OTA_AirBookModifyRQ>

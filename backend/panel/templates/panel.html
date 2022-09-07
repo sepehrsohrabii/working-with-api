@@ -112,6 +112,28 @@
 						<button type="submit" class="btn btn-outline-warning px-4 py-2 w-100 mt-3">Edit Contact Info
 						</button>
 					</form>
+					<form method="POST">
+						{% csrf_token %}
+						<input type="hidden" name="split_bookingReferenceID" value="{{user_ticket.bookingReferenceID}}">
+						<select class="form-select d-none py-2 mt-3 border-danger" aria-label="Default select example"
+						        id="splitSelectInput{{user_ticket.id}}" name="splitSelectInput">
+							<option selected disabled>
+								Select who is going to split
+							</option>
+							{% for passenger in ticket_passengers %}
+							{% if passenger.ticket == user_ticket %}
+							<option value="{{passenger.documentId}}:{{passenger.personNameGivenName}}:{{passenger.personNameSurname}}">
+								{{passenger.personNameGivenName}}
+								{{passenger.personNameSurname}} -- DocID: {{passenger.documentId}}
+							</option>
+							{% endif %}
+							{% endfor %}
+						</select>
+						<button type="button" class="btn btn-outline-secondary px-4 py-2 w-100 mt-3"
+						        id="splitButton{{user_ticket.id}}">Split
+							Ticket
+						</button>
+					</form>
 				</div>
 				{% endfor %}
 			</div>
@@ -142,5 +164,14 @@
 {% endblock %}
 {% block script %}
 
+{% for user_ticket in user_tickets %}
 
+$('#splitButton{{user_ticket.id}}').on('click', function(){
+$('#splitSelectInput{{user_ticket.id}}').removeClass('d-none');
+$('#splitButton{{user_ticket.id}}').on('click', function(){
+$('#splitButton{{user_ticket.id}}').removeAttr("type").attr("type", "submit");
+});
+});
+
+{% endfor %}
 {% endblock %}
